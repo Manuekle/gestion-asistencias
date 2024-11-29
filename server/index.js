@@ -8,7 +8,7 @@ import { PORT, HOSTNAME } from "./config.js";
 import usuariosRoutes from "./routes/usuarios.routes.js";
 import asignaturasRoutes from "./routes/asignaturas.routes.js";
 import clasesRoutes from "./routes/clases.routes.js";
-import codigosQrRoutes from "./routes/codigoqr.routes.js";
+import codigosQrRoutes from "./routes/codigosqr.routes.js";
 import asistenciasRoutes from "./routes/asistencias.route.js";
 import horariosRoutes from "./routes/horarios.routes.js";
 import reportesRoutes from "./routes/reportes.routes.js";
