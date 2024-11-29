@@ -1,11 +1,11 @@
-//? Usuarios Controllers
+//? CodigosQr Controllers
 import { pool } from "../db.js";
 
 //* GET
-export const getUsuarios = async (req, res) => {
+export const getCodigosQr = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM usuario ORDER BY created_at ASC"
+      "SELECT * FROM codigo_qr ORDER BY created_at ASC"
     );
     return res.status(200).json(result);
   } catch (error) {
@@ -13,14 +13,14 @@ export const getUsuarios = async (req, res) => {
   }
 };
 
-export const getUsuario = async (req, res) => {
+export const getCodigoQr = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM usuario WHERE usua_id = ?",
+      "SELECT * FROM codigo_qr WHERE codi_id = ?",
       [req.params.id]
     );
     if (result.length === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "CodigoQr no encontrado" });
     }
     return res.status(200).json(result[0]);
   } catch (error) {
@@ -29,28 +29,22 @@ export const getUsuario = async (req, res) => {
 };
 
 //? POST
-export const createUsuario = async (req, res) => {
+export const createCodigoQr = async (req, res) => {
   try {
     const {
-      usua_nombre,
-      usua_correo,
-      usua_password,
-      usua_rol,
-      usua_estado
+      codi_valor,
+      codi_clas_id
     } = req.body;
 
     const [result] = await pool.query(
-      "INSERT INTO usuario(usua_nombre, usua_correo, usua_password, usua_rol, usua_estado) VALUES (?, ?, ?, ?, ?)",
-      [usua_nombre, usua_correo, usua_password, usua_rol, usua_estado]
+      "INSERT INTO codigo_qr(codi_valor, codi_clas_id) VALUES (?, ?)",
+      [codi_valor, codi_clas_id]
     );
 
     return res.status(200).json({
-      usua_id: result.insertId,
-      usua_nombre,
-      usua_correo,
-      usua_password,
-      usua_rol,
-      usua_estado,
+      codi_id: result.insertId,
+      codi_valor,
+      codi_clas_id
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -58,12 +52,12 @@ export const createUsuario = async (req, res) => {
 };
 
 //TODO: UPDATE
-export const updateUsuario = async (req, res) => {
+export const updateCodigoQr = async (req, res) => {
   try {
-    const result = await pool.query("UPDATE usuario SET ? WHERE usua_id = ?", [
-      req.body,
-      req.params.id,
-    ]);
+    const result = await pool.query(
+      "UPDATE codigo_qr SET ? WHERE codi_id = ?",
+      [req.body, req.params.id]
+    );
 
     return res.status(200).json(result);
   } catch (error) {
@@ -72,14 +66,14 @@ export const updateUsuario = async (req, res) => {
 };
 
 //! DELETE
-export const deleteUsuario = async (req, res) => {
+export const deleteCodigoQr = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "DELETE FROM usuario WHERE usua_id = ?",
+      "DELETE FROM codigo_qr WHERE codi_id = ?",
       [req.params.id]
     );
     if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "CodigoQr no encontrado" });
     }
 
     return res.sendStatus(204);

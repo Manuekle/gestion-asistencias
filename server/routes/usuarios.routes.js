@@ -12,12 +12,12 @@ const router = Router();
 
 //* GET
 router.get("/usuarios", getUsuarios);
-router.get("/usuarios/:id", getUsuario);
+router.get("/usuario/:id", getUsuario);
 //? POST
-router.post("/usuarios", createUsuario);
+router.post("/usuario", createUsuario);
 //TODO: UPDATE
-router.put("/usuarios/:id", updateUsuario);
+router.put("/usuario/:id", updateUsuario);
 //! DELETE
-router.delete("/usuarios/:id", deleteUsuario);
+router.delete("/usuario/:id", deleteUsuario);
 
 export default router;

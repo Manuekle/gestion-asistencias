@@ -1,11 +1,11 @@
-//? Usuarios Controllers
+//? Horarios Controllers
 import { pool } from "../db.js";
 
 //* GET
-export const getUsuarios = async (req, res) => {
+export const getHorarios = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM usuario ORDER BY created_at ASC"
+      "SELECT * FROM horario ORDER BY created_at ASC"
     );
     return res.status(200).json(result);
   } catch (error) {
@@ -13,14 +13,14 @@ export const getUsuarios = async (req, res) => {
   }
 };
 
-export const getUsuario = async (req, res) => {
+export const getHorario = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM usuario WHERE usua_id = ?",
+      "SELECT * FROM horario WHERE hora_id = ?",
       [req.params.id]
     );
     if (result.length === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "Horario no encontrado" });
     }
     return res.status(200).json(result[0]);
   } catch (error) {
@@ -29,28 +29,23 @@ export const getUsuario = async (req, res) => {
 };
 
 //? POST
-export const createUsuario = async (req, res) => {
+export const createHorario = async (req, res) => {
   try {
-    const {
-      usua_nombre,
-      usua_correo,
-      usua_password,
-      usua_rol,
-      usua_estado
-    } = req.body;
+    const { hora_dia, hora_inicio, hora_fin, hora_asig_id, hora_docente_id } =
+      req.body;
 
     const [result] = await pool.query(
-      "INSERT INTO usuario(usua_nombre, usua_correo, usua_password, usua_rol, usua_estado) VALUES (?, ?, ?, ?, ?)",
-      [usua_nombre, usua_correo, usua_password, usua_rol, usua_estado]
+      "INSERT INTO horario(hora_dia, hora_inicio, hora_fin, hora_asig_id, hora_docente_id) VALUES (?, ?, ?, ?, ?)",
+      [hora_dia, hora_inicio, hora_fin, hora_asig_id, hora_docente_id]
     );
 
     return res.status(200).json({
-      usua_id: result.insertId,
-      usua_nombre,
-      usua_correo,
-      usua_password,
-      usua_rol,
-      usua_estado,
+      hora_id: result.insertId,
+      hora_dia,
+      hora_inicio,
+      hora_fin,
+      hora_asig_id,
+      hora_docente_id
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -58,9 +53,9 @@ export const createUsuario = async (req, res) => {
 };
 
 //TODO: UPDATE
-export const updateUsuario = async (req, res) => {
+export const updateHorario = async (req, res) => {
   try {
-    const result = await pool.query("UPDATE usuario SET ? WHERE usua_id = ?", [
+    const result = await pool.query("UPDATE horario SET ? WHERE hora_id = ?", [
       req.body,
       req.params.id,
     ]);
@@ -72,14 +67,14 @@ export const updateUsuario = async (req, res) => {
 };
 
 //! DELETE
-export const deleteUsuario = async (req, res) => {
+export const deleteHorario = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "DELETE FROM usuario WHERE usua_id = ?",
+      "DELETE FROM horario WHERE hora_id = ?",
       [req.params.id]
     );
     if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "Horario no encontrado" });
     }
 
     return res.sendStatus(204);

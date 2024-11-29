@@ -4,14 +4,16 @@ CREATE TABLE usuario (
     usua_correo VARCHAR(100) UNIQUE NOT NULL,
     usua_password VARCHAR(255) NOT NULL,
     usua_rol ENUM('administrador', 'docente', 'estudiante') NOT NULL,
-    usua_estado BOOLEAN DEFAULT TRUE
+    usua_estado BOOLEAN DEFAULT TRUE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 );
 
 
 CREATE TABLE asignatura (
     asig_id INT PRIMARY KEY AUTO_INCREMENT,
     asig_nombre VARCHAR(100) NOT NULL,
-    asig_codigo VARCHAR(20) UNIQUE NOT NULL
+    asig_codigo VARCHAR(20) UNIQUE NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -22,6 +24,7 @@ CREATE TABLE clase (
     clas_hora_fin TIME NOT NULL,
     clas_asig_id INT NOT NULL,
     clas_docente_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (clas_asig_id) REFERENCES asignatura(asig_id),
     FOREIGN KEY (clas_docente_id) REFERENCES usuario(usua_id)
 );
@@ -32,6 +35,7 @@ CREATE TABLE codigo_qr (
     codi_valor VARCHAR(255) NOT NULL,
     codi_fecha_generacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     codi_clas_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (codi_clas_id) REFERENCES clase(clas_id)
 );
 
@@ -42,6 +46,7 @@ CREATE TABLE asistencia (
     asis_estudiante_id INT NOT NULL,
     asis_clas_id INT NOT NULL,
     asis_validado BOOLEAN DEFAULT FALSE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (asis_estudiante_id) REFERENCES usuario(usua_id),
     FOREIGN KEY (asis_clas_id) REFERENCES clase(clas_id)
 );
@@ -54,6 +59,7 @@ CREATE TABLE horario (
     hora_fin TIME NOT NULL,
     hora_asig_id INT NOT NULL,
     hora_docente_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (hora_asig_id) REFERENCES asignatura(asig_id),
     FOREIGN KEY (hora_docente_id) REFERENCES usuario(usua_id)
 );
@@ -65,5 +71,6 @@ CREATE TABLE reporte (
     repo_fecha_fin DATE NOT NULL,
     repo_generado_por INT NOT NULL,
     repo_detalle TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (repo_generado_por) REFERENCES usuario(usua_id)
 );
