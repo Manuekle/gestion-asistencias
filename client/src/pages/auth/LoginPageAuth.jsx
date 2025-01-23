@@ -1,10 +1,37 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router';
 import { Input, Button } from '@heroui/react';
 import { Mail01Icon, Passport01Icon } from 'hugeicons-react';
 
+// import { URL } from '../../../config/.env';
+
 function LoginPageAuth() {
+  const URL = 'http://localhost:4000';
+
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
+  // const [isLogged, setIsLogged] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch(`${URL}/usuario/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        usua_correo: user,
+        usua_password: password
+      })
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
+
   return (
     <div className="flex justify-center items-center h-svh auth">
       <div className="flex flex-col w-full max-w-xl mx-auto px-4 py-16 bg-[#1E201E] rounded-xl shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
@@ -23,6 +50,7 @@ function LoginPageAuth() {
               size="md"
               type="email"
               placeholder="you@example.com"
+              onChange={(e) => setUser(e.target.value)}
               errorMessage="Please enter a valid email" // errorMessage
               // isInvalid
               startContent={
@@ -33,6 +61,7 @@ function LoginPageAuth() {
               size="md"
               type="password"
               placeholder="contrasena"
+              onChange={(e) => setPassword(e.target.value)}
               errorMessage="Please enter a valid email" // errorMessage
               // isInvalid
               startContent={
@@ -40,7 +69,10 @@ function LoginPageAuth() {
               }
             />
 
-            <Button className="bg-amber-400 text-white shadow-lg">
+            <Button
+              onClick={handleSubmit}
+              className="bg-amber-400 text-white shadow-lg"
+            >
               Iniciar Sesion
             </Button>
             <Button

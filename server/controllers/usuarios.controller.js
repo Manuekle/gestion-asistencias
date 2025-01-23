@@ -87,3 +87,23 @@ export const deleteUsuario = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+//* LOGIN
+export const loginUsuario = async (req, res) => {
+  try {
+    const { usua_correo, usua_password } = req.body;
+
+    const [result] = await pool.query(
+      "SELECT * FROM usuario WHERE usua_correo = ? AND usua_password = ?",
+      [usua_correo, usua_password]
+    );
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    return res.status(200).json(result[0]);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

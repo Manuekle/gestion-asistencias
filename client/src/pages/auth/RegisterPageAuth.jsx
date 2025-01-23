@@ -47,7 +47,7 @@ function RegisterPageAuth() {
             <Input
               size="md"
               type="password"
-              placeholder="contrasena"
+              placeholder="contraseña"
               errorMessage="Please enter a valid email" // errorMessage
               // isInvalid
               startContent={
@@ -64,6 +64,7 @@ function RegisterPageAuth() {
               variant="solid"
               className="max-w-full"
             >
+              <SelectItem key="docente">Docente</SelectItem>
               <SelectItem key="estuidante">Estudiante</SelectItem>
             </Select>
             <Button className="bg-amber-400 text-white shadow-lg">
