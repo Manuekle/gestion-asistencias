@@ -1,7 +1,15 @@
+/* eslint-disable import/extensions */
 /* eslint-disable react/jsx-no-constructed-context-values */
-import { MoreVertical, ChevronLast, ChevronFirst } from 'lucide-react';
+import { ArrowRight01Icon, ArrowLeft01Icon, Door01Icon } from 'hugeicons-react';
 import { useContext, createContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from './ui/tooltip';
 
 const SidebarContext = createContext();
 
@@ -10,30 +18,23 @@ export default function Sidebar({ children }) {
 
   return (
     <aside className="h-screen">
-      <nav className="h-full inline-flex flex-col bg-[#1b1b1d] shadow-sm">
+      <nav className="h-full inline-flex flex-col bg-[#1c1d1d] shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
-          <img
-            src="https://img.logoipsum.com/243.svg"
-            className={`overflow-hidden transition-all ${
-              expanded ? 'w-32' : 'w-0'
-            }`}
-            alt=""
-          />
           <button
             type="button"
             onClick={() => setExpanded((curr) => !curr)}
-            className="p-1.5 rounded-lg bg-[#252429] hover:bg-[#1e1d21]"
+            className="p-1.5 rounded-lg bg-[#323332] border border-zinc-700"
           >
             {expanded ? (
-              <ChevronFirst color="#fff" />
+              <ArrowLeft01Icon size={20} color="#ffffff" variant="stroke" />
             ) : (
-              <ChevronLast color="#fff" />
+              <ArrowRight01Icon size={20} color="#ffffff" variant="stroke" />
             )}
           </button>
         </div>
 
         <SidebarContext.Provider value={{ expanded }}>
-          <ul className="flex-1 px-3">{children}</ul>
+          <ul className="flex-1 px-3 pt-6">{children}</ul>
         </SidebarContext.Provider>
 
         <div className="flex p-3">
@@ -52,7 +53,21 @@ export default function Sidebar({ children }) {
               <h4 className="font-semibold text-gray-100">Manuel</h4>
               <span className="text-xs text-gray-200">manuel@gmail.com</span>
             </div>
-            <MoreVertical size={20} color="#fff" />
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <button
+                    type="button"
+                    className="p-1.5 rounded-lg bg-[#323332] border border-zinc-700"
+                  >
+                    <Door01Icon size={20} color="#ffffff" variant="stroke" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent className="px-3 py-1 bg-[#323332] text-zinc-100 border-none">
+                  <p className="text-xs">Cerrar sesion</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </nav>
@@ -67,13 +82,13 @@ export function SidebarItem({ icon, text, active, alert, to }) {
     <Link
       to={to}
       className={`
-        relative flex items-center py-2 px-3 my-1
-        font-medium rounded-md cursor-pointer
-        transition-colors group
+        relative flex items-center py-2 px-3 my-3
+        font-medium rounded-xl cursor-pointer
+        transition-colors group z-40
         ${
           active
-            ? 'bg-[#252429] text-amber-300'
-            : 'hover:bg-[#1e1d21] text-gray-100'
+            ? 'bg-[#323332] text-zinc-100 border border-zinc-700'
+            : 'hover:bg-[#323332] text-zinc-400'
         }
     `}
     >
@@ -96,8 +111,8 @@ export function SidebarItem({ icon, text, active, alert, to }) {
       {!expanded && (
         <div
           className={`
-          absolute left-full rounded-md px-2 py-1 ml-6
-          bg-indigo-100 text-indigo-800 text-sm
+          absolute left-full rounded-md px-3 py-1 ml-6
+          bg-[#323332] text-zinc-100 text-xs
           invisible opacity-20 -translate-x-3 transition-all
           group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
       `}

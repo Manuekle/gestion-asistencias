@@ -1,0 +1,44 @@
+[
+  {
+    "hora_inicio": "08:00",
+    "hora_fin": "10:00",
+    "nombre_clase": "Introducción a React",
+    "nombre_profesor": "Juan Pérez",
+    "descripcion": "Aprenderás los conceptos básicos de React para desarrollar aplicaciones web."
+  },
+  {
+    "hora_inicio": "10:30",
+    "hora_fin": "12:00",
+    "nombre_clase": "Diseño de Interfaces",
+    "nombre_profesor": "María Gómez",
+    "descripcion": "Un curso para mejorar tus habilidades en diseño de interfaces amigables."
+  },
+  {
+    "hora_inicio": "13:00",
+    "hora_fin": "15:00",
+    "nombre_clase": "Gestión de Proyectos",
+    "nombre_profesor": "Carlos López",
+    "descripcion": "Descubre técnicas efectivas para gestionar proyectos tecnológicos."
+  },
+  {
+    "hora_inicio": "15:30",
+    "hora_fin": "17:00",
+    "nombre_clase": "Desarrollo de APIs",
+    "nombre_profesor": "Ana Torres",
+    "descripcion": "Aprenderás a construir y consumir APIs de forma eficiente."
+  },
+  {
+    "hora_inicio": "17:15",
+    "hora_fin": "19:00",
+    "nombre_clase": "Algoritmos Avanzados",
+    "nombre_profesor": "Luis Ramírez",
+    "descripcion": "Explora técnicas avanzadas para resolver problemas complejos con algoritmos."
+  },
+  {
+    "hora_inicio": "19:30",
+    "hora_fin": "21:00",
+    "nombre_clase": "Bases de Datos",
+    "nombre_profesor": "Claudia Fernández",
+    "descripcion": "Aprenderás a diseñar y gestionar bases de datos relacionales."
+  }
+]

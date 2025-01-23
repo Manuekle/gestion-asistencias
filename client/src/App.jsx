@@ -3,45 +3,28 @@
 /* eslint-disable no-plusplus */
 import React from 'react';
 // Supports weights 100-900
-import '@fontsource-variable/inter';
-import {
-  Calendar1,
-  LifeBuoy,
-  NotebookPen,
-  School2,
-  Settings,
-  Users
-} from 'lucide-react';
+import '@fontsource-variable/manrope';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Sidebar, { SidebarItem } from './component/Sidebar';
 
 // pages
 import HomePage from './pages/HomePage';
+import Dashboard from './layout/Dashboard';
+import LoginPageAuth from './pages/auth/LoginPageAuth';
+import RegisterPageAuth from './pages/auth/RegisterPageAuth';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
-    <div className="flex flex-row w-full bg-[#1c1d1e]">
+    <div className="">
       <Router>
-        <Sidebar>
-          <SidebarItem
-            icon={<School2 size={20} />}
-            text="Inicio"
-            active
-            to="/"
-            alert
-          />
-          <SidebarItem icon={<NotebookPen size={20} />} text="Reportes" />
-          <SidebarItem icon={<Users size={20} />} text="Clases" />
-          <SidebarItem icon={<Calendar1 size={20} />} text="Horarios" />
-          <hr className="my-3 border-1 border-zinc-800" />
-          <SidebarItem icon={<Settings size={20} />} text="Configuracion" />
-          <SidebarItem icon={<LifeBuoy size={20} />} text="Ayuda" />
-        </Sidebar>
-        <section className="p-8">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-          </Routes>
-        </section>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/dashboard/*" element={<Dashboard />} />
+          <Route path="/auth/login" element={<LoginPageAuth />} />
+          <Route path="/auth/register" element={<RegisterPageAuth />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </Router>
     </div>
   );
