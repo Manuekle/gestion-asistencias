@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import React from 'react';
 import { Routes, Route, useParams } from 'react-router-dom';
 import {
@@ -8,6 +9,7 @@ import {
   Settings03Icon,
   CustomerService01Icon
 } from 'hugeicons-react';
+
 import Sidebar, { SidebarItem } from '../components/Sidebar';
 
 import HomePageDashboard from '../pages/dashboard/HomePageDashboard';

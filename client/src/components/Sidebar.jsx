@@ -1,20 +1,43 @@
 /* eslint-disable import/extensions */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { ArrowRight01Icon, ArrowLeft01Icon, Door01Icon } from 'hugeicons-react';
-import { useContext, createContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, createContext, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger
-} from './ui/tooltip';
+} from './ui/tooltip.tsx';
+
+import { logout } from '../actions/userActions';
 
 const SidebarContext = createContext();
 
 export default function Sidebar({ children }) {
   const [expanded, setExpanded] = useState(true);
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    if (userInfo) {
+      navigate('/auth/login');
+    }
+  };
+
+  useEffect(() => {
+    // if (userInfo && userInfo.isAdmin) {
+    //   console.log('Admin');
+    // }
+  }, [dispatch, navigate, userInfo]);
 
   return (
     <aside className="h-screen">
@@ -39,7 +62,8 @@ export default function Sidebar({ children }) {
 
         <div className="flex p-3">
           <img
-            src="https://ui-avatars.com/api/?name=Manuel+Erazo/?background=f0e9e9&color=000&bold=true"
+            // src="https://ui-avatars.com/api/?name=Manuel+Erazo/?background=f0e9e9&color=000&bold=true"
+            src={`https://ui-avatars.com/api/?name=${userInfo.usua_nombre}/?background=f0e9e9&color=000&bold=true`}
             alt=""
             className="w-10 h-10 rounded-md"
           />
@@ -50,14 +74,19 @@ export default function Sidebar({ children }) {
           `}
           >
             <div className="leading-4">
-              <h4 className="font-semibold text-gray-100">Manuel</h4>
-              <span className="text-xs text-gray-200">manuel@gmail.com</span>
+              <h4 className="font-semibold text-gray-100">
+                {userInfo.usua_nombre}
+              </h4>
+              <span className="text-xs text-gray-200">
+                {userInfo.usua_correo}
+              </span>
             </div>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
                   <button
                     type="button"
+                    onClick={logoutHandler}
                     className="p-1.5 rounded-lg bg-[#323332] border border-zinc-700"
                   >
                     <Door01Icon size={20} color="#ffffff" variant="stroke" />

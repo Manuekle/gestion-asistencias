@@ -13,10 +13,12 @@ import Dashboard from './layout/Dashboard';
 import LoginPageAuth from './pages/auth/LoginPageAuth';
 import RegisterPageAuth from './pages/auth/RegisterPageAuth';
 import NotFoundPage from './pages/NotFoundPage';
+import { Toaster } from './components/ui/toaster';
 
 function App() {
   return (
     <div className="">
+      <Toaster />
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
