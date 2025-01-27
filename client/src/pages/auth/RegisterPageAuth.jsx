@@ -117,7 +117,7 @@ function RegisterPageAuth() {
               size="md"
               type="password"
               placeholder="contraseña"
-              errorMessage="Por favor ingrese una contrasena valida"
+              errorMessage="Por favor ingrese una contraseña valida"
               isInvalid={isInvalidPassword}
               value={password}
               onValueChange={setPassword}

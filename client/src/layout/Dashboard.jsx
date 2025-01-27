@@ -16,6 +16,7 @@ import HomePageDashboard from '../pages/dashboard/HomePageDashboard';
 import SchedulePageDashboard from '../pages/dashboard/SchedulePageDashboard';
 import ClassPageDashboard from '../pages/dashboard/ClassPageDashboard';
 import ReportPageDashboard from '../pages/dashboard/ReportPageDashboard';
+import ConfigPageDashboard from '../pages/dashboard/ConfigPageDashboard';
 
 function Dashboard() {
   const params = useParams();
@@ -53,6 +54,8 @@ function Dashboard() {
         <SidebarItem
           icon={<Settings03Icon size={20} color="#ffffff" variant="stroke" />}
           text="Configuracion"
+          active={!!(urlActive === 'settings')}
+          to="/dashboard/settings"
         />
         <SidebarItem
           icon={
@@ -67,6 +70,7 @@ function Dashboard() {
           <Route path="schedule" element={<SchedulePageDashboard />} />
           <Route path="class" element={<ClassPageDashboard />} />
           <Route path="report" element={<ReportPageDashboard />} />
+          <Route path="settings" element={<ConfigPageDashboard />} />
         </Routes>
       </section>
     </div>

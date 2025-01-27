@@ -2,11 +2,13 @@
 import { pool } from "../db.js";
 import { createUsuarioSchema, loginUsuarioSchema } from "../schemas/usuario.js";
 
-import { z } from "zod";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { SECRET_KEY, EMAIL_USER, EMAIL_PASSWORD } from "../config.js";
 
-const SECRET_KEY = "tu_secreto_super_seguro";
+import { z } from "zod";
+import nodemailer from "nodemailer";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
+import jwt from "jsonwebtoken";
 
 //* GET
 export const getUsuarios = async (req, res) => {
@@ -155,6 +157,63 @@ export const loginUsuario = async (req, res) => {
     );
 
     return res.status(200).json({ message: "Login exitoso", token, user });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+//* FORGOT PASSWORD
+export const recoverPassword = async (req, res) => {
+  try {
+    const { usua_correo } = req.body;
+
+    // Verificar si el correo existe
+    const [result] = await pool.query(
+      "SELECT * FROM usuario WHERE usua_correo = ?",
+      [usua_correo]
+    );
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Correo no encontrado" });
+    }
+
+    const user = result[0];
+
+    // Generar una nueva contraseña temporal
+    const newPassword = crypto.randomBytes(8).toString("hex"); // Genera una contraseña aleatoria
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Actualizar la contraseña en la base de datos
+    await pool.query("UPDATE usuario SET usua_password = ? WHERE usua_id = ?", [
+      hashedPassword,
+      user.usua_id,
+    ]);
+
+    // Configurar el servicio de nodemailer
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      auth: {
+        user: EMAIL_USER,
+        pass: EMAIL_PASSWORD,
+      },
+    });
+
+    // Configurar el contenido del correo
+    const mailOptions = {
+      from: EMAIL_USER,
+      to: usua_correo,
+      subject: "Recuperación de contraseña",
+      text: `Hola ${user.usua_nombre}, Tu nueva contraseña temporal es: ${newPassword}\n\nTe recomendamos cambiarla después de iniciar sesión.`,
+    };
+
+    // Enviar el correo
+    await transporter.sendMail(mailOptions);
+
+    return res
+      .status(200)
+      .json({ message: "Correo enviado con la nueva contraseña" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

@@ -7,6 +7,7 @@ import {
   updateUsuario,
   deleteUsuario,
   loginUsuario,
+  recoverPassword,
 } from "../controllers/usuarios.controller.js";
 
 const router = Router();
@@ -22,6 +23,7 @@ router.put("/usuario/:id", updateUsuario);
 router.delete("/usuario/:id", deleteUsuario);
 //* LOGIN
 router.post("/usuario/login", loginUsuario);
-
+//* RECOVER PASSWORD
+router.post("/usuario/recover", recoverPassword);
 
 export default router;

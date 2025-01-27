@@ -1,15 +1,12 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button } from '@heroui/react';
-import { Mail01Icon, Passport01Icon } from 'hugeicons-react';
+import { Mail01Icon } from 'hugeicons-react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '../../hooks/use-toast.ts';
+import { recoverPassword } from '../../actions/userActions';
 
-import { login } from '../../actions/userActions';
-
-function LoginPageAuth() {
+function RestorePasswordPageAuth() {
   const [formData, setFormData] = useState(false);
 
   const dispatch = useDispatch();
@@ -18,18 +15,13 @@ function LoginPageAuth() {
 
   const navigate = useNavigate();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { error, userInfo } = userLogin;
-
   const [user, setUser] = useState('');
-  const [password, setPassword] = useState('');
 
-  // regex
+  const userRecover = useSelector((state) => state.userRecover);
+  const { error } = userRecover;
+
   const validateEmail = (value) =>
     value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-
-  const validatePassword = (value) =>
-    value.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
   const isInvalidEmail = React.useMemo(() => {
     if (user === '') return false;
@@ -37,55 +29,49 @@ function LoginPageAuth() {
     return !validateEmail(user);
   }, [user]);
 
-  const isInvalidPassword = React.useMemo(() => {
-    if (password === '') return false;
-
-    return !validatePassword(password);
-  }, [password]);
-
-  const alert = () => {
-    if (error) {
+  const alertSuccess = () => {
+    if (!error) {
       toast({
-        variant: 'destructive',
-        title: 'Oh oh! Algo salio mal',
-        description: error
+        variant: 'default',
+        title: 'Exito!',
+        description:
+          'Se ha enviado un correo electronico con tu contraseña nueva'
       });
+      navigate('/auth/login');
     } else {
       toast({
         variant: 'destructive',
         title: 'Oh oh! Algo salio mal',
-        description: 'Por favor intente de nuevo'
+        description: error
       });
     }
   };
 
   const handleSubmit = () => {
     setFormData(true);
-    dispatch(login(user, password));
+    dispatch(recoverPassword(user));
     setTimeout(() => {
       setFormData(false);
     }, 2000);
-    alert();
+    alertSuccess();
   };
-
-  useEffect(() => {
-    if (userInfo) {
-      navigate('/Dashboard');
-    }
-  }, [userInfo, navigate]);
   return (
     <div className="flex justify-center items-center h-svh auth">
       <div className="flex flex-col w-full max-w-xl mx-auto px-4 py-16 bg-[#1E201E] rounded-xl shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
         <div className="self-center mb-2 text-xl font-light text-zinc-100 sm:text-2xl">
-          Iniciar Sesion
+          Restablecer Contraseña
         </div>
-        <span className="justify-center text-xs text-center text-zinc-300 flex-items-center ">
+        {/* <span className="justify-center text-xs text-center text-zinc-300 flex items-center ">
           No tienes una cuenta?
           <Link to="/auth/register" className="ml-2 text-amber-400 underline">
             Registrate
           </Link>
-        </span>
-        <div className="p-6 mt-2">
+        </span> */}
+        <p className="px-6 py-4 text-pretty flex items-center justify-center text-xs text-zinc-300">
+          Olvidaste tu contraseña? No te preocupes, ingresa tu correo
+          electronico. Te enviaremos una nueva contraseña.
+        </p>
+        <div className="p-6">
           <div className="flex w-full flex-col md:flex-nowrap mb-6 md:mb-0 gap-4">
             <Input
               size="md"
@@ -101,25 +87,13 @@ function LoginPageAuth() {
                 <Mail01Icon size={18} color="#000" variant="stroke" />
               }
             />
-            <Input
-              size="md"
-              type="password"
-              placeholder="contraseña"
-              onChange={(e) => setPassword(e.target.value)}
-              errorMessage="Por favor ingrese una contraseña valida"
-              isInvalid={isInvalidPassword}
-              value={password}
-              onValueChange={setPassword}
-              startContent={
-                <Passport01Icon size={18} color="#000" variant="stroke" />
-              }
-            />
+
             {!formData ? (
               <Button
                 onPress={handleSubmit}
                 className="bg-amber-400 text-white shadow-lg"
               >
-                Iniciar Sesion
+                Restablecer
               </Button>
             ) : (
               <Button
@@ -152,12 +126,12 @@ function LoginPageAuth() {
               </Button>
             )}
             <div className="flex text-xs w-full justify-center items-center">
-              <h1 className="text-zinc-300">Olvidaste tu contraseña?</h1>
+              <h1 className="text-zinc-300">No tienes una cuenta?</h1>
               <Link
-                to="/auth/forgot-password"
+                to="/auth/register"
                 className="underline ml-2 text-amber-400"
               >
-                Recuperar
+                Registrate
               </Link>
             </div>
           </div>
@@ -167,4 +141,4 @@ function LoginPageAuth() {
   );
 }
 
-export default LoginPageAuth;
+export default RestorePasswordPageAuth;

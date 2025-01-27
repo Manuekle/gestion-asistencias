@@ -28,7 +28,7 @@ function ClassPageDashboard() {
             Crear clase
           </h1>
         </button>
-        <div className="grid grid-cols-5 gap-8">
+        <div className="grid grid-cols-4 gap-8">
           <Link
             to="clase"
             className="col-span-1 flex flex-col gap-3 border rounded-lg px-2.5 py-3 hover:shadow-md"

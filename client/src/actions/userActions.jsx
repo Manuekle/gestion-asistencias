@@ -29,7 +29,10 @@ import {
   USER_DELETE_FAIL,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
-  USER_UPDATE_FAIL
+  USER_UPDATE_FAIL,
+  USER_RECOVER_REQUEST,
+  USER_RECOVER_SUCCESS,
+  USER_RECOVER_FAIL
 } from '../constants/userConstants';
 
 export const login = (usua_correo, usua_password) => async (dispatch) => {
@@ -109,6 +112,41 @@ export const register =
       });
     }
   };
+
+export const recoverPassword = (usua_correo) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_RECOVER_REQUEST
+    });
+
+    const config = {
+      headers: {
+        'Content-type': 'application/json'
+      }
+    };
+
+    const { data } = await axios.post(
+      'http://localhost:4000/usuario/recover',
+      { usua_correo },
+      config
+    );
+
+    dispatch({
+      type: USER_RECOVER_SUCCESS,
+      payload: data
+    });
+
+    dispatch({
+      type: USER_RECOVER_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_RECOVER_FAIL,
+      payload: error.response.data.message
+    });
+  }
+};
 
 export const getUserDetails = (usua_id) => async (dispatch, getState) => {
   try {
