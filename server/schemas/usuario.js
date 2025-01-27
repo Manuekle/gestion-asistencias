@@ -7,7 +7,7 @@ export const createUsuarioSchema = z.object({
   usua_password: z
     .string()
     .min(6, "La contraseña debe tener al menos 6 caracteres"),
-  usua_rol: z.enum(["admin", "user"], "Rol inválido"), // Ajusta los roles según tus necesidades
+  usua_rol: z.enum(["docente", "estudiante"], "Rol inválido"), // Ajusta los roles según tus necesidades
   usua_estado: z.boolean(),
 });
 
@@ -17,4 +17,4 @@ export const loginUsuarioSchema = z.object({
   usua_password: z
     .string()
     .min(6, "La contraseña debe tener al menos 6 caracteres"),
-});
+}); 

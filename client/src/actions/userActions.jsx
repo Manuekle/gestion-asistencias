@@ -89,7 +89,7 @@ export const register =
       };
 
       const { data } = await axios.post(
-        'http://localhost:4000/usuario',
+        'http://localhost:4000/usuario/register',
         { usua_nombre, usua_correo, usua_password, usua_rol, usua_estado },
         config
       );

@@ -28,11 +28,20 @@ function LoginPageAuth() {
   const validateEmail = (value) =>
     value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 
-  const isInvalid = React.useMemo(() => {
+  const validatePassword = (value) =>
+    value.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
+
+  const isInvalidEmail = React.useMemo(() => {
     if (user === '') return false;
 
     return !validateEmail(user);
   }, [user]);
+
+  const isInvalidPassword = React.useMemo(() => {
+    if (password === '') return false;
+
+    return !validatePassword(password);
+  }, [password]);
 
   const handleSubmit = () => {
     setFormData(true);
@@ -77,7 +86,7 @@ function LoginPageAuth() {
               onChange={(e) => setUser(e.target.value)}
               placeholder="you@example.com"
               errorMessage="Por favor ingrese un email valido"
-              isInvalid={isInvalid}
+              isInvalid={isInvalidEmail}
               value={user}
               onValueChange={setUser}
               startContent={
@@ -90,7 +99,7 @@ function LoginPageAuth() {
               placeholder="contrasena"
               onChange={(e) => setPassword(e.target.value)}
               errorMessage="Por favor ingrese una contrasena valida"
-              isInvalid={password === ''}
+              isInvalid={isInvalidPassword}
               value={password}
               onValueChange={setPassword}
               startContent={
