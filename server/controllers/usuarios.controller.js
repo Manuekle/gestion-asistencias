@@ -84,7 +84,7 @@ export const createUsuario = async (req, res) => {
     return res.status(200).json({ message: "Registro exitoso", token, user });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ errors: error.errors });
+      return res.status(400).json({ message: error.errors[0].message });
     }
     return res.status(500).json({ message: error.message });
   }

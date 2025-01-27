@@ -43,21 +43,29 @@ function LoginPageAuth() {
     return !validatePassword(password);
   }, [password]);
 
-  const handleSubmit = () => {
-    setFormData(true);
-    dispatch(login(user, password));
-    setTimeout(() => {
-      setFormData(false);
-    }, 2000);
-
+  const alert = () => {
     if (error) {
-      // alert(`Error: ${error}`);
+      toast({
+        variant: 'destructive',
+        title: 'Oh oh! Algo salio mal',
+        description: error
+      });
+    } else {
       toast({
         variant: 'destructive',
         title: 'Oh oh! Algo salio mal',
         description: 'Por favor intente de nuevo'
       });
     }
+  };
+
+  const handleSubmit = () => {
+    setFormData(true);
+    dispatch(login(user, password));
+    setTimeout(() => {
+      setFormData(false);
+    }, 2000);
+    alert();
   };
 
   useEffect(() => {

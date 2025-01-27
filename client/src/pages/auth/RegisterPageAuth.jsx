@@ -51,21 +51,23 @@ function RegisterPageAuth() {
     return !validatePassword(password);
   }, [password]);
 
-  const handleSubmit = () => {
-    setFormData(true);
-    dispatch(register(user, email, password, role, status));
-    setTimeout(() => {
-      setFormData(false);
-    }, 2000);
-
+  const alert = () => {
     if (error) {
-      // alert(`Error: ${error}`);
       toast({
         variant: 'destructive',
         title: 'Oh oh! Algo salio mal',
-        description: 'Por favor intente de nuevo'
+        description: error
       });
     }
+  };
+
+  const handleSubmit = async () => {
+    setFormData(true);
+    dispatch(register(user, email, password, role, status));
+    await setTimeout(() => {
+      setFormData(false);
+    }, 2000);
+    alert();
   };
 
   useEffect(() => {
