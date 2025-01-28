@@ -66,7 +66,10 @@ function CardsDate({
           </DropdownTrigger>
           <DropdownMenu aria-label="Dropdown menu with shortcut" variant="flat">
             <DropdownItem key="nuevo">
-              <Link to="clase" className="flex justify-between items-center">
+              <Link
+                to="intro-web"
+                className="flex justify-between items-center"
+              >
                 <h1 className="font-bold text-zinc-800">Ver clase</h1>
                 <EyeIcon size={16} color="#27272A" variant="stroke" />
               </Link>
@@ -118,7 +121,7 @@ function CardsDate({
               <ModalFooter>
                 <button
                   type="button"
-                  className="bg-[#FDD0DF] hover:bg-[#FDD0DF]/90 text-[#F31260] text-xs rounded-lg font-bold px-4 py-2"
+                  className="bg-[#FEF2F2] hover:bg-[#FEF2F2]/90 text-[#C25269] text-xs rounded-lg font-bold px-4 py-2"
                   onClick={onClose}
                 >
                   <Delete02Icon size={20} color="#F31260" variant="stroke" />

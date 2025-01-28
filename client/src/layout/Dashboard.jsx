@@ -12,18 +12,21 @@ import {
 
 import Sidebar, { SidebarItem } from '../components/Sidebar';
 
+// pages
 import HomePageDashboard from '../pages/dashboard/HomePageDashboard';
 import SchedulePageDashboard from '../pages/dashboard/SchedulePageDashboard';
 import ClassPageDashboard from '../pages/dashboard/ClassPageDashboard';
 import ReportPageDashboard from '../pages/dashboard/ReportPageDashboard';
 import ConfigPageDashboard from '../pages/dashboard/ConfigPageDashboard';
+// items
+import Classes from '../pages/dashboardItems/Classes';
 
 function Dashboard() {
   const params = useParams();
   const urlActive = params['*'];
 
   return (
-    <div className="flex flex-row w-full bg-[#FAF7F0]">
+    <div className="flex flex-row w-full bg-[#FAFBFD]">
       <Sidebar>
         <SidebarItem
           icon={<Home07Icon size={20} color="#ffffff" variant="stroke" />}
@@ -53,7 +56,7 @@ function Dashboard() {
         <hr className="my-3 border-1 border-zinc-800" />
         <SidebarItem
           icon={<Settings03Icon size={20} color="#ffffff" variant="stroke" />}
-          text="Configuracion"
+          text="Configuración"
           active={!!(urlActive === 'settings')}
           to="/dashboard/settings"
         />
@@ -64,11 +67,13 @@ function Dashboard() {
           text="Ayuda"
         />
       </Sidebar>
-      <section className="p-8 w-full bg-[#FAF7F0]">
+      <section className="p-8 w-full bg-[#FAFBFD]">
         <Routes>
           <Route path="/" element={<HomePageDashboard />} />
           <Route path="schedule" element={<SchedulePageDashboard />} />
+          <Route path="schedule/:id" element={<Classes />} />
           <Route path="class" element={<ClassPageDashboard />} />
+          <Route path="class/:id" element={<Classes />} />
           <Route path="report" element={<ReportPageDashboard />} />
           <Route path="settings" element={<ConfigPageDashboard />} />
         </Routes>

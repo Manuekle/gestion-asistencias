@@ -69,7 +69,6 @@ export default function Sidebar({ children }) {
 
         <div className="flex items-center p-3">
           <img
-            // src="https://ui-avatars.com/api/?name=Manuel+Erazo/?background=f0e9e9&color=000&bold=true"
             src={`https://ui-avatars.com/api/?name=${user.usua_nombre}/?background=f0e9e9&color=000&bold=true`}
             alt=""
             className="w-10 h-10 rounded-md"
