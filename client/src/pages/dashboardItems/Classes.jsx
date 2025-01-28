@@ -58,12 +58,20 @@ function Classes() {
           </div>
         </div>
 
-        <button
-          type="button"
-          className="text-xs bg-[#FEF2F2] hover:bg-[#FEF2F2]/90 font-bold text-[#C25269] px-4 py-2 rounded-md"
-        >
-          Cancelar clase
-        </button>
+        <div className="flex flex-col gap-4 w-full">
+          <button
+            type="button"
+            className="text-xs border shadow-sm font-bold text-zinc-800 px-4 py-2 rounded-md"
+          >
+            Generar codigo
+          </button>
+          {/* <button
+            type="button"
+            className="text-xs bg-[#FEF2F2] hover:bg-[#FEF2F2]/90 font-bold text-[#C25269] px-4 py-2 rounded-md"
+          >
+            Cancelar clase
+          </button> */}
+        </div>
         <div className="pt-2">
           <span className="flex flex-row items-center justify-between">
             <h1 className="font-bold text-sm">Lista de Estudiantes</h1>
