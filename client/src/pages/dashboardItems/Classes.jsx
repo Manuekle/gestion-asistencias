@@ -38,7 +38,7 @@ function Classes() {
           </div>
           <Separator orientation="vertical" />
           <div className="flex flex-col">
-            <h1 className="font-bold text-xs text-zinc-500">Curso</h1>
+            <h1 className="font-bold text-xs text-zinc-500">Asignatura</h1>
             <h1 className="font-bold text-xs">Inteligencia Artificial</h1>
           </div>
           <Separator orientation="vertical" />

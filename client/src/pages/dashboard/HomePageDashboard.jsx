@@ -2,16 +2,24 @@ import React from 'react';
 // import ChartRadialText from '../../components/ChartRadialText';
 // import ChartRadialPercentage from '../../components/ChartRadialPercentage';
 import { AddCircleIcon, Delete02Icon } from 'hugeicons-react';
+import { useSelector } from 'react-redux';
 import DashboardCard from '../../components/DashboardCard';
 import DashboardCalendar from '../../components/DashboardCalendar';
+import DashboardAssigments from '../../components/DashboardAssigments';
 
 function HomePageDashboard() {
+  const userDetails = useSelector((state) => state.userDetails);
+  const { user } = userDetails;
+
+  const fechaActual = new Date();
+  const opciones = { day: 'numeric', month: 'long' };
+  const fechaFormateada = fechaActual.toLocaleDateString('es-ES', opciones);
   return (
     <div className="flex flex-col gap-6">
       <section className="col-span-3 flex flex-col rounded-xl bg-white border shadow-sm px-6 py-4">
         <h1 className="text-md font-bold">
-          ¡Hola, [Nombre]! Hoy es [fecha actual]. Aquí tienes un resumen de tu
-          actividad
+          ¡Hola, <span className="capitalize">{user.usua_nombre}</span>! Hoy es{' '}
+          {fechaFormateada}. Aquí tienes un resumen de tu actividad
         </h1>
       </section>
       <div className="grid grid-cols-5 grid-rows-3 gap-4">
@@ -36,34 +44,18 @@ function HomePageDashboard() {
           <DashboardCalendar />
         </div>
         <div className="col-span-3 row-span-2 row-start-2 rounded-xl bg-white border shadow-sm px-6 py-4">
-          <h1 className="text-md font-bold">Mis Materias</h1>
-          <div className="flex flex-col py-2 gap-3">
-            <span className="bg-[#FAFBFD] rounded-lg flex justify-between items-center gap-3 flex-row py-2 px-4">
-              <div className="flex flex-col gap-0">
-                <h1 className="font-bold text-xs text-zinc-800">Matematicas</h1>
-                <h1 className="font-bold text-xs text-zinc-400">
-                  24 febrero, 10:30
-                </h1>
-              </div>
-              <div className="flex flex-col gap-0">
-                <h1 className="font-bold text-xs text-zinc-400">Duracion</h1>
-                <h1 className="font-bold text-xs text-zinc-800">02 h 24 m</h1>
-              </div>
-              <div className="flex flex-col gap-0">
-                <h1 className="font-bold text-xs text-zinc-400">Estudiantes</h1>
-                <h1 className="font-bold text-xs text-zinc-800">12/20</h1>
-              </div>
-              <div className="flex flex-col gap-0">
-                <h1 className="font-bold text-xs text-[#319C78]">En curso</h1>
-                <h1 className="font-bold text-xs text-[#C25269]">Finalizada</h1>
-              </div>
-            </span>
+          <h1 className="text-md font-bold">Mis Asignaturas</h1>
+          <div className="flex flex-col py-2 gap-4">
+            <DashboardAssigments />
+            <DashboardAssigments />
+            <DashboardAssigments />
+            <DashboardAssigments />
             <button
               type="button"
               className="bg-white flex justify-center items-center border-dashed border-2 rounded-lg gap-3 flex-row p-4"
             >
               <AddCircleIcon size={18} color="#333" variant="stroke" />
-              <h1 className="text-xs font-bold">agregar nuevas materias</h1>
+              <h1 className="text-xs font-bold">agregar nueva asignatura</h1>
             </button>
           </div>
         </div>

@@ -7,6 +7,7 @@ import {
   NoteIcon,
   Calendar03Icon,
   Settings03Icon,
+  LibrariesIcon,
   CustomerService01Icon
 } from 'hugeicons-react';
 
@@ -46,6 +47,12 @@ function Dashboard() {
           text="Clases"
           active={!!(urlActive === 'class')}
           to="/dashboard/class"
+        />
+        <SidebarItem
+          icon={<LibrariesIcon size={20} color="#ffffff" variant="stroke" />}
+          text="Asignaturas"
+          active={!!(urlActive === 'course')}
+          to="/dashboard/course"
         />
         <SidebarItem
           icon={<NoteIcon size={20} color="#ffffff" variant="stroke" />}
