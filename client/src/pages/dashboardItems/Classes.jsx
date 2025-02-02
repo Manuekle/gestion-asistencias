@@ -104,11 +104,10 @@ function Classes() {
                   </TableCell>
                   <TableCell className="font-medium text-sm">2:00 pm</TableCell>
                   <TableCell className="text-right">
-                    {/* 
                     <span className="text-xs font-bold text-[#C25269] rounded-full px-4 py-1 justify-center items-center bg-[#FEF2F2]">
                       Ausente
-                    </span> 
-                    */}
+                    </span>
+
                     <span className="text-xs font-bold text-[#319C78] rounded-full px-4 py-1 justify-center items-center bg-[#E7FFF6]">
                       Presente
                     </span>
