@@ -1,19 +1,77 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input, Skeleton } from '@heroui/react';
-import { Search01Icon } from 'hugeicons-react';
+import { Input, Skeleton, Button } from '@heroui/react';
+import {
+  Search01Icon,
+  GitbookIcon,
+  Clock04Icon,
+  Calendar01Icon
+} from 'hugeicons-react';
 import { Link } from 'react-router';
+import { format } from 'date-fns';
 import { detailsClass } from '../../actions/classActions';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter
+} from '../../components/ui/dialog.tsx';
+import { Label } from '../../components/ui/label.tsx';
+
+import { cn } from '../../lib/utils.ts';
+import { Calendar } from '../../components/ui/calendar.tsx';
+import { Button as ButtonS } from '../../components/ui/button.tsx';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '../../components/ui/popover.tsx';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '../../components/ui/select.tsx';
 
 function ClassPageDashboard() {
   const dispatch = useDispatch();
-
+  const [formData, setFormData] = useState(false);
   const classDetails = useSelector((state) => state.classDetails);
   const { clases } = classDetails;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const [date, setDate] = React.useState();
+  const [startTime, setStartTime] = React.useState();
+  const [endTime, setEndTime] = React.useState();
+  const [subject, setSubject] = React.useState('');
+  const generateTimeOptions = () => {
+    const options = [];
+    for (let i = 7; i <= 22; i++) {
+      options.push(`${i.toString().padStart(2, '0')}:00`);
+    }
+    return options;
+  };
+
+  const timeOptions = generateTimeOptions();
+  const subjectOptions = [
+    'Matemáticas',
+    'Ciencias',
+    'Historia',
+    'Literatura',
+    'Inglés',
+    'Educación Física'
+  ];
+
+  // Clase común para los triggers de Select y Button
+  const commonInputClasses = 'bg-white hover:bg-gray-50/90 rounded-2xl text-sm';
 
   useEffect(() => {
     if (userInfo) {
@@ -66,13 +124,150 @@ function ClassPageDashboard() {
               Viernes
             </button>
           </span>
-          <button
-            type="button"
-            className="bg-[#E7FFF6] py-2 px-4 gap-1 rounded-lg flex flex-row items-center"
-          >
-            {/* <BookOpen02Icon size={18} color="#FBBF24" variant="stroke" /> */}
-            <h1 className="font-bold text-xs text-[#319C78]">Crear clase</h1>
-          </button>
+          <Dialog>
+            <DialogTrigger className="bg-amber-400 py-2 px-4 gap-1 rounded-lg flex flex-row items-center">
+              <h1 className="font-bold text-xs text-white">Crear clase</h1>
+            </DialogTrigger>
+            <DialogContent className="space-y-0 w-full">
+              <DialogHeader>
+                <DialogTitle>Nueva Clase</DialogTitle>
+                <DialogDescription>
+                  Complete el siguiente formulario para crear una nueva clase.
+                  Asegúrese de llenar todos los campos requeridos antes de
+                  enviar.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="space-y-4">
+                <Label htmlFor="asignatura" className="text-right">
+                  Asignatura
+                </Label>
+                <Select onValueChange={setSubject}>
+                  <SelectTrigger id="asignatura" className={commonInputClasses}>
+                    <div className="flex flex-row items-center gap-4">
+                      <GitbookIcon size={18} color="#7a7a70" variant="stroke" />
+                      <SelectValue placeholder="Seleccionar asignatura" />
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {subjectOptions.map((subj) => (
+                      <SelectItem key={subj} value={subj} className="text-sm">
+                        {subj}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="fecha" className="text-right">
+                  Fecha
+                </Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <ButtonS
+                      variant="outline"
+                      className={cn(
+                        'w-full border justify-start gap-4 text-left text-sm font-normal bg-white hover:bg-gray-50/90 rounded-2xl',
+                        !date && 'text-black'
+                      )}
+                    >
+                      <Calendar01Icon
+                        size={18}
+                        color="#7a7a70"
+                        variant="stroke"
+                      />
+                      {date ? (
+                        format(date, 'PPP')
+                      ) : (
+                        <span>Seleccionar fecha</span>
+                      )}
+                    </ButtonS>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="startTime">Hora inicio</Label>
+                <Select onValueChange={setStartTime}>
+                  <SelectTrigger id="startTime" className={commonInputClasses}>
+                    <div className="flex flex-row items-center gap-4">
+                      <Clock04Icon size={18} color="#7a7a70" variant="stroke" />
+                      <SelectValue placeholder="Seleccionar hora inicio" />
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent className="text-xs">
+                    {timeOptions.map((time) => (
+                      <SelectItem key={time} value={time}>
+                        {time}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="endTime">Hora fin</Label>
+                <Select onValueChange={setEndTime}>
+                  <SelectTrigger id="endTime" className={commonInputClasses}>
+                    <div className="flex flex-row items-center gap-4">
+                      <Clock04Icon size={18} color="#7a7a70" variant="stroke" />
+                      <SelectValue placeholder="Seleccionar hora fin" />
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {timeOptions.map((time) => (
+                      <SelectItem key={time} value={time}>
+                        {time}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              {!formData ? (
+                <Button
+                  // onPress={handleSubmit}
+                  className="bg-amber-400 text-white shadow-lg text-sm"
+                >
+                  Crear clase
+                </Button>
+              ) : (
+                <Button
+                  isLoading
+                  className="bg-amber-400 text-white shadow-lg"
+                  spinner={
+                    <svg
+                      className="animate-spin h-5 w-5 text-current"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  }
+                >
+                  Cargando
+                </Button>
+              )}
+            </DialogContent>
+          </Dialog>
         </div>
         <div className="grid grid-cols-4 gap-8">
           {clases.map((clase) => (
