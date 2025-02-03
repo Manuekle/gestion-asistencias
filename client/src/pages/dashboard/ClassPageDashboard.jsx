@@ -2,13 +2,22 @@ import React from 'react';
 import { Input, Skeleton } from '@heroui/react';
 import { Search01Icon } from 'hugeicons-react';
 import { Link } from 'react-router';
+import clases from '../../services/clases.json';
+import asignaturas from '../../services/asignaturas.json';
 
 function ClassPageDashboard() {
+  const clasesConAsignatura = clases.map((clase) => {
+    const asignatura = asignaturas.find(
+      (asig) => asig.asig_id === clase.clas_asig_id
+    );
+    return {
+      ...clase,
+      asignatura
+    };
+  });
+
   return (
     <div className="grid gap-6">
-      {/* <section className="col-span-3 rounded-xl bg-white border shadow-sm px-6 py-4">
-        <h1 className="font-bold text-lg">Mis clases</h1>
-      </section> */}
       <section className="col-span-3 flex flex-col gap-6 rounded-xl bg-white border shadow-sm px-6 py-4">
         <div className="flex flex-row items-center justify-between">
           <span className="flex flex-row gap-4">
@@ -61,23 +70,27 @@ function ClassPageDashboard() {
           </button>
         </div>
         <div className="grid grid-cols-4 gap-8">
-          <Link
-            to="intro-sistemas"
-            className="col-span-1 flex flex-col gap-3 border rounded-lg px-2.5 py-3 hover:shadow-md"
-          >
-            <div className="flex flex-col">
-              <h1 className="font-bold text-sm text-zinc-800">2:00 - 6:00</h1>
-              <h1 className="font-bold text-xs text-zinc-800">
-                Introducción a la programación
-              </h1>
-              <h1 className="font-bold text-xs text-zinc-400">
-                Ingeniería de Sistemas
-              </h1>
-            </div>
-            <Skeleton className="rounded-lg ">
-              <div className="h-40 rounded-lg bg-default-300" />
-            </Skeleton>
-          </Link>
+          {clasesConAsignatura.map((clase) => (
+            <Link
+              to={`${clase.asignatura.asig_slug}/${clase.clas_id}`}
+              className="col-span-1 flex flex-col gap-3 border rounded-lg px-2.5 py-3 hover:shadow-md"
+            >
+              <div className="flex flex-col">
+                <h1 className="font-bold text-sm text-zinc-800">
+                  {clase.clas_hora_inicio} - {clase.clas_hora_fin}
+                </h1>
+                <h1 className="font-bold text-xs text-zinc-800">
+                  {clase.asignatura.asig_nombre}
+                </h1>
+                <h1 className="font-bold text-xs text-zinc-400">
+                  {clase.asignatura.asig_programa}
+                </h1>
+              </div>
+              <Skeleton className="rounded-lg ">
+                <div className="h-40 rounded-lg bg-default-300" />
+              </Skeleton>
+            </Link>
+          ))}
         </div>
       </section>
     </div>

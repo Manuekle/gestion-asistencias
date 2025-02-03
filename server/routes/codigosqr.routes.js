@@ -1,23 +1,15 @@
 import { Router } from "express";
 
 import {
-  getCodigosQr,
   getCodigoQr,
-  createCodigoQr,
-  updateCodigoQr,
-  deleteCodigoQr,
-} from "../controllers/CodigosQr.controller.js";
+  createCodigoQr
+} from "../controllers/codigosqr.controller.js";
 
 const router = Router();
 
 //* GET
-router.get("/codigosQr", getCodigosQr);
-router.get("/codigoQr/:id", getCodigoQr);
+router.get("/qr/:id", getCodigoQr);
 //? POST
-router.post("/codigoQr", createCodigoQr);
-//TODO: UPDATE
-router.put("/codigoQr/:id", updateCodigoQr);
-//! DELETE
-router.delete("/codigoQr/:id", deleteCodigoQr);
+router.post("/generate", createCodigoQr);
 
 export default router;

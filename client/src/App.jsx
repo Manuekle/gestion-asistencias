@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // pages
 import HomePage from './pages/HomePage';
 import Dashboard from './layout/Dashboard';
+import Attendance from './layout/Attendance';
 import LoginPageAuth from './pages/auth/LoginPageAuth';
 import RegisterPageAuth from './pages/auth/RegisterPageAuth';
 import RestorePasswordPageAuth from './pages/auth/RestorePasswordPageAuth';
@@ -23,6 +24,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/attendance" element={<Attendance />} />
           <Route path="/dashboard/*" element={<Dashboard />} />
           <Route path="/auth/login" element={<LoginPageAuth />} />
           <Route path="/auth/register" element={<RegisterPageAuth />} />

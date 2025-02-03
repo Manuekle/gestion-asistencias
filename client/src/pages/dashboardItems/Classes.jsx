@@ -14,10 +14,6 @@ function Classes() {
   return (
     <section className="flex flex-col gap-6">
       <div className="flex flex-col gap-6 rounded-xl bg-white border shadow-sm px-6 py-4">
-        {/* <span className="flex flex-row gap-3 items-center">
-          <StudentCardIcon size={30} color="#3F3F46" variant="stroke" />
-          <h1 className="font-bold text-zinc-700 text-xl">Docente</h1>
-        </span> */}
         <article className="flex flex-row gap-2 items-center">
           <img
             src="https://ui-avatars.com/api/?name=carlosduitanma/?background=f0e9e9&color=000&bold=true"
@@ -65,12 +61,12 @@ function Classes() {
           >
             Generar codigo
           </button>
-          {/* <button
+          <button
             type="button"
             className="text-xs bg-[#FEF2F2] hover:bg-[#FEF2F2]/90 font-bold text-[#C25269] px-4 py-2 rounded-md"
           >
             Cancelar clase
-          </button> */}
+          </button>
         </div>
         <div className="pt-2">
           <span className="flex flex-row items-center justify-between">

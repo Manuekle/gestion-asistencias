@@ -31,18 +31,35 @@ export const getAsignatura = async (req, res) => {
 //? POST
 export const createAsignatura = async (req, res) => {
   try {
-    const { asig_nombre, asig_codigo } =
-      req.body;
+    const {
+      asig_nombre,
+      asig_programa,
+      asig_descripcion,
+      asig_semestre,
+      asig_grupo,
+      asig_docente_id
+    } = req.body;
 
     const [result] = await pool.query(
-      "INSERT INTO Asignatura(asig_nombre, asig_codigo) VALUES (?, ?)",
-      [asig_nombre, asig_codigo]
+      "INSERT INTO Asignatura(asig_nombre, asig_programa, asig_descripcion, asig_semestre, asig_grupo, asig_docente_id) VALUES (?, ?, ?, ?, ?, ?)",
+      [
+        asig_nombre,
+        asig_programa,
+        asig_descripcion,
+        asig_semestre,
+        asig_grupo,
+        asig_docente_id
+      ]
     );
 
     return res.status(200).json({
       asig_id: result.insertId,
       asig_nombre,
-      asig_codigo
+      asig_programa,
+      asig_descripcion,
+      asig_semestre,
+      asig_grupo,
+      asig_docente_id
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -75,6 +92,27 @@ export const deleteAsignatura = async (req, res) => {
     }
 
     return res.sendStatus(204);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getAsignaturasByDocente = async (req, res) => {
+  try {
+    const docenteId = req.params.docenteId; // Obtén el ID del docente de los parámetros de la URL
+
+    const [result] = await pool.query(
+      "SELECT * FROM asignatura WHERE asig_docente_id = ?", // Ajusta la consulta para buscar por ID de docente
+      [docenteId]
+    );
+
+    if (result.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No se encontraron asignaturas para este docente" });
+    }
+
+    return res.status(200).json(result); // Devuelve un array con todas las asignaturas
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

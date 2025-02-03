@@ -1,3 +1,4 @@
+-- Tabla: usuario
 CREATE TABLE usuario (
     usua_id INT PRIMARY KEY AUTO_INCREMENT,
     usua_nombre VARCHAR(100) NOT NULL,
@@ -5,72 +6,62 @@ CREATE TABLE usuario (
     usua_password VARCHAR(255) NOT NULL,
     usua_rol ENUM('administrador', 'docente', 'estudiante') NOT NULL,
     usua_estado BOOLEAN DEFAULT TRUE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-);
-
-
-CREATE TABLE asignatura (
-    asig_id INT PRIMARY KEY AUTO_INCREMENT,
-    asig_nombre VARCHAR(100) NOT NULL,
-    asig_codigo VARCHAR(20) UNIQUE NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Tabla: asignatura
+CREATE TABLE asignatura (
+    asig_id INT PRIMARY KEY AUTO_INCREMENT,
+    asig_nombre VARCHAR(100) NOT NULL,
+    asig_programa VARCHAR(100) NOT NULL,
+    asig_descripcion VARCHAR(500) NOT NULL,
+    asig_semestre INT NOT NULL,
+    asig_grupo VARCHAR(10) NOT NULL,
+    asig_slug VARCHAR(100) GENERATED ALWAYS AS (REPLACE(LOWER(asig_nombre), ' ', '-')) STORED,
+    asig_docente_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (asig_docente_id) REFERENCES usuario(usua_id)
+);
 
+-- Tabla: clase
 CREATE TABLE clase (
     clas_id INT PRIMARY KEY AUTO_INCREMENT,
+    clas_asig_id INT NOT NULL,
     clas_fecha DATE NOT NULL,
     clas_hora_inicio TIME NOT NULL,
     clas_hora_fin TIME NOT NULL,
-    clas_asig_id INT NOT NULL,
-    clas_docente_id INT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (clas_asig_id) REFERENCES asignatura(asig_id),
-    FOREIGN KEY (clas_docente_id) REFERENCES usuario(usua_id)
+    clas_estado ENUM('activa', 'finalizada') DEFAULT 'activa',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (clas_asig_id) REFERENCES asignatura(asig_id)
 );
 
-
-CREATE TABLE codigo_qr (
-    codi_id INT PRIMARY KEY AUTO_INCREMENT,
-    codi_valor VARCHAR(255) NOT NULL,
-    codi_fecha_generacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    codi_clas_id INT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (codi_clas_id) REFERENCES clase(clas_id)
-);
-
-
+-- Tabla: asistencia
 CREATE TABLE asistencia (
     asis_id INT PRIMARY KEY AUTO_INCREMENT,
-    asis_fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    asis_estudiante_id INT NOT NULL,
+    asis_estu_id INT NOT NULL,
     asis_clas_id INT NOT NULL,
-    asis_validado BOOLEAN DEFAULT FALSE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (asis_estudiante_id) REFERENCES usuario(usua_id),
+    asis_fecha DATE NOT NULL,
+    asis_estado ENUM('presente', 'ausente') DEFAULT 'ausente',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (asis_estu_id) REFERENCES usuario(usua_id),
     FOREIGN KEY (asis_clas_id) REFERENCES clase(clas_id)
 );
 
-
-CREATE TABLE horario (
-    hora_id INT PRIMARY KEY AUTO_INCREMENT,
-    hora_dia ENUM('lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo') NOT NULL,
-    hora_inicio TIME NOT NULL,
-    hora_fin TIME NOT NULL,
-    hora_asig_id INT NOT NULL,
-    hora_docente_id INT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (hora_asig_id) REFERENCES asignatura(asig_id),
-    FOREIGN KEY (hora_docente_id) REFERENCES usuario(usua_id)
+-- Tabla: codigo_qr
+CREATE TABLE codigo_qr (
+    codi_id INT AUTO_INCREMENT PRIMARY KEY,
+    codi_valor VARCHAR(255) NOT NULL,
+    codi_clas_id INT NOT NULL,
+    qr_image TEXT, -- Aquí guardamos la imagen en formato Base64
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
-CREATE TABLE reporte (
-    repo_id INT PRIMARY KEY AUTO_INCREMENT,
-    repo_fecha_inicio DATE NOT NULL,
-    repo_fecha_fin DATE NOT NULL,
-    repo_generado_por INT NOT NULL,
-    repo_detalle TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (repo_generado_por) REFERENCES usuario(usua_id)
+-- Tabla: horario
+CREATE TABLE horario (
+    hora_id INT PRIMARY KEY AUTO_INCREMENT,
+    hora_usua_id INT NOT NULL,
+    hora_clas_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (hora_usua_id) REFERENCES usuario(usua_id),
+    FOREIGN KEY (hora_clas_id) REFERENCES clase(clas_id)
 );

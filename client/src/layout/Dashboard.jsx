@@ -80,7 +80,7 @@ function Dashboard() {
           <Route path="schedule" element={<SchedulePageDashboard />} />
           <Route path="schedule/:id" element={<Classes />} />
           <Route path="class" element={<ClassPageDashboard />} />
-          <Route path="class/:id" element={<Classes />} />
+          <Route path="class/:name/:id" element={<Classes />} />
           <Route path="report" element={<ReportPageDashboard />} />
           <Route path="settings" element={<ConfigPageDashboard />} />
         </Routes>

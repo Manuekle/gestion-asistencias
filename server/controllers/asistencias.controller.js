@@ -31,18 +31,19 @@ export const getAsistencia = async (req, res) => {
 //? POST
 export const createAsistencia = async (req, res) => {
   try {
-    const { asis_estudiante_id, asis_clas_id, asis_validado } = req.body;
+    const { asis_estu_id, asis_clas_id, asis_fecha, asis_estado } = req.body;
 
     const [result] = await pool.query(
-      "INSERT INTO asistencia(asis_estudiante_id, asis_clas_id, asis_validado) VALUES (?, ?, ?)",
-      [asis_estudiante_id, asis_clas_id, asis_validado]
+      "INSERT INTO asistencia(asis_estu_id, asis_clas_id, asis_fecha, asis_estado) VALUES (?, ?, ?, ?)",
+      [asis_estu_id, asis_clas_id, asis_fecha, asis_estado]
     );
 
     return res.status(200).json({
       asis_id: result.insertId,
-      asis_estudiante_id,
+      asis_estu_id,
       asis_clas_id,
-      asis_validado
+      asis_fecha,
+      asis_estado,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
