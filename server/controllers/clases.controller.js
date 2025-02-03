@@ -92,7 +92,7 @@ export const getClasesByDocente = async (req, res) => {
     const docenteId = req.params.docenteId; // Obtén el ID del docente de los parámetros de la URL
 
    const [result] = await pool.query(
-     `SELECT c.*, a.asig_nombre, a.asig_programa, a.asig_descripcion, a.asig_semestre, a.asig_grupo  -- Selecciona las columnas de clase y las de asignatura que necesites
+     `SELECT c.*, a.asig_nombre, a.asig_programa, a.asig_descripcion, a.asig_semestre, a.asig_slug, a.asig_grupo
       FROM clase c
       INNER JOIN asignatura a ON c.clas_asig_id = a.asig_id
       WHERE a.asig_docente_id = ?

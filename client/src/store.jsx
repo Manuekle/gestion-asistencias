@@ -13,6 +13,11 @@ import {
   userRecoverReducer
 } from './reducers/userReducers';
 
+import {
+  classDetailsReducer,
+  classCreateReducer
+} from './reducers/classReducers';
+
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
@@ -21,7 +26,10 @@ const reducer = combineReducers({
   userList: userListReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
-  userRecover: userRecoverReducer
+  userRecover: userRecoverReducer,
+
+  classDetails: classDetailsReducer,
+  classCreate: classCreateReducer
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
