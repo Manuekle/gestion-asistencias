@@ -106,11 +106,11 @@ export const getAsignaturasByDocente = async (req, res) => {
       [docenteId]
     );
 
-    if (result.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No se encontraron asignaturas para este docente" });
-    }
+    // if (result.length === 0) {
+    //   return res
+    //     .status(404)
+    //     .json({ message: "No se encontraron asignaturas para este docente" });
+    // }
 
     return res.status(200).json(result); // Devuelve un array con todas las asignaturas
   } catch (error) {

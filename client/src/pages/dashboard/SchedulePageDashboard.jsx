@@ -24,9 +24,9 @@ function SchedulePageDashboard() {
       <section className="col-span-3 rounded-xl bg-white border shadow-sm px-6 py-4">
         <h1 className="font-bold text-zinc-800 text-xl">{dateToday}</h1>
         <article className="py-8 flex flex-col gap-8">
-          {/* {Clases.map((clase) => (
+          {Clases.map((clase) => (
             <CardsDate {...clase} />
-          ))} */}
+          ))}
         </article>
       </section>
       <section className="col-span-1 rounded-xl bg-white border shadow-sm flex flex-col items-center">

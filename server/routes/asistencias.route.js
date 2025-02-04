@@ -14,7 +14,7 @@ const router = Router();
 router.get("/asistencias", getAsistencias);
 router.get("/asistencia/:id", getAsistencia);
 //? POST
-router.post("/asistencia", createAsistencia);
+router.post("/asistencia/nueva", createAsistencia);
 //TODO: UPDATE
 router.put("/asistencia/:id", updateAsistencia);
 //! DELETE

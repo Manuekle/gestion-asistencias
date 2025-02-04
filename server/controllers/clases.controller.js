@@ -13,6 +13,40 @@ export const getClases = async (req, res) => {
   }
 };
 
+export const getClaseQr = async (req, res) => {
+  try {
+    const { id } = req.params; // Solo necesitamos el 'id'
+
+    const [result] = await pool.query(
+      `SELECT 
+         clase.clas_id,
+         clase.clas_fecha,
+         clase.clas_hora_inicio,
+         clase.clas_hora_fin,
+         clase.clas_estado,
+         asignatura.asig_nombre,
+         asignatura.asig_programa,
+         asignatura.asig_semestre,
+         asignatura.asig_grupo,
+         usuario.usua_nombre AS docente_nombre,
+         usuario.usua_correo AS docente_correo
+       FROM clase
+       JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
+       JOIN usuario ON asignatura.asig_docente_id = usuario.usua_id
+       WHERE clase.clas_id = ?`, // Filtramos solo por clas_id
+      [id]
+    );
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Clase no encontrada." });
+    }
+
+    return res.status(200).json(result[0]);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export const getClase = async (req, res) => {
   try {
     const { slug, id } = req.params;

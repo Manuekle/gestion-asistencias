@@ -34,6 +34,12 @@ export const createCodigoQr = async (req, res) => {
     // Generar el QR en formato Base64
     const qrImage = await QRCode.toDataURL(qrData);
 
+    // Eliminar códigos QR anteriores para la misma clase
+    await pool.query("DELETE FROM codigo_qr WHERE codi_clas_id = ?", [
+      codi_clas_id,
+    ]);
+
+    // Insertar el nuevo código QR
     const [result] = await pool.query(
       "INSERT INTO codigo_qr(codi_valor, codi_clas_id, qr_image) VALUES (?, ?, ?)",
       [codi_valor, codi_clas_id, qrImage]
@@ -43,7 +49,7 @@ export const createCodigoQr = async (req, res) => {
       codi_id: result.insertId,
       codi_valor,
       codi_clas_id,
-      qrImage
+      qrImage,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

@@ -13,7 +13,9 @@ import {
   CLASS_SHOW_FAIL,
   CLASS_SIGNATURE_REQUEST,
   CLASS_SIGNATURE_SUCCESS,
-  CLASS_SIGNATURE_FAIL
+  CLASS_SIGNATURE_FAIL,
+  CLASS_QR_SUCCESS,
+  CLASS_QR_FAIL
 } from '../constants/classConstants';
 
 // DETAILS
@@ -109,6 +111,25 @@ export const showClassSignature = (slug, id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CLASS_SIGNATURE_FAIL,
+      payload: error.response.data.message
+    });
+  }
+};
+
+// SHOW QR
+export const showClassQr = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: CLASS_SIGNATURE_REQUEST });
+
+    const { data } = await axios.get(`http://localhost:4000/claseQr/${id}`);
+
+    dispatch({
+      type: CLASS_QR_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: CLASS_QR_FAIL,
       payload: error.response.data.message
     });
   }

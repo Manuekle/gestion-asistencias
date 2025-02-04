@@ -31,20 +31,31 @@ export const getAsistencia = async (req, res) => {
 //? POST
 export const createAsistencia = async (req, res) => {
   try {
-    const { asis_estu_id, asis_clas_id, asis_fecha, asis_estado } = req.body;
+    const { estu_id, clas_id } = req.body; // Recibimos los IDs del estudiante y la clase
 
-    const [result] = await pool.query(
-      "INSERT INTO asistencia(asis_estu_id, asis_clas_id, asis_fecha, asis_estado) VALUES (?, ?, ?, ?)",
-      [asis_estu_id, asis_clas_id, asis_fecha, asis_estado]
+    // 1. Verificar si ya existe una asistencia para este estudiante en esta clase en la fecha actual
+    const [asistenciaExistente] = await pool.query(
+      "SELECT * FROM asistencia WHERE asis_estu_id = ? AND asis_clas_id = ? AND asis_fecha = CURDATE()",
+      [estu_id, clas_id]
     );
 
-    return res.status(200).json({
-      asis_id: result.insertId,
-      asis_estu_id,
-      asis_clas_id,
-      asis_fecha,
-      asis_estado,
-    });
+    if (asistenciaExistente.length > 0) {
+      return res.status(400).json({
+        message:
+          "La asistencia para este estudiante en esta clase ya ha sido registrada hoy.",
+      });
+    }
+
+    // 2. Insertar la nueva asistencia
+    const [result] = await pool.query(
+      "INSERT INTO asistencia (asis_estu_id, asis_clas_id, asis_fecha) VALUES (?, ?, CURDATE())",
+      [estu_id, clas_id]
+    );
+
+    return res.status(201).json({
+      message: "Asistencia registrada exitosamente.",
+      id: result.insertId,
+    }); // 201 Created
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

@@ -17,8 +17,13 @@ import {
   classDetailsReducer,
   classCreateReducer,
   classShowReducer,
-  classSignatureReducer
+  classSignatureReducer,
+  classQrReducer
 } from './reducers/classReducers';
+
+import { qrCreateReducer } from './reducers/qrReducers';
+
+import { attendanceCreateReducer } from './reducers/attendanceReducers';
 
 import { assigmentDetailsReducer } from './reducers/assigmentReducers';
 
@@ -36,6 +41,11 @@ const reducer = combineReducers({
   classCreate: classCreateReducer,
   classShow: classShowReducer,
   classSignature: classSignatureReducer,
+  classQr: classQrReducer,
+
+  qrGenerate: qrCreateReducer,
+
+  attendanceCreate: attendanceCreateReducer,
 
   assigmentDetails: assigmentDetailsReducer
 });

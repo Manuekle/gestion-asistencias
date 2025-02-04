@@ -3,16 +3,16 @@
 import axios from 'axios';
 
 import {
-  QR_CREATE_REQUEST,
-  QR_CREATE_SUCCESS,
-  QR_CREATE_FAIL
-} from '../constants/qrConstants';
+  ATTENDANCE_CREATE_REQUEST,
+  ATTENDANCE_CREATE_SUCCESS,
+  ATTENDANCE_CREATE_FAIL
+} from '../constants/attendanceConstants';
 
 // CREATE
-export const createQR = (codi_valor, codi_clas_id) => async (dispatch) => {
+export const createAttendance = (estu_id, clas_id) => async (dispatch) => {
   try {
     dispatch({
-      type: QR_CREATE_REQUEST
+      type: ATTENDANCE_CREATE_REQUEST
     });
 
     const config = {
@@ -22,20 +22,20 @@ export const createQR = (codi_valor, codi_clas_id) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `http://localhost:4000/generate`,
+      `http://localhost:4000/asistencia/nueva`,
       {
-        codi_valor,
-        codi_clas_id
+        estu_id,
+        clas_id
       },
       config
     );
     dispatch({
-      type: QR_CREATE_SUCCESS,
+      type: ATTENDANCE_CREATE_SUCCESS,
       payload: data
     });
   } catch (error) {
     dispatch({
-      type: QR_CREATE_FAIL,
+      type: ATTENDANCE_CREATE_FAIL,
       payload: error.response.data.message
     });
   }
