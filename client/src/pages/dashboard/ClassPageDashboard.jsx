@@ -11,15 +11,19 @@ import {
 } from 'hugeicons-react';
 import { Link } from 'react-router';
 import { format } from 'date-fns';
-import { detailsClass } from '../../actions/classActions';
+
+// actions
+import { detailsClass, createClass } from '../../actions/classActions';
+import { detailsAssigment } from '../../actions/assigmentActions';
+
+// componentes
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogFooter
+  DialogTrigger
 } from '../../components/ui/dialog.tsx';
 import { Label } from '../../components/ui/label.tsx';
 
@@ -42,16 +46,33 @@ import {
 function ClassPageDashboard() {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(false);
+
   const classDetails = useSelector((state) => state.classDetails);
-  const { clases } = classDetails;
+  const { error, clases } = classDetails;
+
+  const assigmentDetails = useSelector((state) => state.assigmentDetails);
+  const { asignatura } = assigmentDetails;
+
+  // console.log(asignatura);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const [date, setDate] = React.useState();
-  const [startTime, setStartTime] = React.useState();
-  const [endTime, setEndTime] = React.useState();
-  const [subject, setSubject] = React.useState('');
+  const [subject, setSubject] = useState('');
+  const [date, setDate] = useState();
+  const [startTime, setStartTime] = useState();
+  const [endTime, setEndTime] = useState();
+
+  const handleSubmit = async () => {
+    setFormData(true);
+    dispatch(createClass(subject, date, startTime, endTime));
+    await setTimeout(() => {
+      setFormData(false);
+      window.location.reload();
+    }, 2000);
+    // alert();
+  };
+
   const generateTimeOptions = () => {
     const options = [];
     for (let i = 7; i <= 22; i++) {
@@ -61,21 +82,48 @@ function ClassPageDashboard() {
   };
 
   const timeOptions = generateTimeOptions();
-  const subjectOptions = [
-    'Matemáticas',
-    'Ciencias',
-    'Historia',
-    'Literatura',
-    'Inglés',
-    'Educación Física'
-  ];
 
   // Clase común para los triggers de Select y Button
   const commonInputClasses = 'bg-white hover:bg-gray-50/90 rounded-2xl text-sm';
 
+  const diasSemana = [
+    { nombre: 'Lunes', valor: 1 },
+    { nombre: 'Martes', valor: 2 },
+    { nombre: 'Miércoles', valor: 3 },
+    { nombre: 'Jueves', valor: 4 },
+    { nombre: 'Viernes', valor: 5 },
+    { nombre: 'Sábado', valor: 6 }
+  ];
+
+  const [diaSeleccionado, setDiaSeleccionado] = useState(null);
+  const [busqueda, setBusqueda] = useState('');
+
+  // const filtrarClases = (dia) => {
+  //   setDiaSeleccionado(dia);
+  // };
+
+  // const clasesFiltradas = diaSeleccionado
+  //   ? clases.filter(
+  //       (clase) => new Date(clase.clas_fecha).getDay() === diaSeleccionado
+  //     )
+  //   : clases;
+
+  const clasesFiltradas = clases.filter((clase) => {
+    const fechaClase = new Date(clase.clas_fecha);
+    const diaCoincide =
+      diaSeleccionado === null || fechaClase.getDay() === diaSeleccionado;
+    const busquedaCoincide =
+      clase.asig_nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+      clase.asig_programa.toLowerCase().includes(busqueda.toLowerCase()) ||
+      clase.asig_grupo.toLowerCase().includes(busqueda.toLowerCase());
+
+    return diaCoincide && busquedaCoincide;
+  });
+
   useEffect(() => {
     if (userInfo) {
       dispatch(detailsClass(userInfo.user.usua_id));
+      dispatch(detailsAssigment(userInfo.user.usua_id));
     }
   }, [dispatch, userInfo]);
 
@@ -86,42 +134,42 @@ function ClassPageDashboard() {
           <span className="flex flex-row gap-4">
             <Input
               className="w-64"
-              isClearable
+              // isClearable
               placeholder="Buscar clase"
               size="md"
+              onChange={(e) => setBusqueda(e.target.value)}
               startContent={
                 <Search01Icon size={18} color="#7a7a70" variant="stroke" />
               }
             />
-            <button
+            {/* <button
               type="button"
               className="border rounded-md px-4 text-xs font-bold shadow-md"
             >
               Lunes
-            </button>
+            </button> */}
+            {diasSemana.map((dia) => (
+              <button
+                key={dia.valor}
+                type="button"
+                className={`border rounded-md px-4 py-2 text-xs font-bold text-black ${
+                  diaSeleccionado === dia.valor
+                    ? 'shadow-md text-black'
+                    : 'bg-white'
+                }`}
+                onClick={() => setDiaSeleccionado(dia.valor)}
+              >
+                {dia.nombre}
+              </button>
+            ))}
             <button
               type="button"
-              className="border rounded-md px-4 text-xs font-bold shadow-sm"
+              className={`border rounded-md px-4 py-2 text-xs font-bold text-black ${
+                diaSeleccionado === null ? 'shadow-md text-black' : 'bg-white'
+              }`}
+              onClick={() => setDiaSeleccionado(null)}
             >
-              Martes
-            </button>
-            <button
-              type="button"
-              className="border rounded-md px-4 text-xs font-bold shadow-sm"
-            >
-              Miercoles
-            </button>
-            <button
-              type="button"
-              className="border rounded-md px-4 text-xs font-bold shadow-sm"
-            >
-              Jueves
-            </button>
-            <button
-              type="button"
-              className="border rounded-md px-4 text-xs font-bold shadow-sm"
-            >
-              Viernes
+              Todos
             </button>
           </span>
           <Dialog>
@@ -131,7 +179,7 @@ function ClassPageDashboard() {
             <DialogContent className="space-y-0 w-full">
               <DialogHeader>
                 <DialogTitle>Nueva Clase</DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="text-xs">
                   Complete el siguiente formulario para crear una nueva clase.
                   Asegúrese de llenar todos los campos requeridos antes de
                   enviar.
@@ -150,9 +198,13 @@ function ClassPageDashboard() {
                     </div>
                   </SelectTrigger>
                   <SelectContent>
-                    {subjectOptions.map((subj) => (
-                      <SelectItem key={subj} value={subj} className="text-sm">
-                        {subj}
+                    {asignatura.map((subj) => (
+                      <SelectItem
+                        key={subj.asig_id}
+                        value={subj.asig_id}
+                        className="text-sm"
+                      >
+                        {subj.asig_nombre} - {subj.asig_grupo}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -231,7 +283,7 @@ function ClassPageDashboard() {
               </div>
               {!formData ? (
                 <Button
-                  // onPress={handleSubmit}
+                  onPress={handleSubmit}
                   className="bg-amber-400 text-white shadow-lg text-sm"
                 >
                   Crear clase
@@ -270,27 +322,34 @@ function ClassPageDashboard() {
           </Dialog>
         </div>
         <div className="grid grid-cols-4 gap-8">
-          {clases.map((clase) => (
-            <Link
-              to={`${clase.asig_slug}/${clase.clas_id}`}
-              className="col-span-1 flex flex-col gap-3 border rounded-lg px-2.5 py-3 hover:shadow-md"
-            >
-              <div className="flex flex-col">
-                <h1 className="font-bold text-sm text-zinc-800">
-                  {clase.clas_hora_inicio} - {clase.clas_hora_fin}
-                </h1>
-                <h1 className="font-bold text-xs text-zinc-800">
-                  {clase.asig_nombre}
-                </h1>
-                <h1 className="font-bold text-xs text-zinc-400">
-                  {clase.asig_programa}
-                </h1>
-              </div>
-              <Skeleton className="rounded-lg ">
-                <div className="h-40 rounded-lg bg-default-300" />
-              </Skeleton>
-            </Link>
-          ))}
+          {clasesFiltradas.length > 0 ? (
+            clasesFiltradas.map((clase) => (
+              <Link
+                key={clase.clas_id}
+                to={`${clase.asig_slug}/${clase.clas_id}`}
+                className="col-span-1 flex flex-col gap-3 border rounded-lg px-2.5 py-3 hover:shadow-md"
+              >
+                <div className="flex flex-col">
+                  <h1 className="font-bold text-sm text-zinc-800">
+                    {clase.clas_hora_inicio} - {clase.clas_hora_fin}
+                  </h1>
+                  <h1 className="font-bold text-xs text-zinc-800">
+                    {clase.asig_nombre}
+                  </h1>
+                  <h1 className="font-bold text-xs text-zinc-400">
+                    {clase.asig_programa}
+                  </h1>
+                </div>
+                <Skeleton className="rounded-lg ">
+                  <div className="h-40 rounded-lg bg-default-300" />
+                </Skeleton>
+              </Link>
+            ))
+          ) : (
+            <p className="font-bold text-gray-500 w-full h-56 col-span-4 flex items-center justify-center">
+              No hay clases que coincidan con la búsqueda.
+            </p>
+          )}
         </div>
       </section>
     </div>

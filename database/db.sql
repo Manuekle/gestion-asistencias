@@ -28,8 +28,8 @@ CREATE TABLE clase (
     clas_id INT PRIMARY KEY AUTO_INCREMENT,
     clas_asig_id INT NOT NULL,
     clas_fecha DATE NOT NULL,
-    clas_hora_inicio TIME NOT NULL,
-    clas_hora_fin TIME NOT NULL,
+    clas_hora_inicio VARCHAR(50) NOT NULL,
+    clas_hora_fin VARCHAR(50) NOT NULL,
     clas_estado ENUM('activa', 'finalizada') DEFAULT 'activa',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (clas_asig_id) REFERENCES asignatura(asig_id)

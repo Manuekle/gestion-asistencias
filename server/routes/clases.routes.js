@@ -13,14 +13,14 @@ const router = Router();
 
 //* GET
 router.get("/clases", getClases);
-router.get("/clase/:name/:id", getClase);
+// router.get("/clase/:name/:id", getClase);
 //? POST
-router.post("/clase", createClase);
+router.post("/clase/nueva", createClase);
 //TODO: UPDATE
 router.put("/clase/:id", updateClase);
 //! DELETE
 router.delete("/clase/:id", deleteClase);
 
-router.get("/docente/:docenteId", getClasesByDocente);
+router.get("/clase/docente/:docenteId", getClasesByDocente);
 
 export default router;

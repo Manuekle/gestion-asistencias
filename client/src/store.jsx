@@ -18,6 +18,8 @@ import {
   classCreateReducer
 } from './reducers/classReducers';
 
+import { assigmentDetailsReducer } from './reducers/assigmentReducers';
+
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
@@ -29,7 +31,9 @@ const reducer = combineReducers({
   userRecover: userRecoverReducer,
 
   classDetails: classDetailsReducer,
-  classCreate: classCreateReducer
+  classCreate: classCreateReducer,
+
+  assigmentDetails: assigmentDetailsReducer
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
