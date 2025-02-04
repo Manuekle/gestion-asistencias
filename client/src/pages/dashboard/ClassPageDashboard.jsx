@@ -48,7 +48,7 @@ function ClassPageDashboard() {
   const [formData, setFormData] = useState(false);
 
   const classDetails = useSelector((state) => state.classDetails);
-  const { error, clases } = classDetails;
+  const { clases } = classDetails;
 
   const assigmentDetails = useSelector((state) => state.assigmentDetails);
   const { asignatura } = assigmentDetails;
@@ -98,16 +98,6 @@ function ClassPageDashboard() {
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
   const [busqueda, setBusqueda] = useState('');
 
-  // const filtrarClases = (dia) => {
-  //   setDiaSeleccionado(dia);
-  // };
-
-  // const clasesFiltradas = diaSeleccionado
-  //   ? clases.filter(
-  //       (clase) => new Date(clase.clas_fecha).getDay() === diaSeleccionado
-  //     )
-  //   : clases;
-
   const clasesFiltradas = clases.filter((clase) => {
     const fechaClase = new Date(clase.clas_fecha);
     const diaCoincide =
@@ -122,7 +112,9 @@ function ClassPageDashboard() {
 
   useEffect(() => {
     if (userInfo) {
+      // aqui hay algo raro
       dispatch(detailsClass(userInfo.user.usua_id));
+
       dispatch(detailsAssigment(userInfo.user.usua_id));
     }
   }, [dispatch, userInfo]);

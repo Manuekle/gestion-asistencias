@@ -5,7 +5,13 @@ import {
   CLASS_CREATE_REQUEST,
   CLASS_CREATE_SUCCESS,
   CLASS_CREATE_FAIL,
-  CLASS_CREATE_RESET
+  CLASS_CREATE_RESET,
+  CLASS_SHOW_REQUEST,
+  CLASS_SHOW_SUCCESS,
+  CLASS_SHOW_FAIL,
+  CLASS_SIGNATURE_REQUEST,
+  CLASS_SIGNATURE_SUCCESS,
+  CLASS_SIGNATURE_FAIL
 } from '../constants/classConstants';
 
 // DETAILS
@@ -39,6 +45,40 @@ export const classCreateReducer = (state = {}, action) => {
 
     case CLASS_CREATE_RESET:
       return {};
+
+    default:
+      return state;
+  }
+};
+
+// SHOW CLASS
+export const classShowReducer = (state = { show: [] }, action) => {
+  switch (action.type) {
+    case CLASS_SHOW_REQUEST:
+      return { loading: true, ...state };
+
+    case CLASS_SHOW_SUCCESS:
+      return { loading: false, show: action.payload };
+
+    case CLASS_SHOW_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+// SHOW SIGNATURE
+export const classSignatureReducer = (state = { signature: [] }, action) => {
+  switch (action.type) {
+    case CLASS_SIGNATURE_REQUEST:
+      return { loading: true, ...state };
+
+    case CLASS_SIGNATURE_SUCCESS:
+      return { loading: false, signature: action.payload };
+
+    case CLASS_SIGNATURE_FAIL:
+      return { loading: false, error: action.payload };
 
     default:
       return state;

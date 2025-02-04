@@ -53,7 +53,8 @@ CREATE TABLE codigo_qr (
     codi_valor VARCHAR(255) NOT NULL,
     codi_clas_id INT NOT NULL,
     qr_image TEXT, -- Aquí guardamos la imagen en formato Base64
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (codi_clas_id) REFERENCES clase(clas_id)
 );
 
 -- Tabla: horario

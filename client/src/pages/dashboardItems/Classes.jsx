@@ -1,5 +1,8 @@
-import React from 'react';
+/* eslint-disable radix */
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 // import { StudentCardIcon } from 'hugeicons-react';
+import { useParams } from 'react-router-dom';
 import { Separator } from '../../components/ui/separator.tsx';
 import {
   Table,
@@ -9,8 +12,26 @@ import {
   TableHeader,
   TableRow
 } from '../../components/ui/table.tsx';
+// actions
+import { showClass, showClassSignature } from '../../actions/classActions';
 
 function Classes() {
+  const classShow = useSelector((state) => state.classShow);
+  const { show } = classShow;
+
+  const classSignature = useSelector((state) => state.classSignature);
+  const { signature } = classSignature;
+
+  const { name, id } = useParams(); // Obtiene los parámetros de la URL
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (name && id) {
+      dispatch(showClass(name, id));
+      dispatch(showClassSignature(name, id));
+    }
+  }, [dispatch]);
   return (
     <section className="flex flex-col gap-6">
       <div className="flex flex-col gap-6 rounded-xl bg-white border shadow-sm px-6 py-4">
@@ -30,27 +51,37 @@ function Classes() {
         <div className="flex h-5 items-center space-x-4">
           <div className="flex flex-col">
             <h1 className="font-bold text-xs text-zinc-500">Programa</h1>
-            <h1 className="font-bold text-xs">ingenieria de sistemas</h1>
+            <h1 className="font-bold text-xs">{signature.asig_programa}</h1>
           </div>
           <Separator orientation="vertical" />
           <div className="flex flex-col">
             <h1 className="font-bold text-xs text-zinc-500">Asignatura</h1>
-            <h1 className="font-bold text-xs">Inteligencia Artificial</h1>
+            <h1 className="font-bold text-xs">{signature.asig_nombre}</h1>
           </div>
           <Separator orientation="vertical" />
           <div className="flex flex-col">
             <h1 className="font-bold text-xs text-zinc-500">Grupo</h1>
-            <h1 className="font-bold text-xs">G1</h1>
+            <h1 className="font-bold text-xs">{signature.asig_grupo}</h1>
           </div>
           <Separator orientation="vertical" />
           <div className="flex flex-col">
             <h1 className="font-bold text-xs text-zinc-500">Horario</h1>
-            <h1 className="font-bold text-xs">Diurno</h1>
+            <h1 className="font-bold text-xs">
+              {signature.clas_hora_inicio && signature.clas_hora_fin
+                ? `${signature.clas_hora_inicio} - ${
+                    signature.clas_hora_fin
+                  } (${
+                    parseInt(signature.clas_hora_inicio) < 18
+                      ? 'Diurno'
+                      : 'Nocturno'
+                  })`
+                : 'Horario no disponible'}
+            </h1>
           </div>
           <Separator orientation="vertical" />
           <div className="flex flex-col">
             <h1 className="font-bold text-xs text-zinc-500">Semestre</h1>
-            <h1 className="font-bold text-xs">9</h1>
+            <h1 className="font-bold text-xs">{signature.asig_semestre}</h1>
           </div>
         </div>
 
@@ -71,7 +102,13 @@ function Classes() {
         <div className="pt-2">
           <span className="flex flex-row items-center justify-between">
             <h1 className="font-bold text-sm">Lista de Estudiantes</h1>
-            <h1 className="font-bold text-xs">Estudiantes presentes: 1</h1>
+            <h1 className="font-bold text-xs">
+              Estudiantes presentes:{' '}
+              {
+                show.filter((student) => student.asis_estado === 'presente')
+                  .length
+              }
+            </h1>
           </span>
           <div className="pt-4">
             <Table>
@@ -86,29 +123,44 @@ function Classes() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell className="font-medium text-sm flex flex-row items-center gap-4">
-                    <img
-                      src="https://ui-avatars.com/api/?name=carlosduitanma/?background=f0e9e9&color=000&bold=true"
-                      alt=""
-                      className="w-8 h-8 rounded-md"
-                    />
-                    <h1>Manuel Esteban Erazo Medina</h1>
-                  </TableCell>
-                  <TableCell className="font-medium text-sm">
-                    12421414123
-                  </TableCell>
-                  <TableCell className="font-medium text-sm">2:00 pm</TableCell>
-                  <TableCell className="text-right">
-                    <span className="text-xs font-bold text-[#C25269] rounded-full px-4 py-1 justify-center items-center bg-[#FEF2F2]">
-                      Ausente
-                    </span>
-
-                    <span className="text-xs font-bold text-[#319C78] rounded-full px-4 py-1 justify-center items-center bg-[#E7FFF6]">
-                      Presente
-                    </span>
-                  </TableCell>
-                </TableRow>
+                {show.length > 0 ? (
+                  show.map((obj) => (
+                    <TableRow key={obj.estudiante_nombre}>
+                      <TableCell className="font-medium text-sm flex flex-row items-center gap-4">
+                        <img
+                          src={`https://ui-avatars.com/api/?name=${obj.estudiante_nombre}/?background=f0e9e9&color=000&bold=true`}
+                          alt=""
+                          className="w-8 h-8 rounded-md"
+                        />
+                        <h1 className="capitalize">{obj.estudiante_nombre}</h1>
+                      </TableCell>
+                      <TableCell className="font-medium text-sm">
+                        12421414123
+                      </TableCell>
+                      <TableCell className="font-medium text-sm">
+                        2:00 pm
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <span
+                          className={`text-xs font-bold rounded-full px-4 py-1 justify-center items-center ${
+                            obj.asis_estado === 'presente'
+                              ? 'text-[#319C78] bg-[#E7FFF6]'
+                              : 'text-[#C25269] bg-[#FEF2F2]'
+                          }`}
+                        >
+                          {obj.asis_estado === 'presente'
+                            ? 'presente'
+                            : 'ausente'}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <p className="font-bold text-gray-500 w-full h-56 col-span-4 flex items-center justify-center">
+                    No hay estudiantes registrados en la asistencia para esta
+                    clase
+                  </p>
+                )}
               </TableBody>
             </Table>
           </div>

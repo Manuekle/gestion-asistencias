@@ -15,7 +15,9 @@ import {
 
 import {
   classDetailsReducer,
-  classCreateReducer
+  classCreateReducer,
+  classShowReducer,
+  classSignatureReducer
 } from './reducers/classReducers';
 
 import { assigmentDetailsReducer } from './reducers/assigmentReducers';
@@ -32,6 +34,8 @@ const reducer = combineReducers({
 
   classDetails: classDetailsReducer,
   classCreate: classCreateReducer,
+  classShow: classShowReducer,
+  classSignature: classSignatureReducer,
 
   assigmentDetails: assigmentDetailsReducer
 });
