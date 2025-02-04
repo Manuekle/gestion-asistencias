@@ -48,7 +48,7 @@ export const createAsistencia = async (req, res) => {
 
     // 2. Insertar la nueva asistencia
     const [result] = await pool.query(
-      "INSERT INTO asistencia (asis_estu_id, asis_clas_id, asis_fecha) VALUES (?, ?, CURDATE())",
+      "INSERT INTO asistencia (asis_estu_id, asis_clas_id, asis_fecha, asis_estado) VALUES (?, ?, CURDATE(), 'presente')",
       [estu_id, clas_id]
     );
 

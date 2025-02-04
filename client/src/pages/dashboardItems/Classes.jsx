@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable radix */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +31,21 @@ function Classes() {
   const { name, id } = useParams(); // Obtiene los parámetros de la URL
 
   const dispatch = useDispatch();
+
+  function formatearHoraMilitar(fecha) {
+    const date = new Date(fecha);
+
+    // Verifica si la fecha es válida
+    if (isNaN(date.getTime())) {
+      return 'Fecha inválida';
+    }
+
+    const hora = date.getHours().toString().padStart(2, '0');
+    const minutos = date.getMinutes().toString().padStart(2, '0');
+    const segundos = date.getSeconds().toString().padStart(2, '0');
+
+    return `${hora}:${minutos}:${segundos}`;
+  }
 
   useEffect(() => {
     if (name && id) {
@@ -149,7 +165,7 @@ function Classes() {
                       12421414123
                     </TableCell>
                     <TableCell className="font-medium text-sm">
-                      2:00 pm
+                      {formatearHoraMilitar(obj.created_at)}
                     </TableCell>
                     <TableCell className="text-right">
                       <span

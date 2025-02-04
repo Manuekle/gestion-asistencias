@@ -57,8 +57,8 @@ function Attendance() {
   };
 
   useEffect(() => {
-    if (userInfo.user.usua_rol === 'docente') {
-      navigate('/');
+    if (!userInfo) {
+      navigate('/auth/login');
     }
 
     if (id && token) {
@@ -72,13 +72,15 @@ function Attendance() {
         <div className="self-center mb-2 text-xl font-light text-zinc-100 sm:text-2xl">
           Confirmar Asistencia
         </div>
-        <p className="px-6 py-4 text-pretty flex items-center justify-center text-xs text-zinc-300">
-          Por favor confirma tu asistencia a la clase de
-          <strong className="px-1">
-            {codigo.asig_nombre}-{codigo.asig_grupo}
-          </strong>
-          como {userInfo.user.usua_nombre}
-        </p>
+        <span className="flex items-center justify-center px-6 py-4">
+          <p className="text-wrap text-xs text-zinc-300">
+            ¿Vas a la clase de{' '}
+            <strong>
+              {codigo.asig_nombre}-{codigo.asig_grupo}
+            </strong>{' '}
+            ¡Confirma tu presencia!
+          </p>
+        </span>
         <div className="p-6">
           <div className="flex w-full flex-col md:flex-nowrap mb-6 md:mb-0 gap-4">
             {!formData ? (

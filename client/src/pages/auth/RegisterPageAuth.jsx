@@ -30,6 +30,7 @@ function RegisterPageAuth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
+  console.log(role);
   const [status, setStatus] = useState(false);
 
   // regex
@@ -138,7 +139,7 @@ function RegisterPageAuth() {
               className="max-w-full"
             >
               <SelectItem key="docente">Docente</SelectItem>
-              <SelectItem key="estuidante">Estudiante</SelectItem>
+              <SelectItem key="estudiante">Estudiante</SelectItem>
             </Select>
             {!formData ? (
               <Button
