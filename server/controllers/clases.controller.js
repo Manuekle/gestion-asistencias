@@ -27,16 +27,19 @@ export const getClase = async (req, res) => {
          asignatura.asig_nombre,
          asignatura.asig_programa,
          asignatura.asig_semestre,
-         asignatura.asig_grupo
+         asignatura.asig_grupo,
+         usuario.usua_nombre AS docente_nombre,
+         usuario.usua_correo AS docente_correo
        FROM clase
        JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
+       JOIN usuario ON asignatura.asig_docente_id = usuario.usua_id
        WHERE asignatura.asig_slug = ? AND clase.clas_id = ?`,
       [slug, id]
     );
 
-    if (result.length === 0) {
-      return res.status(404).json({ message: "Clase no encontrada." });
-    }
+    // if (result.length === 0) {
+    //   return res.status(404).json({ message: "Clase no encontrada." });
+    // }
 
     return res.status(200).json(result[0]);
   } catch (error) {
@@ -64,14 +67,14 @@ export const getClaseAsistencias = async (req, res) => {
       [slug, id]
     );
 
-    if (result.length === 0) {
-      return res
-        .status(404)
-        .json({
-          message:
-            "No hay estudiantes registrados en la asistencia para esta clase.",
-        });
-    }
+    // if (result.length === 0) {
+    //   return res
+    //     .status(404)
+    //     .json({
+    //       message:
+    //         "No hay estudiantes registrados en la asistencia para esta clase.",
+    //     });
+    // }
 
     return res.status(200).json(result);
   } catch (error) {
@@ -102,7 +105,6 @@ export const createClase = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
 
 //TODO: UPDATE
 export const updateClase = async (req, res) => {
@@ -157,9 +159,9 @@ export const getClasesDocente = async (req, res) => {
       [docenteId]
     );
 
-    if (result.length === 0) {
-      return res.status(404).json({ message: "No se encontraron clases para este docente." });
-    }
+    // if (result.length === 0) {
+    //   return res.status(404).json({ message: "No se encontraron clases para este docente." });
+    // }
 
     return res.status(200).json(result);
   } catch (error) {

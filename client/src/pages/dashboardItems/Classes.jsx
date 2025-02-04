@@ -10,7 +10,8 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
+  TableCaption
 } from '../../components/ui/table.tsx';
 // actions
 import { showClass, showClassSignature } from '../../actions/classActions';
@@ -37,14 +38,14 @@ function Classes() {
       <div className="flex flex-col gap-6 rounded-xl bg-white border shadow-sm px-6 py-4">
         <article className="flex flex-row gap-2 items-center">
           <img
-            src="https://ui-avatars.com/api/?name=carlosduitanma/?background=f0e9e9&color=000&bold=true"
+            src={`https://ui-avatars.com/api/?name=${signature.docente_nombre}/?background=f0e9e9&color=000&bold=true`}
             alt=""
             className="w-10 h-10 rounded-md"
           />
           <span className="flex flex-col items-start justify-between h-full">
-            <h1 className="font-bold text-lg">carlos duitanma</h1>
+            <h1 className="font-bold text-lg">{signature.docente_nombre}</h1>
             <h1 className="font-bold text-zinc-500 text-xs">
-              carlos@gmail.com
+              {signature.docente_correo}
             </h1>
           </span>
         </article>
@@ -112,6 +113,12 @@ function Classes() {
           </span>
           <div className="pt-4">
             <Table>
+              {show.length === 0 ? (
+                <TableCaption className="font-bold py-20">
+                  No hay estudiantes registrados en la asistencia para esta
+                  clase
+                </TableCaption>
+              ) : null}
               <TableHeader>
                 <TableRow>
                   <TableHead className="font-bold">Nombre</TableHead>
@@ -123,44 +130,37 @@ function Classes() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {show.length > 0 ? (
-                  show.map((obj) => (
-                    <TableRow key={obj.estudiante_nombre}>
-                      <TableCell className="font-medium text-sm flex flex-row items-center gap-4">
-                        <img
-                          src={`https://ui-avatars.com/api/?name=${obj.estudiante_nombre}/?background=f0e9e9&color=000&bold=true`}
-                          alt=""
-                          className="w-8 h-8 rounded-md"
-                        />
-                        <h1 className="capitalize">{obj.estudiante_nombre}</h1>
-                      </TableCell>
-                      <TableCell className="font-medium text-sm">
-                        12421414123
-                      </TableCell>
-                      <TableCell className="font-medium text-sm">
-                        2:00 pm
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <span
-                          className={`text-xs font-bold rounded-full px-4 py-1 justify-center items-center ${
-                            obj.asis_estado === 'presente'
-                              ? 'text-[#319C78] bg-[#E7FFF6]'
-                              : 'text-[#C25269] bg-[#FEF2F2]'
-                          }`}
-                        >
-                          {obj.asis_estado === 'presente'
-                            ? 'presente'
-                            : 'ausente'}
-                        </span>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <p className="font-bold text-gray-500 w-full h-56 col-span-4 flex items-center justify-center">
-                    No hay estudiantes registrados en la asistencia para esta
-                    clase
-                  </p>
-                )}
+                {show.map((obj) => (
+                  <TableRow key={obj.estudiante_nombre}>
+                    <TableCell className="font-medium text-sm flex flex-row items-center gap-4">
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${obj.estudiante_nombre}/?background=f0e9e9&color=000&bold=true`}
+                        alt=""
+                        className="w-8 h-8 rounded-md"
+                      />
+                      <h1 className="capitalize">{obj.estudiante_nombre}</h1>
+                    </TableCell>
+                    <TableCell className="font-medium text-sm">
+                      12421414123
+                    </TableCell>
+                    <TableCell className="font-medium text-sm">
+                      2:00 pm
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <span
+                        className={`text-xs font-bold rounded-full px-4 py-1 justify-center items-center ${
+                          obj.asis_estado === 'presente'
+                            ? 'text-[#319C78] bg-[#E7FFF6]'
+                            : 'text-[#C25269] bg-[#FEF2F2]'
+                        }`}
+                      >
+                        {obj.asis_estado === 'presente'
+                          ? 'presente'
+                          : 'ausente'}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </div>
