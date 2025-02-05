@@ -106,7 +106,7 @@ function ConfigPageDashboard() {
           <div className="col-span-2 flex items-end justify-end">
             <button
               type="button"
-              className="bg-zinc-800 border font-bold text-xs text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md"
+              className="bg-zinc-800 font-bold text-xs text-white px-4 py-2 rounded-lg hover:shadow-md"
             >
               cambiar
             </button>
