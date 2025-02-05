@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { StudentCardIcon } from 'hugeicons-react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Separator } from '../../components/ui/separator.tsx';
 import {
   Table,
@@ -14,7 +14,6 @@ import {
   TableRow,
   TableCaption
 } from '../../components/ui/table.tsx';
-
 // actions
 import { showClass, showClassSignature } from '../../actions/classActions';
 
@@ -26,14 +25,13 @@ function Classes() {
   const classShow = useSelector((state) => state.classShow);
   const { show } = classShow;
 
-  console.log(show);
-
   const classSignature = useSelector((state) => state.classSignature);
   const { signature } = classSignature;
 
   const { name, id } = useParams(); // Obtiene los parámetros de la URL
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function formatearHoraMilitar(fecha) {
     const date = new Date(fecha);
@@ -78,11 +76,14 @@ function Classes() {
   }
 
   useEffect(() => {
+    if (signature.clas_estado === 'finalizada') {
+      navigate(-1);
+    }
     if (name && id) {
       dispatch(showClass(name, id));
       dispatch(showClassSignature(name, id));
     }
-  }, [dispatch]);
+  }, [dispatch, navigate]);
   return (
     <section className="flex flex-col gap-6">
       <div className="flex flex-col gap-6 rounded-xl bg-white border shadow-sm px-6 py-4">
@@ -136,16 +137,12 @@ function Classes() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 w-full">
-          {/* <button
-            type="button"
-            className="text-xs border shadow-sm font-bold text-zinc-800 px-4 py-2 rounded-md"
-          >
-            Generar codigo
-          </button> */}
-          <CodeQR value={signature.asig_nombre} name={name} id={id} />
-          <Cancel value={signature.asig_nombre} name={name} id={id} />
-        </div>
+        {signature.clas_estado === 'activa' && (
+          <div className="flex flex-col gap-4 w-full">
+            <CodeQR value={signature.asig_nombre} name={name} id={id} />
+            <Cancel value={signature.asig_nombre} name={name} id={id} />
+          </div>
+        )}
         <div className="pt-2">
           <span className="flex flex-row items-center justify-between">
             <h1 className="font-bold text-sm">Lista de Estudiantes</h1>

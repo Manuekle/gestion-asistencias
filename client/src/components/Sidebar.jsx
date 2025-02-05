@@ -29,8 +29,6 @@ export default function Sidebar({ children }) {
   const userDetails = useSelector((state) => state.userDetails);
   const { user } = userDetails;
 
-  // console.log(user);
-
   const logoutHandler = () => {
     dispatch(logout());
     if (userInfo) {
