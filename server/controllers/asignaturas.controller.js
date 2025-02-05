@@ -1,5 +1,6 @@
 //? Asignaturas Controllers
 import { pool } from "../db.js";
+import { generarImagenConDalle2 } from "../models/dalle2.js";
 
 //* GET
 export const getAsignaturas = async (req, res) => {
@@ -37,18 +38,25 @@ export const createAsignatura = async (req, res) => {
       asig_descripcion,
       asig_semestre,
       asig_grupo,
-      asig_docente_id
+      asig_docente_id,
     } = req.body;
 
+    // 1. Generar la imagen con DALL-E 2 (o el modelo que uses)
+    const prompt = `Una imagen para la asignatura ${asig_nombre}, del programa ${asig_programa}, semestre ${asig_semestre}, grupo ${asig_grupo}.  ${
+      asig_descripcion ? "Descripción adicional: " + asig_descripcion : ""
+    }`; // Prompt más descriptivo
+    const imageUrl = await generarImagenConDalle2(prompt);
+
     const [result] = await pool.query(
-      "INSERT INTO Asignatura(asig_nombre, asig_programa, asig_descripcion, asig_semestre, asig_grupo, asig_docente_id) VALUES (?, ?, ?, ?, ?, ?)",
+      "INSERT INTO asignatura(asig_nombre, asig_programa, asig_descripcion, asig_semestre, asig_grupo, asig_docente_id, asig_imagen_url) VALUES (?, ?, ?, ?, ?, ?, ?)", // Agrega asig_imagen_url
       [
         asig_nombre,
         asig_programa,
         asig_descripcion,
         asig_semestre,
         asig_grupo,
-        asig_docente_id
+        asig_docente_id,
+        imageUrl, // Guarda la URL de la imagen
       ]
     );
 
@@ -59,7 +67,8 @@ export const createAsignatura = async (req, res) => {
       asig_descripcion,
       asig_semestre,
       asig_grupo,
-      asig_docente_id
+      asig_docente_id,
+      asig_imagen_url: imageUrl, // Incluye la URL de la imagen en la respuesta
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

@@ -19,6 +19,7 @@ CREATE TABLE asignatura (
     asig_grupo VARCHAR(10) NOT NULL,
     asig_slug VARCHAR(100) GENERATED ALWAYS AS (REPLACE(LOWER(asig_nombre), ' ', '-')) STORED,
     asig_docente_id INT NOT NULL,
+    asig_imagen_url VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (asig_docente_id) REFERENCES usuario(usua_id)
 );
