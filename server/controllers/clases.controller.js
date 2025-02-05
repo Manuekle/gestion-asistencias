@@ -141,19 +141,36 @@ export const createClase = async (req, res) => {
   }
 };
 
-//TODO: UPDATE
-export const updateClase = async (req, res) => {
+//TODO: Cancel
+export const cancelClase = async (req, res) => {
   try {
-    const result = await pool.query("UPDATE clase SET ? WHERE clas_id = ?", [
-      req.body,
-      req.params.id,
-    ]);
+    const { clas_estado } = req.body;
 
-    return res.status(200).json(result);
+    // Verificar que solo se intenta cambiar el estado a 'finalizada'
+    if (clas_estado !== "finalizada") {
+      return res
+        .status(400)
+        .json({ message: "Solo se puede cambiar el estado a 'finalizada'." });
+    }
+
+    // Actualizar solo si la clase está actualmente 'activa'
+    const result = await pool.query(
+      "UPDATE clase SET clas_estado = ? WHERE clas_id = ? AND clas_estado = 'activa'",
+      [clas_estado, req.params.id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ message: "Clase no encontrada o ya finalizada." });
+    }
+
+    return res.status(200).json({ message: "Clase actualizada exitosamente." });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
+
 
 //! DELETE
 export const deleteClase = async (req, res) => {
@@ -190,6 +207,7 @@ export const getClasesDocente = async (req, res) => {
        FROM clase
        JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
        WHERE asignatura.asig_docente_id = ? 
+         AND clase.clas_estado = 'activa'
        ORDER BY clase.clas_fecha DESC`,
       [docenteId]
     );

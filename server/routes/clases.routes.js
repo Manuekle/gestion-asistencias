@@ -4,11 +4,11 @@ import {
   getClases,
   getClase,
   createClase,
-  updateClase,
+  cancelClase,
   deleteClase,
   getClaseAsistencias,
   getClasesDocente,
-  getClaseQr
+  getClaseQr,
 } from "../controllers/clases.controller.js";
 
 const router = Router();
@@ -21,7 +21,7 @@ router.get("/asistencia/:slug/:id", getClaseAsistencias);
 //? POST
 router.post("/clase/nueva", createClase);
 //TODO: UPDATE
-router.put("/clase/:id", updateClase);
+router.put("/cancelar/clase/:id", cancelClase);
 //! DELETE
 router.delete("/clase/:id", deleteClase);
 

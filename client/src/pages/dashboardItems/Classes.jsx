@@ -20,10 +20,13 @@ import { showClass, showClassSignature } from '../../actions/classActions';
 
 // component
 import CodeQR from '../../components/codeQR';
+import Cancel from '../../components/cancelClass';
 
 function Classes() {
   const classShow = useSelector((state) => state.classShow);
   const { show } = classShow;
+
+  console.log(show);
 
   const classSignature = useSelector((state) => state.classSignature);
   const { signature } = classSignature;
@@ -141,12 +144,7 @@ function Classes() {
             Generar codigo
           </button> */}
           <CodeQR value={signature.asig_nombre} name={name} id={id} />
-          <button
-            type="button"
-            className="text-xs bg-[#FEF2F2] hover:bg-[#FEF2F2]/90 font-bold text-[#C25269] px-4 py-2 rounded-md"
-          >
-            Cancelar clase
-          </button>
+          <Cancel value={signature.asig_nombre} name={name} id={id} />
         </div>
         <div className="pt-2">
           <span className="flex flex-row items-center justify-between">

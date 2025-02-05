@@ -18,7 +18,8 @@ import {
   classCreateReducer,
   classShowReducer,
   classSignatureReducer,
-  classQrReducer
+  classQrReducer,
+  cancelClassStatusReducer
 } from './reducers/classReducers';
 
 import { qrCreateReducer } from './reducers/qrReducers';
@@ -42,6 +43,7 @@ const reducer = combineReducers({
   classShow: classShowReducer,
   classSignature: classSignatureReducer,
   classQr: classQrReducer,
+  classCancel: cancelClassStatusReducer,
 
   qrGenerate: qrCreateReducer,
 

@@ -50,6 +50,8 @@ function ClassPageDashboard() {
   const classDetails = useSelector((state) => state.classDetails);
   const { clases } = classDetails;
 
+  console.log(clases);
+
   const assigmentDetails = useSelector((state) => state.assigmentDetails);
   const { asignatura } = assigmentDetails;
 

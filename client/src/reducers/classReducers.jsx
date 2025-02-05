@@ -14,7 +14,10 @@ import {
   CLASS_SIGNATURE_FAIL,
   CLASS_QR_REQUEST,
   CLASS_QR_SUCCESS,
-  CLASS_QR_FAIL
+  CLASS_QR_FAIL,
+  CLASS_CANCEL_REQUEST,
+  CLASS_CANCEL_SUCCESS,
+  CLASS_CANCEL_FAIL
 } from '../constants/classConstants';
 
 // DETAILS
@@ -98,6 +101,23 @@ export const classQrReducer = (state = { codigo: [] }, action) => {
       return { loading: false, codigo: action.payload };
 
     case CLASS_QR_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+// CANCEL
+export const cancelClassStatusReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CLASS_CANCEL_REQUEST:
+      return { loading: true };
+
+    case CLASS_CANCEL_SUCCESS:
+      return { loading: false, success: true };
+
+    case CLASS_CANCEL_FAIL:
       return { loading: false, error: action.payload };
 
     default:

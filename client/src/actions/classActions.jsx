@@ -14,8 +14,12 @@ import {
   CLASS_SIGNATURE_REQUEST,
   CLASS_SIGNATURE_SUCCESS,
   CLASS_SIGNATURE_FAIL,
+  CLASS_QR_REQUEST,
   CLASS_QR_SUCCESS,
-  CLASS_QR_FAIL
+  CLASS_QR_FAIL,
+  CLASS_CANCEL_REQUEST,
+  CLASS_CANCEL_SUCCESS,
+  CLASS_CANCEL_FAIL
 } from '../constants/classConstants';
 
 // DETAILS
@@ -119,7 +123,7 @@ export const showClassSignature = (slug, id) => async (dispatch) => {
 // SHOW QR
 export const showClassQr = (id) => async (dispatch) => {
   try {
-    dispatch({ type: CLASS_SIGNATURE_REQUEST });
+    dispatch({ type: CLASS_QR_REQUEST });
 
     const { data } = await axios.get(`http://localhost:4000/claseQr/${id}`);
 
@@ -130,6 +134,39 @@ export const showClassQr = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CLASS_QR_FAIL,
+      payload: error.response.data.message
+    });
+  }
+};
+
+// CANCEL
+export const cancelClassStatus = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: CLASS_CANCEL_REQUEST
+    });
+
+    const config = {
+      headers: {
+        'Content-type': 'application/json'
+      }
+    };
+
+    const { data } = await axios.put(
+      `http://localhost:4000/cancelar/clase/${id}`,
+      {
+        clas_estado: 'finalizada'
+      },
+      config
+    );
+
+    dispatch({
+      type: CLASS_CANCEL_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: CLASS_CANCEL_FAIL,
       payload: error.response.data.message
     });
   }
