@@ -2,8 +2,6 @@
 
 Este es un prototipo de software para la **gestión de asistencias** en la FUP, que permite a los docentes generar códigos QR para registrar la asistencia de los estudiantes de forma automática y segura. Los estudiantes escanean estos códigos para confirmar su asistencia en cada clase.
 
----
-
 ## 🚀 Características Principales
 
 - ✅ Gestión de usuarios (administradores, docentes, estudiantes).
@@ -13,8 +11,6 @@ Este es un prototipo de software para la **gestión de asistencias** en la FUP, 
 - ✅ Visualización de reportes de asistencia.
 - ✅ Modificación manual de asistencias por parte del docente.
 
----
-
 ## ⚙️ Tecnologías Utilizadas
 
 - **Frontend:** React, Tailwind CSS, shadcn/ui  
@@ -22,10 +18,6 @@ Este es un prototipo de software para la **gestión de asistencias** en la FUP, 
 - **Base de Datos:** MySQL  
 - **Seguridad:** Autenticación basada en tokens, validación de QR  
 - **Herramientas de Desarrollo:** Visual Studio, Postman, Docker (opcional)
-
----
-
----
 
 ## 🗒️ Checklist de Módulos
 
@@ -61,8 +53,6 @@ Este es un prototipo de software para la **gestión de asistencias** en la FUP, 
   - [ ] Exportación a PDF/Excel
   - [ ] Gráficos de estadísticas de asistencia
 
----
-
 ## 🗓️ Cronograma de Desarrollo
 
 - **Enero:** Documentación del proyecto, estado del arte, marco teórico. ✅  
@@ -70,21 +60,22 @@ Este es un prototipo de software para la **gestión de asistencias** en la FUP, 
 - **Abril - Mayo:** Desarrollo del frontend (interfaces, conexión con la API, pruebas).  
 - **Junio:** Pruebas finales, optimización, entrega del proyecto.
 
----
-
 ## 🤝 Contribuciones
 
 ¡Las contribuciones son bienvenidas! Si deseas colaborar:
 
-Haz un fork del repositorio.
-Crea una nueva rama (git checkout -b feature-nueva).
-Realiza tus cambios y haz commit.
-Abre un Pull Request.
+1. Haz un fork del repositorio
 
----
+2. Crea una nueva rama (git checkout -b feature-nueva)
+
+3. Realiza tus cambios y haz commit
+
+4. Abre un Pull Request
 
 ## 📧 Contacto
 
 Desarrollador: Manuel Esteban Erazo Medina
+
 Correo: [manuel.erazo@fup.edu.co]
+
 Proyecto para: Fundación Universitaria de Popayán (FUP)
