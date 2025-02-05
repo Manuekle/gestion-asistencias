@@ -23,28 +23,28 @@ Este es un prototipo de software para la **gestión de asistencias** en la FUP, 
 
 ### 🗂️ **Módulos Principales**
 
-- [ ] **Gestión de Usuarios**
-  - [ ] Registro de usuarios
-  - [ ] Inicio de sesión con autenticación
-  - [ ] Gestión de roles (administrador, docente, estudiante)
+- [X] **Gestión de Usuarios**
+  - [X] Registro de usuarios
+  - [X] Inicio de sesión con autenticación
+  - [X] Gestión de roles (administrador, docente, estudiante)
   
 - [ ] **Gestión de Clases**
-  - [ ] Creación y edición de clases
-  - [ ] Asignación de docentes y asignaturas
+  - [X] Creación y edición de clases
+  - [X] Asignación de docentes y asignaturas
   - [ ] Visualización del horario
   
-- [ ] **Generación de Códigos QR**
-  - [ ] Botón para generar QR en la vista del docente
-  - [ ] Mostrar QR con tiempo de validez limitado
-  - [ ] Integración con el backend para tokens únicos
+- [X] **Generación de Códigos QR**
+  - [X] Botón para generar QR en la vista del docente
+  - [X] Mostrar QR con tiempo de validez limitado
+  - [X] Integración con el backend para tokens únicos
   
-- [ ] **Registro de Asistencias**
-  - [ ] Escaneo de QR por parte de los estudiantes
-  - [ ] Registro automático de la asistencia en la base de datos
+- [X] **Registro de Asistencias**
+  - [X] Escaneo de QR por parte de los estudiantes
+  - [X] Registro automático de la asistencia en la base de datos
   - [ ] Validación de la ubicación y hora
   
-- [ ] **Visualización de Asistencias**
-  - [ ] Tabla de estudiantes por clase (vista del docente)
+- [X] **Visualización de Asistencias**
+  - [X] Tabla de estudiantes por clase (vista del docente)
   - [ ] Modificación manual del estado de asistencia
   - [ ] Filtros por fecha, estado, y asignatura
   
