@@ -37,7 +37,7 @@ function DashboardCalendar() {
 
   return (
     <div>
-      <h1 className="text-md font-bold capitalize">
+      <h1 className="text-md font-normal">
         {currentDate.toLocaleDateString('es-ES', { month: 'long' })}{' '}
         {currentDate.getFullYear()}
       </h1>

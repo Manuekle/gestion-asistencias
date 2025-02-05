@@ -28,7 +28,7 @@ Este es un prototipo de software para la **gestión de asistencias** en la FUP, 
   - [X] Inicio de sesión con autenticación
   - [X] Gestión de roles (administrador, docente, estudiante)
   
-- [ ] **Gestión de Clases**
+- [X] **Gestión de Clases**
   - [X] Creación y edición de clases
   - [X] Asignación de docentes y asignaturas
   - [ ] Visualización del horario

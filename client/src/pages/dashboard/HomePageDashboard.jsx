@@ -17,7 +17,7 @@ function HomePageDashboard() {
   return (
     <div className="flex flex-col gap-6">
       <section className="col-span-3 flex flex-col rounded-xl bg-white border shadow-sm px-6 py-4">
-        <h1 className="text-md font-bold">
+        <h1 className="text-md font-medium">
           ¡Hola, <span className="capitalize">{user.usua_nombre}</span>! Hoy es{' '}
           {fechaFormateada}. Aquí tienes un resumen de tu actividad
         </h1>
@@ -29,10 +29,10 @@ function HomePageDashboard() {
           subtitle="2 clases finalizadas, 1 pendiente"
         />
         <DashboardCard
-          title="Ausencias Críticas"
-          value="5"
-          subtitle="3 estudiantes en riesgo académico"
-          // className="bg-[#FEF2F2]"
+          title="Proxima Clase"
+          value="Matemáticas"
+          subtitle="En 15 min"
+          // className="bg-[#E7FFF6]"
         />
         <DashboardCard
           title="Última Clase"
