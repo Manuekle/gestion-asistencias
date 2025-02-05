@@ -19,6 +19,7 @@ import SchedulePageDashboard from '../pages/dashboard/SchedulePageDashboard';
 import ClassPageDashboard from '../pages/dashboard/ClassPageDashboard';
 import ReportPageDashboard from '../pages/dashboard/ReportPageDashboard';
 import ConfigPageDashboard from '../pages/dashboard/ConfigPageDashboard';
+import SignaturePageDashboard from '../pages/dashboard/SignaturePageDashboard';
 // items
 import Classes from '../pages/dashboardItems/Classes';
 
@@ -51,8 +52,8 @@ function Dashboard() {
         <SidebarItem
           icon={<LibrariesIcon size={20} color="#ffffff" variant="stroke" />}
           text="Asignaturas"
-          active={!!(urlActive === 'course')}
-          to="/dashboard/course"
+          active={!!(urlActive === 'signature')}
+          to="/dashboard/signature"
         />
         <SidebarItem
           icon={<NoteIcon size={20} color="#ffffff" variant="stroke" />}
@@ -81,6 +82,7 @@ function Dashboard() {
           <Route path="schedule/:id" element={<Classes />} />
           <Route path="class" element={<ClassPageDashboard />} />
           <Route path="class/:name/:id" element={<Classes />} />
+          <Route path="signature" element={<SignaturePageDashboard />} />
           <Route path="report" element={<ReportPageDashboard />} />
           <Route path="settings" element={<ConfigPageDashboard />} />
         </Routes>

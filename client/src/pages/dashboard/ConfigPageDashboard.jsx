@@ -43,14 +43,14 @@ function ConfigPageDashboard() {
             alt=""
             className="w-10 h-10 rounded-md"
           />
-          <div className="col-span-2 flex items-end justify-end">
+          {/* <div className="col-span-2 flex items-end justify-end">
             <button
               type="button"
               className="bg-white border font-bold text-xs text-zinc-800 px-3 py-2 rounded-lg hover:shadow-sm"
             >
               Editar
             </button>
-          </div>
+          </div> */}
         </article>
         <hr />
         <article className="grid grid-cols-4 items-center py-4">
@@ -60,14 +60,14 @@ function ConfigPageDashboard() {
           <div className="w-full text-zinc-800 capitalize font-normal text-sm flex flex-row gap-56 items-center">
             <h1>{user.usua_nombre}</h1>
           </div>
-          <div className="col-span-2 flex items-end justify-end">
+          {/* <div className="col-span-2 flex items-end justify-end">
             <button
               type="button"
-              className="bg-white border font-bold text-xs text-zinc-800 px-3 py-2 rounded-lg hover:shadow-sm"
+              className="bg-white border font-medium text-xs text-zinc-800 px-3 py-2 rounded-lg hover:shadow-md"
             >
               Editar
             </button>
-          </div>
+          </div> */}
         </article>
         <hr />
         <article className="grid grid-cols-4 items-center py-4">
@@ -77,14 +77,14 @@ function ConfigPageDashboard() {
           <div className="w-full text-zinc-800 font-normal text-sm flex flex-row gap-56 items-center">
             <h1>{user.usua_correo}</h1>
           </div>
-          <div className="col-span-2 flex items-end justify-end">
+          {/* <div className="col-span-2 flex items-end justify-end">
             <button
               type="button"
-              className="bg-white border font-bold text-xs text-zinc-800 px-3 py-2 rounded-lg hover:shadow-sm"
+              className="bg-white border font-medium text-xs text-zinc-800 px-3 py-2 rounded-lg hover:shadow-md"
             >
               Editar
             </button>
-          </div>
+          </div> */}
         </article>
         <hr />
         <article className="grid grid-cols-4 items-center py-6">
@@ -94,14 +94,6 @@ function ConfigPageDashboard() {
           <div className="w-full text-zinc-800 capitalize font-normal text-sm flex flex-row gap-56 items-center">
             <h1>{user.usua_rol}</h1>
           </div>
-          {/* <div className="col-span-2 flex items-end justify-end">
-            <button
-              type="button"
-              className="bg-white border font-bold text-xs text-zinc-800 px-3 py-2 rounded-lg hover:shadow-sm"
-            >
-              Editar
-            </button>
-          </div> */}
         </article>
         <hr />
         <article className="grid grid-cols-4 items-center py-6">
@@ -114,9 +106,9 @@ function ConfigPageDashboard() {
           <div className="col-span-2 flex items-end justify-end">
             <button
               type="button"
-              className="bg-white border font-bold text-xs text-zinc-800 px-3 py-2 rounded-lg hover:shadow-sm"
+              className="bg-zinc-800 border font-bold text-xs text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md"
             >
-              Editar
+              cambiar
             </button>
           </div>
         </article>

@@ -92,6 +92,7 @@ export const getClaseAsistencias = async (req, res) => {
          estudiante.usua_correo AS estudiante_correo,
          asistencia.asis_id,
          asistencia.asis_estado,
+         asistencia.asis_fecha,
          asistencia.created_at
        FROM clase
        JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id

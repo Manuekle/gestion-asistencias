@@ -42,9 +42,36 @@ function Classes() {
 
     const hora = date.getHours().toString().padStart(2, '0');
     const minutos = date.getMinutes().toString().padStart(2, '0');
-    const segundos = date.getSeconds().toString().padStart(2, '0');
+    // const segundos = date.getSeconds().toString().padStart(2, '0');
 
-    return `${hora}:${minutos}:${segundos}`;
+    return `${hora}:${minutos}`;
+  }
+
+  function formatearFecha(fechaISO, formato) {
+    const fecha = new Date(fechaISO);
+
+    const opciones = {
+      year: 'numeric',
+      month: '2-digit', // 'numeric', 'long', 'short', 'narrow'
+      day: '2-digit' // 'numeric'
+      // hour: '2-digit',  // Para incluir la hora
+      // minute: '2-digit',// Para incluir los minutos
+      // second: '2-digit' // Para incluir los segundos
+    };
+
+    const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones); // 'es-ES' para español
+
+    // Formatos personalizados (opcional)
+    if (formato === 'DD/MM/YYYY') {
+      const [month, day, year] = fechaFormateada.split('/');
+      return `${day}/${month}/${year}`;
+    }
+    if (formato === 'YYYY-MM-DD') {
+      const [month, day, year] = fechaFormateada.split('/');
+      return `${year}-${month}-${day}`;
+    }
+
+    return fechaFormateada;
   }
 
   useEffect(() => {
@@ -146,6 +173,7 @@ function Classes() {
                   <TableHead className="font-bold">
                     Código estudiantil
                   </TableHead>
+                  <TableHead className="font-bold">Fecha</TableHead>
                   <TableHead className="font-bold">Hora entrada</TableHead>
                   <TableHead className="font-bold text-right">Estado</TableHead>
                 </TableRow>
@@ -163,6 +191,9 @@ function Classes() {
                     </TableCell>
                     <TableCell className="font-medium text-sm">
                       12421414123
+                    </TableCell>
+                    <TableCell className="font-medium text-sm">
+                      {formatearFecha(obj.asis_fecha)}
                     </TableCell>
                     <TableCell className="font-medium text-sm">
                       {formatearHoraMilitar(obj.created_at)}
