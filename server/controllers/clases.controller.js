@@ -243,7 +243,8 @@ export const getClasesPorDiaYRango = async (req, res) => {
        WHERE clase.clas_fecha = ? 
        AND clase.clas_estado = 'activa' 
        AND asignatura.asig_docente_id = ?
-       ORDER BY clase.clas_hora_inicio ASC`,
+       ORDER BY clase.clas_hora_inicio ASC
+       LIMIT 4`,
       [fecha, docenteId]
     );
 
