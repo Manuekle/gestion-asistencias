@@ -221,3 +221,59 @@ export const getClasesDocente = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const getClasesPorDiaYRango = async (req, res) => {
+  try {
+    const { fecha, rangoHoras, docenteId } = req.query; // formato de fecha: 'YYYY-MM-DD'
+    const rango = parseInt(rangoHoras, 10) || 3; // Rango de 3 horas por defecto
+
+    const [result] = await pool.query(
+      `SELECT 
+         clase.clas_id,
+         clase.clas_fecha,
+         clase.clas_hora_inicio,
+         clase.clas_hora_fin,
+         clase.clas_estado,
+         asignatura.asig_nombre,
+         asignatura.asig_programa,
+         asignatura.asig_semestre,
+         asignatura.asig_grupo
+       FROM clase
+       JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
+       WHERE clase.clas_fecha = ? 
+       AND clase.clas_estado = 'activa' 
+       AND asignatura.asig_docente_id = ?
+       ORDER BY clase.clas_hora_inicio ASC`,
+      [fecha, docenteId]
+    );
+
+    const now = new Date();
+    const currentTime = now.getHours() * 60 + now.getMinutes();
+
+    const clasesEnRango = result.filter((clase) => {
+      const [horaInicio, minutoInicio] = clase.clas_hora_inicio
+        .split(":")
+        .map(Number);
+      const [horaFin, minutoFin] = clase.clas_hora_fin.split(":").map(Number);
+
+      const inicioClase = horaInicio * 60 + minutoInicio;
+      const finClase = horaFin * 60 + minutoFin;
+
+      return (
+        (inicioClase >= currentTime - rango * 60 &&
+          inicioClase <= currentTime + rango * 60) ||
+        (finClase >= currentTime - rango * 60 &&
+          finClase <= currentTime + rango * 60)
+      );
+    });
+
+    return res.status(200).json({
+      fecha: fecha,
+      rango_horas: rango,
+      clases: clasesEnRango,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+

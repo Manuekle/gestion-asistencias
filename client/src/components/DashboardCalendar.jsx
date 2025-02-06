@@ -1,9 +1,12 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
+import ClassDay from './ClassDay';
 
 const daysOfWeek = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 
-function DashboardCalendar() {
+function DashboardCalendar({ user }) {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
@@ -54,6 +57,8 @@ function DashboardCalendar() {
           </div>
         ))}
       </div>
+      {/* day */}
+      <ClassDay />
     </div>
   );
 }

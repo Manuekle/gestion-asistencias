@@ -19,7 +19,10 @@ import {
   CLASS_QR_FAIL,
   CLASS_CANCEL_REQUEST,
   CLASS_CANCEL_SUCCESS,
-  CLASS_CANCEL_FAIL
+  CLASS_CANCEL_FAIL,
+  CLASS_DAY_REQUEST,
+  CLASS_DAY_SUCCESS,
+  CLASS_DAY_FAIL
 } from '../constants/classConstants';
 
 // DETAILS
@@ -167,6 +170,27 @@ export const cancelClassStatus = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CLASS_CANCEL_FAIL,
+      payload: error.response.data.message
+    });
+  }
+};
+
+// SHOW CLASS DAY
+export const showClassDay = (fecha, userInfo) => async (dispatch) => {
+  try {
+    dispatch({ type: CLASS_DAY_REQUEST });
+
+    const { data } = await axios.get(
+      `http://localhost:4000/diarango?fecha=${fecha}&rangoHoras=6&docenteId=${userInfo.user.usua_id}`
+    );
+
+    dispatch({
+      type: CLASS_DAY_SUCCESS,
+      payload: data.clases
+    });
+  } catch (error) {
+    dispatch({
+      type: CLASS_DAY_FAIL,
       payload: error.response.data.message
     });
   }

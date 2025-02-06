@@ -17,7 +17,10 @@ import {
   CLASS_QR_FAIL,
   CLASS_CANCEL_REQUEST,
   CLASS_CANCEL_SUCCESS,
-  CLASS_CANCEL_FAIL
+  CLASS_CANCEL_FAIL,
+  CLASS_DAY_REQUEST,
+  CLASS_DAY_SUCCESS,
+  CLASS_DAY_FAIL
 } from '../constants/classConstants';
 
 // DETAILS
@@ -118,6 +121,23 @@ export const cancelClassStatusReducer = (state = {}, action) => {
       return { loading: false, success: true };
 
     case CLASS_CANCEL_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+// SHOW CLASS DAY
+export const classDayReducer = (state = { day: [] }, action) => {
+  switch (action.type) {
+    case CLASS_DAY_REQUEST:
+      return { loading: true, ...state };
+
+    case CLASS_DAY_SUCCESS:
+      return { loading: false, day: action.payload };
+
+    case CLASS_DAY_FAIL:
       return { loading: false, error: action.payload };
 
     default:

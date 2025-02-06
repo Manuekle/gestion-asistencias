@@ -9,6 +9,7 @@ import {
   getClaseAsistencias,
   getClasesDocente,
   getClaseQr,
+  getClasesPorDiaYRango,
 } from "../controllers/clases.controller.js";
 
 const router = Router();
@@ -18,6 +19,7 @@ router.get("/clases", getClases);
 router.get("/clase/:slug/:id", getClase);
 router.get("/claseQr/:id", getClaseQr);
 router.get("/asistencia/:slug/:id", getClaseAsistencias);
+router.get("/diarango", getClasesPorDiaYRango);
 //? POST
 router.post("/clase/nueva", createClase);
 //TODO: UPDATE
