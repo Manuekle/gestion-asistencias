@@ -9,34 +9,36 @@ import {
 } from '../constants/attendanceConstants';
 
 // CREATE
-export const createAttendance = (estu_id, clas_id) => async (dispatch) => {
-  try {
-    dispatch({
-      type: ATTENDANCE_CREATE_REQUEST
-    });
+export const createAttendance =
+  (estu_id, clas_id, qr_url) => async (dispatch) => {
+    try {
+      dispatch({
+        type: ATTENDANCE_CREATE_REQUEST
+      });
 
-    const config = {
-      headers: {
-        'Content-type': 'application/json'
-      }
-    };
+      const config = {
+        headers: {
+          'Content-type': 'application/json'
+        }
+      };
 
-    const { data } = await axios.post(
-      `http://localhost:4000/asistencia/nueva`,
-      {
-        estu_id,
-        clas_id
-      },
-      config
-    );
-    dispatch({
-      type: ATTENDANCE_CREATE_SUCCESS,
-      payload: data
-    });
-  } catch (error) {
-    dispatch({
-      type: ATTENDANCE_CREATE_FAIL,
-      payload: error.response.data.message
-    });
-  }
-};
+      const { data } = await axios.post(
+        `http://localhost:4000/asistencia/nueva`,
+        {
+          estu_id,
+          clas_id,
+          qr_url
+        },
+        config
+      );
+      dispatch({
+        type: ATTENDANCE_CREATE_SUCCESS,
+        payload: data
+      });
+    } catch (error) {
+      dispatch({
+        type: ATTENDANCE_CREATE_FAIL,
+        payload: error.response.data.message
+      });
+    }
+  };

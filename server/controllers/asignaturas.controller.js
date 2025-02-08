@@ -41,10 +41,17 @@ export const createAsignatura = async (req, res) => {
       asig_docente_id,
     } = req.body;
 
-    // const prompt = `Una imagen para la asignatura ${asig_nombre}, del programa ${asig_programa}, semestre ${asig_semestre}, grupo ${asig_grupo}.  ${
-    //   asig_descripcion ? "Descripción adicional: " + asig_descripcion : ""
-    // }`;
-    // const imageUrl = await generarImagenConDalle2(prompt);
+    // Verificar si el usuario existe y es un docente
+    const [docente] = await pool.query(
+      "SELECT usua_id FROM usuario WHERE usua_id = ? AND usua_rol = 'docente'",
+      [asig_docente_id]
+    );
+
+    if (docente.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "El usuario no existe o no es un docente." });
+    }
 
     const [result] = await pool.query(
       "INSERT INTO asignatura(asig_nombre, asig_programa, asig_descripcion, asig_semestre, asig_grupo, asig_docente_id) VALUES (?, ?, ?, ?, ?, ?)", // Agrega asig_imagen_url
@@ -55,7 +62,6 @@ export const createAsignatura = async (req, res) => {
         asig_semestre,
         asig_grupo,
         asig_docente_id,
-        // imageUrl, /
       ]
     );
 
@@ -67,7 +73,6 @@ export const createAsignatura = async (req, res) => {
       asig_semestre,
       asig_grupo,
       asig_docente_id,
-      // asig_imagen_url: imageUrl, 
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

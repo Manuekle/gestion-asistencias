@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { Button } from '@heroui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '../hooks/use-toast.ts';
@@ -15,6 +15,9 @@ function Attendance() {
   const { userInfo } = userLogin;
 
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  console.log(window.location.href);
 
   const classQr = useSelector((state) => state.classQr);
   const { codigo } = classQr;
@@ -49,7 +52,13 @@ function Attendance() {
 
   const handleSubmit = () => {
     setFormData(true);
-    dispatch(createAttendance(userInfo.user.usua_id, codigo.clas_id));
+    dispatch(
+      createAttendance(
+        userInfo.user.usua_id,
+        codigo.clas_id,
+        window.location.href
+      )
+    );
     setTimeout(() => {
       setFormData(false);
     }, 2000);

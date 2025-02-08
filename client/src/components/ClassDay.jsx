@@ -1,14 +1,22 @@
 /* eslint-disable radix */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { Dropdown, DropdownTrigger } from '@heroui/react';
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem
+} from '@heroui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MoreHorizontalIcon } from 'hugeicons-react';
+import { MoreHorizontalIcon, EyeIcon } from 'hugeicons-react';
+import { Link } from 'react-router-dom';
 import { showClassDay } from '../actions/classActions';
 
 function ClassDay() {
   const classDay = useSelector((state) => state.classDay);
   const { day } = classDay;
+
+  console.log(day);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -96,6 +104,20 @@ function ClassDay() {
                     />
                   </button>
                 </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Dropdown menu with shortcut"
+                  variant="flat"
+                >
+                  <DropdownItem key="nuevo">
+                    <Link
+                      to={`class/${clase.asig_slug}/${clase.clas_id}`}
+                      className="flex justify-between items-center"
+                    >
+                      <h1 className="font-bold text-zinc-800">Ver clase</h1>
+                      <EyeIcon size={16} color="#27272A" variant="stroke" />
+                    </Link>
+                  </DropdownItem>
+                </DropdownMenu>
               </Dropdown>
             </span>
           </article>

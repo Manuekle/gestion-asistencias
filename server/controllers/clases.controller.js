@@ -236,6 +236,7 @@ export const getClasesPorDiaYRango = async (req, res) => {
          clase.clas_estado,
          asignatura.asig_nombre,
          asignatura.asig_programa,
+         asignatura.asig_slug,
          asignatura.asig_semestre,
          asignatura.asig_grupo
        FROM clase
