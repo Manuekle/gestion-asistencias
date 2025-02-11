@@ -19,7 +19,7 @@ import { showClass, showClassSignature } from '../../actions/classActions';
 
 // component
 import CodeQR from '../../components/codeQR';
-import Cancel from '../../components/cancelClass';
+import Cancel from '../../components/CancelClass';
 
 function Classes() {
   const classShow = useSelector((state) => state.classShow);

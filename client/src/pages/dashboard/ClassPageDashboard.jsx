@@ -168,7 +168,7 @@ function ClassPageDashboard() {
             <DialogContent className="space-y-0 w-full">
               <DialogHeader>
                 <DialogTitle>Nueva Clase</DialogTitle>
-                <DialogDescription className="text-xs">
+                <DialogDescription className="text-xs text-zinc-500">
                   Complete el siguiente formulario para crear una nueva clase.
                   Asegúrese de llenar todos los campos requeridos antes de
                   enviar.

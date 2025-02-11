@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { Delete02Icon } from 'hugeicons-react';
 import { cancelClassStatus } from '../actions/classActions';
 
-function cancelClass({ value, id }) {
+function CancelClass({ value, id }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const dispatch = useDispatch();
@@ -118,4 +118,4 @@ function cancelClass({ value, id }) {
   );
 }
 
-export default cancelClass;
+export default CancelClass;
