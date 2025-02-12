@@ -22,7 +22,7 @@ function Navbar() {
         </li>
       </nav>
       <Link
-        to="/auth/register"
+        to="/auth/administrador/register"
         className="bg-zinc-900 text-white shadow-lg font-normal text-sm px-6 py-2 rounded-lg"
       >
         Crea tu cuenta

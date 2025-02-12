@@ -63,7 +63,7 @@ function RestorePasswordPageAuth() {
         </div>
         {/* <span className="justify-center text-xs text-center text-zinc-300 flex items-center ">
           No tienes una cuenta?
-          <Link to="/auth/register" className="ml-2 text-amber-400 underline">
+          <Link to="/auth/administrador/register" className="ml-2 text-amber-400 underline">
             Registrate
           </Link>
         </span> */}
@@ -128,7 +128,7 @@ function RestorePasswordPageAuth() {
             <div className="flex text-xs w-full justify-center items-center">
               <h1 className="text-zinc-300">No tienes una cuenta?</h1>
               <Link
-                to="/auth/register"
+                to="/auth/administrador/register"
                 className="underline ml-2 text-amber-400"
               >
                 Registrate
