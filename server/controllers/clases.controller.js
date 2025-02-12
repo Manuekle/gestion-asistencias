@@ -37,9 +37,9 @@ export const getClaseQr = async (req, res) => {
       [id]
     );
 
-    if (result.length === 0) {
-      return res.status(404).json({ message: "Clase no encontrada." });
-    }
+    // if (result.length === 0) {
+    //   return res.status(404).json({ message: "Clase no encontrada." });
+    // }
 
     return res.status(200).json(result[0]);
   } catch (error) {
@@ -71,9 +71,9 @@ export const getClase = async (req, res) => {
       [slug, id]
     );
 
-    if (result.length === 0) {
-      return res.status(404).json({ message: "Clase no encontrada." });
-    }
+    // if (result.length === 0) {
+    //   return res.status(404).json({ message: "Clase no encontrada." });
+    // }
 
     return res.status(200).json(result[0]);
   } catch (error) {
@@ -105,11 +105,11 @@ export const getClasesDocente = async (req, res) => {
       [docenteId]
     );
 
-    if (result.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No se encontraron clases para este docente." });
-    }
+    // if (result.length === 0) {
+    //   return res
+    //     .status(404)
+    //     .json({ message: "No se encontraron clases para este docente." });
+    // }
 
     return res.status(200).json(result);
   } catch (error) {
@@ -192,11 +192,11 @@ export const getClasesPorDocente = async (req, res) => {
       [docenteId]
     );
 
-    if (rows.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No se encontraron clases para este docente." });
-    }
+    // if (rows.length === 0) {
+    //   return res
+    //     .status(404)
+    //     .json({ message: "No se encontraron clases para este docente." });
+    // }
 
     const clasesPorFecha = rows.reduce((acc, clase) => {
       const fecha = clase.fecha;
@@ -265,11 +265,11 @@ export const cancelClase = async (req, res) => {
       [clas_estado, req.params.id]
     );
 
-    if (result.affectedRows === 0) {
-      return res
-        .status(404)
-        .json({ message: "Clase no encontrada o ya finalizada." });
-    }
+    // if (result.affectedRows === 0) {
+    //   return res
+    //     .status(404)
+    //     .json({ message: "Clase no encontrada o ya finalizada." });
+    // }
 
     return res.status(200).json({ message: "Clase actualizada exitosamente." });
   } catch (error) {

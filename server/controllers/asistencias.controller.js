@@ -107,12 +107,12 @@ export const getClaseAsistencias = async (req, res) => {
       [slug, id]
     );
 
-    if (result.length === 0) {
-      return res.status(404).json({
-        message:
-          "No hay estudiantes registrados en la asistencia para esta clase.",
-      });
-    }
+    // if (result.length === 0) {
+    //   return res.status(404).json({
+    //     message:
+    //       "No hay estudiantes registrados en la asistencia para esta clase.",
+    //   });
+    // }
 
     return res.status(200).json(result);
   } catch (error) {
