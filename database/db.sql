@@ -4,7 +4,7 @@ CREATE TABLE usuario (
     usua_nombre VARCHAR(100) NOT NULL,
     usua_correo VARCHAR(100) UNIQUE NOT NULL,
     usua_password VARCHAR(255) NOT NULL,
-    usua_rol ENUM('administrador') NOT NULL,
+    rol ENUM('administrador') NOT NULL,
     usua_estado BOOLEAN DEFAULT TRUE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -16,6 +16,7 @@ CREATE TABLE docente (
     doc_correo VARCHAR(100) UNIQUE NOT NULL,
     doc_password VARCHAR(255) NOT NULL,
     doc_estado BOOLEAN DEFAULT TRUE,
+    rol ENUM('docente') NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -26,6 +27,7 @@ CREATE TABLE estudiante (
     estu_correo VARCHAR(100) UNIQUE NOT NULL,
     estu_password VARCHAR(255) NOT NULL,
     estu_estado BOOLEAN DEFAULT TRUE,
+    rol ENUM('estudiante') NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

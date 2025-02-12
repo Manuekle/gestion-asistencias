@@ -33,7 +33,7 @@ function Dashboard() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const role = userInfo.user.usua_rol;
+  const role = userInfo.user.rol;
 
   return (
     <div className="flex flex-row w-full bg-[#FAFBFD]">

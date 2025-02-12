@@ -138,6 +138,7 @@ function RegisterPageAuth() {
               onChange={(e) => setRole(e.target.value)}
               className="max-w-full"
             >
+              <SelectItem key="administrador">Administrador</SelectItem>
               <SelectItem key="docente">Docente</SelectItem>
               <SelectItem key="estudiante">Estudiante</SelectItem>
             </Select>

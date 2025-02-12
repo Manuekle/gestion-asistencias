@@ -57,12 +57,12 @@ export const createUsuario = async (req, res) => {
 
     // Insertar usuario con contraseña cifrada
     const [result] = await pool.query(
-      "INSERT INTO usuario(usua_nombre, usua_correo, usua_password, usua_rol, usua_estado) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO usuario(usua_nombre, usua_correo, usua_password, rol, usua_estado) VALUES (?, ?, ?, ?, ?)",
       [
         data.usua_nombre,
         data.usua_correo,
         hashedPassword,
-        data.usua_rol,
+        data.rol,
         data.usua_estado,
       ]
     );
@@ -79,7 +79,7 @@ export const createUsuario = async (req, res) => {
       usua_id: result.insertId,
       usua_nombre: data.usua_nombre,
       usua_correo: data.usua_correo,
-      usua_rol: data.usua_rol,
+      rol: data.rol,
       usua_estado: data.usua_estado,
     };
 

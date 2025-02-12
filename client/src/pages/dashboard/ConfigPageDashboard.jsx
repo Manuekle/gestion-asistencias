@@ -92,7 +92,7 @@ function ConfigPageDashboard() {
             <h1>Cargo</h1>
           </div>
           <div className="w-full text-zinc-800 capitalize font-normal text-sm flex flex-row gap-56 items-center">
-            <h1>{user.usua_rol}</h1>
+            <h1>{user.rol}</h1>
           </div>
         </article>
         <hr />
