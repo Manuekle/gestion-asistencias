@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Skeleton, Button } from '@heroui/react';
 import {
@@ -55,6 +55,27 @@ function ClassPageDashboard() {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const [fecha, setFecha] = useState(new Date());
+
+  // Función para deshabilitar días específicos
+  const disabledDays = useCallback((day) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Deshabilitar días anteriores a hoy
+    if (day < today) {
+      return true;
+    }
+
+    // Deshabilitar sábados (6) y domingos (0)
+    const dayOfWeek = day.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      return true;
+    }
+
+    return false;
+  }, []);
 
   const [subject, setSubject] = useState('');
   const [date, setDate] = useState();
@@ -227,9 +248,9 @@ function ClassPageDashboard() {
                   <PopoverContent className="w-auto p-0">
                     <Calendar
                       mode="single"
-                      selected={date}
-                      onSelect={setDate}
-                      initialFocus
+                      selected={fecha}
+                      onSelect={setFecha}
+                      disabled={disabledDays}
                     />
                   </PopoverContent>
                 </Popover>

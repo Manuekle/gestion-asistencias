@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 // import ChartRadialText from '../../components/ChartRadialText';
 // import ChartRadialPercentage from '../../components/ChartRadialPercentage';
@@ -47,7 +48,7 @@ function HomePageDashboard() {
           <h1 className="text-md font-bold">Mis Reportes</h1>
           <div className="flex flex-col py-2 gap-4">
             <DashboardAssigments />
-            <button
+            {/* <button
               type="button"
               className="bg-white flex justify-center items-center border-dashed border-2 rounded-lg gap-3 flex-row p-4"
             >
@@ -55,7 +56,7 @@ function HomePageDashboard() {
               <h1 className="text-xs font-bold capitalize">
                 generar nuevo reporte
               </h1>
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="col-span-2 col-start-4 row-start-3 rounded-xl bg-white border shadow-sm px-6 py-4">
@@ -67,8 +68,13 @@ function HomePageDashboard() {
             </button>
           </span>
           <div className="flex flex-col gap-4 py-2">
-            <span className="bg-[#FAFBFD] rounded-lg flex gap-3 flex-col py-2 px-4">
+            {/* <span className="bg-[#FAFBFD] rounded-lg flex gap-3 flex-col py-2 px-4">
               <h1 className="text-xs">Evento</h1>
+            </span> */}
+            <span className="flex justify-center items-center h-40">
+              <h1 className="text-xs text-bold text-zinc-500">
+                No tienes notficaciones
+              </h1>
             </span>
           </div>
         </div>

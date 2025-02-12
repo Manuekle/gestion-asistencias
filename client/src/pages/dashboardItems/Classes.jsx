@@ -18,7 +18,7 @@ import {
 import { showClass, showClassSignature } from '../../actions/classActions';
 
 // component
-import CodeQR from '../../components/codeQR';
+import CodeQR from '../../components/GenerateCodeQR';
 import Cancel from '../../components/CancelClass';
 
 function Classes() {

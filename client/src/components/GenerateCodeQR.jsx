@@ -13,7 +13,7 @@ import {
 
 // import { Button } from './ui/button.tsx';
 
-function codeQR({ value, name, id }) {
+function GenerateCodeQR({ value, name, id }) {
   const [qrImage, setQrImage] = useState('');
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const intervalRef = useRef(null);
@@ -118,4 +118,4 @@ function codeQR({ value, name, id }) {
   );
 }
 
-export default codeQR;
+export default GenerateCodeQR;

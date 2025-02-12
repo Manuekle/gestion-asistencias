@@ -57,7 +57,6 @@ function DashboardCalendar({ user }) {
           </div>
         ))}
       </div>
-      {/* day */}
       <ClassDay />
     </div>
   );
