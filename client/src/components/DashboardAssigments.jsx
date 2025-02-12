@@ -13,10 +13,9 @@ function DashboardAssigments() {
       </div>
       <div className="flex flex-col gap-0">
         <h1 className="font-bold text-xs text-zinc-400">Estudiantes</h1>
-        <h1 className="font-bold text-xs text-zinc-800">12/20</h1>
+        <h1 className="font-bold text-xs text-zinc-800">12 asistentes</h1>
       </div>
       <div className="flex flex-col gap-0">
-        <h1 className="font-bold text-xs text-[#319C78]">En curso</h1>
         <h1 className="font-bold text-xs text-[#C25269]">Finalizada</h1>
       </div>
     </span>

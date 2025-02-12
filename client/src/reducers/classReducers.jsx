@@ -20,7 +20,10 @@ import {
   CLASS_CANCEL_FAIL,
   CLASS_DAY_REQUEST,
   CLASS_DAY_SUCCESS,
-  CLASS_DAY_FAIL
+  CLASS_DAY_FAIL,
+  CLASS_ALL_SUCCESS,
+  CLASS_ALL_REQUEST,
+  CLASS_ALL_FAIL
 } from '../constants/classConstants';
 
 // DETAILS
@@ -138,6 +141,23 @@ export const classDayReducer = (state = { day: [] }, action) => {
       return { loading: false, day: action.payload };
 
     case CLASS_DAY_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+// SHOW ALL CLASS DAY
+export const classAllReducer = (state = { all: [] }, action) => {
+  switch (action.type) {
+    case CLASS_ALL_REQUEST:
+      return { loading: true, ...state };
+
+    case CLASS_ALL_SUCCESS:
+      return { loading: false, all: action.payload };
+
+    case CLASS_ALL_FAIL:
       return { loading: false, error: action.payload };
 
     default:

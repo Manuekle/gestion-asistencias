@@ -10,6 +10,7 @@ import {
   getClasesDocente,
   getClaseQr,
   getClasesPorDiaYRango,
+  obtenerClasesPorDocente,
 } from "../controllers/clases.controller.js";
 
 const router = Router();
@@ -28,5 +29,7 @@ router.put("/cancelar/clase/:id", cancelClase);
 router.delete("/clase/:id", deleteClase);
 
 router.get("/docente/:docenteId", getClasesDocente);
+
+router.get("/claseall/:docenteId", obtenerClasesPorDocente);
 
 export default router;

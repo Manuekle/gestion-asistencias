@@ -22,7 +22,10 @@ import {
   CLASS_CANCEL_FAIL,
   CLASS_DAY_REQUEST,
   CLASS_DAY_SUCCESS,
-  CLASS_DAY_FAIL
+  CLASS_DAY_FAIL,
+  CLASS_ALL_SUCCESS,
+  CLASS_ALL_REQUEST,
+  CLASS_ALL_FAIL
 } from '../constants/classConstants';
 
 // DETAILS
@@ -191,6 +194,27 @@ export const showClassDay = (fecha, userInfo) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CLASS_DAY_FAIL,
+      payload: error.response.data.message
+    });
+  }
+};
+
+// SHOW CLASS DAY
+export const showClassAll = (userInfo) => async (dispatch) => {
+  try {
+    dispatch({ type: CLASS_ALL_REQUEST });
+
+    const { data } = await axios.get(
+      `http://localhost:4000/claseall/${userInfo.user.usua_id}`
+    );
+
+    dispatch({
+      type: CLASS_ALL_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: CLASS_ALL_FAIL,
       payload: error.response.data.message
     });
   }

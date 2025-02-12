@@ -279,3 +279,92 @@ export const getClasesPorDiaYRango = async (req, res) => {
   }
 };
 
+// Función para obtener las clases del día
+// export const getClasesDelDia = async (req, res) => {
+//   try {
+//     const hoy = new Date();
+//     hoy.setHours(0, 0, 0, 0); // Ajustar a la hora local
+//     const fechaHoy = hoy.toISOString().split("T")[0]; // Formato YYYY-MM-DD
+
+//     const [rows] = await pool.query(
+//       `SELECT 
+//           c.clas_fecha AS fecha,
+//           a.asig_nombre AS asignatura,
+//           c.clas_fecha AS fecha,
+//           c.clas_hora_inicio AS fecha_inicio,
+//           c.clas_hora_fin AS fecha_fin,
+//           c.clas_estado AS estado
+//       FROM clase c
+//       JOIN asignatura a ON c.clas_asig_id = a.asig_id
+//       WHERE c.clas_fecha = ?
+//       ORDER BY c.clas_hora_inicio`,
+//       [hoy]
+//     );
+
+//     const resultado = [
+//       {
+//         fecha: fechaHoy,
+//         clases: rows.map((clase) => ({
+//           asignatura: clase.asignatura,
+//           fecha: clase.fecha,
+//           fecha_inicio: clase.fecha_inicio,
+//           fecha_fin: clase.fecha_fin,
+//           estado: clase.estado,
+//         })),
+//       },
+//     ];
+
+//     res.json(resultado);
+//   } catch (error) {
+//     console.error("Error al obtener clases:", error);
+//     res.status(500).json({ error: "Error interno del servidor" });
+//   }
+// };
+
+export const obtenerClasesPorDocente = async (req, res) => {
+  const { docenteId } = req.params; // Obtener el ID del docente desde la URL
+
+  try {
+    const [rows] = await pool.query(
+      `SELECT 
+          c.clas_fecha AS fecha,
+          a.asig_nombre AS asignatura,
+          c.clas_hora_inicio AS fecha_inicio,
+          c.clas_hora_fin AS fecha_fin,
+          c.clas_estado AS estado
+      FROM clase c
+      JOIN asignatura a ON c.clas_asig_id = a.asig_id
+      WHERE a.asig_docente_id = ? -- Filtrar por docente
+      ORDER BY c.clas_fecha, c.clas_hora_inicio`,
+      [docenteId]
+    );
+
+    // Agrupar clases por fecha
+    const clasesPorFecha = rows.reduce((acc, clase) => {
+      const fecha = new Date(clase.fecha); // Convertir a Date
+
+      if (!acc[fecha]) {
+        acc[fecha] = {
+          fecha: fecha, // Almacenar el objeto Date directamente
+          clases: [],
+        };
+      }
+      acc[fecha].clases.push({
+        asignatura: clase.asignatura,
+        fecha_inicio: clase.fecha_inicio,
+        fecha_fin: clase.fecha_fin,
+        estado: clase.estado,
+      });
+      return acc;
+    }, {});
+
+    // Convertir el objeto en un array
+    const resultado = Object.values(clasesPorFecha);
+
+    res.json(resultado);
+  } catch (error) {
+    console.error("Error al obtener clases por docente:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+

@@ -44,18 +44,17 @@ function HomePageDashboard() {
           <DashboardCalendar />
         </div>
         <div className="col-span-3 row-span-2 row-start-2 rounded-xl bg-white border shadow-sm px-6 py-4">
-          <h1 className="text-md font-bold">Mis Asignaturas</h1>
+          <h1 className="text-md font-bold">Mis Reportes</h1>
           <div className="flex flex-col py-2 gap-4">
-            <DashboardAssigments />
-            <DashboardAssigments />
-            <DashboardAssigments />
             <DashboardAssigments />
             <button
               type="button"
               className="bg-white flex justify-center items-center border-dashed border-2 rounded-lg gap-3 flex-row p-4"
             >
               <AddCircleIcon size={18} color="#333" variant="stroke" />
-              <h1 className="text-xs font-bold">agregar nueva asignatura</h1>
+              <h1 className="text-xs font-bold capitalize">
+                generar nuevo reporte
+              </h1>
             </button>
           </div>
         </div>
@@ -74,6 +73,10 @@ function HomePageDashboard() {
           </div>
         </div>
       </div>
+      {/* <div className="flex justify-center items-center w-full">
+        <h1 className="text-xs font-normal">Ultima actividad</h1>
+        <h1 className="text-xs font-normal">Ultima actividad</h1>
+      </div> */}
     </div>
   );
 }
