@@ -10,7 +10,7 @@ import {
 
 // CREATE
 export const createReport =
-  (mes, anio, docente, correo) => async (dispatch) => {
+  (mes, anio, docenteId, email) => async (dispatch) => {
     try {
       dispatch({
         type: REPORT_CREATE_REQUEST
@@ -22,8 +22,14 @@ export const createReport =
         }
       };
 
-      const { data } = await axios.get(
-        `http://localhost:4000/reporte/${mes}/${anio}/${docente}/${correo}`,
+      const { data } = await axios.post(
+        `http://localhost:4000/reporte`,
+        {
+          mes,
+          anio,
+          docenteId,
+          email
+        },
         config
       );
       dispatch({
