@@ -84,31 +84,3 @@ export const createAsistencia = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
-//* GET
-export const obtenerReporteAsistencias = async (mes, anio, docenteId) => {
-  try {
-    const [rows] = await pool.query(
-      `SELECT 
-        c.clas_fecha AS fecha,
-        a.asig_nombre AS asignatura,
-        c.clas_hora_inicio AS hora_inicio,
-        c.clas_hora_fin AS hora_fin,
-        c.clas_estado AS estado,
-        u.usua_nombre AS estudiante,
-        CASE WHEN s.asis_presente = 1 THEN 'Presente' ELSE 'Ausente' END AS asistencia
-      FROM clase c
-      JOIN asignatura a ON c.clas_asig_id = a.asig_id
-      JOIN asistencia s ON c.clas_id = s.asis_clase_id
-      JOIN usuario u ON s.asis_usuario_id = u.usua_id
-      WHERE MONTH(c.clas_fecha) = ? AND YEAR(c.clas_fecha) = ? AND a.asig_docente_id = ?
-      ORDER BY c.clas_fecha, c.clas_hora_inicio`,
-      [mes, anio, docenteId]
-    );
-
-    return rows;
-  } catch (error) {
-    console.error("Error al obtener el reporte de asistencias:", error);
-    throw error;
-  }
-};

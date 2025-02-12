@@ -1,13 +1,10 @@
 import { Router } from "express";
 
-import { generarYEnviarReporte } from "../controllers/reportes.controller.js";
+import { enviarReporteCorreo } from "../controllers/reportes.controller.js";
 
 const router = Router();
 
 //* GET
-router.get(
-  "/reporte/:mes/:anio/:docenteId/:correo",
-  generarYEnviarReporte
-);
+router.post("/reporte", enviarReporteCorreo);
 
 export default router;
