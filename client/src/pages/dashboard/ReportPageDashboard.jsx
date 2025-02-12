@@ -17,6 +17,8 @@ import {
 } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { showClassAll } from '../../actions/classActions';
+import { createReport } from '../../actions/reportActions';
+
 import {
   Select,
   SelectContent,
@@ -56,6 +58,19 @@ function ReportPageDashboard() {
     'Noviembre',
     'Diciembre'
   ];
+
+  console.log(userInfo);
+
+  const handleGenerateReport = () => {
+    dispatch(
+      createReport(
+        selectedMonth,
+        selectedYear,
+        userInfo.user.usua_id,
+        userInfo.user.usua_correo
+      )
+    );
+  };
 
   useEffect(() => {
     dispatch(showClassAll(userInfo));
@@ -119,6 +134,7 @@ function ReportPageDashboard() {
         </div>
         <button
           type="button"
+          onClick={handleGenerateReport}
           className="px-6 py-2 bg-zinc-900 shadow-sm hover:shadow-md rounded-md"
         >
           <h1 className="text-xs font-bold text-white">generar reporte</h1>

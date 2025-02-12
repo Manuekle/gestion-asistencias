@@ -6,7 +6,7 @@ const router = Router();
 
 //* GET
 router.get(
-  "/reporte-asistencias/:mes/:anio/:docenteId/:correo",
+  "/reporte/:mes/:anio/:docenteId/:correo",
   generarYEnviarReporte
 );
 

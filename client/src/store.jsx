@@ -26,6 +26,8 @@ import {
 
 import { qrCreateReducer } from './reducers/qrReducers';
 
+import { createReportReducer } from './reducers/reportReducers';
+
 import { attendanceCreateReducer } from './reducers/attendanceReducers';
 
 import { assigmentDetailsReducer } from './reducers/assigmentReducers';
@@ -50,6 +52,8 @@ const reducer = combineReducers({
   classAll: classAllReducer,
 
   qrGenerate: qrCreateReducer,
+
+  reportCreate: createReportReducer,
 
   attendanceCreate: attendanceCreateReducer,
 
