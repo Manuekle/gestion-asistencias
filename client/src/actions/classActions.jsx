@@ -33,7 +33,7 @@ export const detailsClass = (id) => async (dispatch) => {
   try {
     dispatch({ type: CLASS_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`http://localhost:4000/docente/${id}`);
+    const { data } = await axios.get(`http://localhost:4000/api/clase//${id}`);
 
     dispatch({
       type: CLASS_DETAILS_SUCCESS,
@@ -63,7 +63,7 @@ export const createClass =
       };
 
       const { data } = await axios.post(
-        `http://localhost:4000/clase/nueva`,
+        `http://localhost:4000/api/clase/create`,
         {
           clas_asig_id,
           clas_fecha,
@@ -84,13 +84,13 @@ export const createClass =
     }
   };
 
-// SHOW CLASS
+// SHOW CLASS en //*asistencia!!
 export const showClass = (slug, id) => async (dispatch) => {
   try {
     dispatch({ type: CLASS_SHOW_REQUEST });
 
     const { data } = await axios.get(
-      `http://localhost:4000/asistencia/${slug}/${id}`
+      `http://localhost:4000/api/asistencia/show-asistencia/${slug}/${id}`
     );
 
     dispatch({
@@ -111,7 +111,7 @@ export const showClassSignature = (slug, id) => async (dispatch) => {
     dispatch({ type: CLASS_SIGNATURE_REQUEST });
 
     const { data } = await axios.get(
-      `http://localhost:4000/clase/${slug}/${id}`
+      `http://localhost:4000/api/clase/show/${slug}/${id}`
     );
 
     dispatch({
@@ -131,7 +131,9 @@ export const showClassQr = (id) => async (dispatch) => {
   try {
     dispatch({ type: CLASS_QR_REQUEST });
 
-    const { data } = await axios.get(`http://localhost:4000/claseQr/${id}`);
+    const { data } = await axios.get(
+      `http://localhost:4000/api/clase/show-qr/${id}`
+    );
 
     dispatch({
       type: CLASS_QR_SUCCESS,
@@ -159,7 +161,7 @@ export const cancelClassStatus = (id) => async (dispatch) => {
     };
 
     const { data } = await axios.put(
-      `http://localhost:4000/cancelar/clase/${id}`,
+      `http://localhost:4000/api/clase/cancel/${id}`,
       {
         clas_estado: 'finalizada'
       },
@@ -184,7 +186,7 @@ export const showClassDay = (fecha, userInfo) => async (dispatch) => {
     dispatch({ type: CLASS_DAY_REQUEST });
 
     const { data } = await axios.get(
-      `http://localhost:4000/diarango?fecha=${fecha}&rangoHoras=6&docenteId=${userInfo.user.usua_id}`
+      `http://localhost:4000/api/clase/dia-rango?fecha=${fecha}&rangoHoras=6&docenteId=${userInfo.user.usua_id}`
     );
 
     dispatch({
@@ -205,7 +207,7 @@ export const showClassAll = (userInfo) => async (dispatch) => {
     dispatch({ type: CLASS_ALL_REQUEST });
 
     const { data } = await axios.get(
-      `http://localhost:4000/claseall/${userInfo.user.usua_id}`
+      `http://localhost:4000/api/clase/show-all-docente/${userInfo.user.usua_id}`
     );
 
     dispatch({

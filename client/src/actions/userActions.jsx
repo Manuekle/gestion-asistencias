@@ -48,7 +48,7 @@ export const login = (usua_correo, usua_password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      'http://localhost:4000/usuario/login',
+      'http://localhost:4000/api/usuario/login',
       { usua_correo: usua_correo, usua_password: usua_password },
       config
     );
@@ -89,7 +89,7 @@ export const register =
       };
 
       const { data } = await axios.post(
-        'http://localhost:4000/usuario/register',
+        'http://localhost:4000/api/usuario/register',
         { usua_nombre, usua_correo, usua_password, usua_rol, usua_estado },
         config
       );
@@ -126,7 +126,7 @@ export const recoverPassword = (usua_correo) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      'http://localhost:4000/usuario/recover',
+      'http://localhost:4000/api/usuario/recover',
       { usua_correo },
       config
     );
@@ -166,7 +166,7 @@ export const getUserDetails = (usua_id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://localhost:4000/usuario/${usua_id}/`,
+      `http://localhost:4000/api/usuario/show/${usua_id}/`,
       config
     );
 
@@ -203,7 +203,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `http://localhost:4000/usuario/`,
+      `http://localhost:4000/api/usuario/update-profile`,
       user,
       config
     );
@@ -316,7 +316,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `http://localhost:4000/usuario/${user.usua_id}/`,
+      `http://localhost:4000/api/usuario/update/${user.usua_id}/`,
       user,
       config
     );

@@ -22,7 +22,7 @@ export const createQR = (codi_valor, codi_clas_id) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `http://localhost:4000/generate`,
+      `http://localhost:4000/api/qr/create`,
       {
         codi_valor,
         codi_clas_id

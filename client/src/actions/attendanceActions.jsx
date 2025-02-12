@@ -8,7 +8,7 @@ import {
   ATTENDANCE_CREATE_FAIL
 } from '../constants/attendanceConstants';
 
-// CREATE
+//* CREATE
 export const createAttendance =
   (estu_id, clas_id, qr_url) => async (dispatch) => {
     try {
@@ -23,7 +23,7 @@ export const createAttendance =
       };
 
       const { data } = await axios.post(
-        `http://localhost:4000/asistencia/nueva`,
+        `http://localhost:4000/api/asistencia/create`,
         {
           estu_id,
           clas_id,

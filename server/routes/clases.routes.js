@@ -5,7 +5,6 @@ import {
   getClase,
   createClase,
   cancelClase,
-  getClaseAsistencias,
   getClasesDocente,
   getClaseQr,
   getClasesPorDiaYRango,

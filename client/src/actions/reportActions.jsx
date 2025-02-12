@@ -23,7 +23,7 @@ export const createReport =
       };
 
       const { data } = await axios.post(
-        `http://localhost:4000/reporte`,
+        `http://localhost:4000/api/reporte/send`,
         {
           mes,
           anio,

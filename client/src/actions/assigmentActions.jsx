@@ -7,13 +7,13 @@ import {
   ASSIGMENT_DETAILS_FAIL
 } from '../constants/assigmentConstants';
 
-// DETAILS
+//* DETAILS
 export const detailsAssigment = (id) => async (dispatch) => {
   try {
     dispatch({ type: ASSIGMENT_DETAILS_REQUEST });
 
     const { data } = await axios.get(
-      `http://localhost:4000/asignatura/docente/${id}`
+      `http://localhost:4000/api/asignatura/show-by-docente/${id}`
     );
 
     dispatch({
