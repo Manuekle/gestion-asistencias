@@ -8,7 +8,7 @@ export const createAsistencia = async (req, res) => {
 
     // 1. Verificar si la URL proporcionada es válida
     const [qrUrlExistente] = await pool.query(
-      "SELECT * FROM codigo_qr WHERE codi_url = ?",
+      "SELECT * FROM codigo_qr WHERE codi_valor = ?",
       [qr_url]
     );
 
@@ -19,12 +19,12 @@ export const createAsistencia = async (req, res) => {
     }
 
     // 2. Verificar si el usuario es un estudiante
-    const [usuario] = await pool.query(
-      "SELECT usua_rol FROM usuario WHERE usua_id = ?",
+    const [estudiante] = await pool.query(
+      "SELECT estu_id FROM estudiante WHERE estu_id = ?",
       [estu_id]
     );
 
-    if (usuario.length === 0 || usuario[0].usua_rol !== "estudiante") {
+    if (estudiante.length === 0) {
       return res
         .status(403)
         .json({ message: "El usuario no es un estudiante." });
@@ -80,6 +80,41 @@ export const createAsistencia = async (req, res) => {
       message: "Asistencia registrada exitosamente.",
       id: result.insertId,
     });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+//* GET
+export const getClaseAsistencias = async (req, res) => {
+  try {
+    const { slug, id } = req.params;
+
+    const [result] = await pool.query(
+      `SELECT 
+         estudiante.usua_id AS estudiante_id,
+         estudiante.usua_nombre AS estudiante_nombre,
+         estudiante.usua_correo AS estudiante_correo,
+         asistencia.asis_id,
+         asistencia.asis_estado,
+         asistencia.asis_fecha,
+         asistencia.created_at
+       FROM clase
+       JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
+       JOIN asistencia ON clase.clas_id = asistencia.asis_clas_id
+       JOIN estudiante ON asistencia.asis_estu_id = estudiante.usua_id
+       WHERE asignatura.asig_slug = ? AND clase.clas_id = ?`,
+      [slug, id]
+    );
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        message:
+          "No hay estudiantes registrados en la asistencia para esta clase.",
+      });
+    }
+
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

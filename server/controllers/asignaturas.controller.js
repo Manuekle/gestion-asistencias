@@ -1,6 +1,7 @@
 //? Asignaturas Controllers
 import { pool } from "../db.js";
 
+//* GET
 export const getAsignaturasByDocente = async (req, res) => {
   try {
     const docenteId = req.params.docenteId; // Obtén el ID del docente de los parámetros de la URL

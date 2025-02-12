@@ -23,10 +23,11 @@ function generateUniqueToken() {
   return Math.random().toString(36).substr(2, 9);
 }
 
+//TODO: CHECK URL 
 export const checkUrlExistence = async (url) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM codigo_qr WHERE codi_url = ?",
+      "SELECT * FROM codigo_qr WHERE codi_qr_image = ?",
       [url]
     );
     return result.length > 0; // Devuelve true si existe, false si no
@@ -52,13 +53,13 @@ export const createCodigoQr = async (req, res) => {
     if (urlExistente) {
       // Si la URL ya existe, devolver el QR correspondiente
       const [existingQr] = await pool.query(
-        "SELECT codi_id, qr_image, codi_url FROM codigo_qr WHERE codi_url = ?",
+        "SELECT codi_id, codi_qr_image, codi_url FROM codigo_qr WHERE codi_url = ?",
         [qrData]
       );
       return res.status(200).json({
         message: "Código QR ya existe para esta URL",
         codi_id: existingQr[0].codi_id,
-        qrImage: existingQr[0].qr_image,
+        codi_qr_image: existingQr[0].codi_qr_image,
         codi_url: existingQr[0].codi_url,
       });
     }
@@ -73,7 +74,7 @@ export const createCodigoQr = async (req, res) => {
 
     // Insertar el nuevo código QR con la URL
     const [result] = await pool.query(
-      "INSERT INTO codigo_qr (codi_valor, codi_clas_id, qr_image, codi_url) VALUES (?, ?, ?, ?)",
+      "INSERT INTO codigo_qr (codi_valor, codi_clas_id, codi_qr_image, codi_url) VALUES (?, ?, ?, ?)",
       [codi_valor, codi_clas_id, qrImage, qrData]
     );
 

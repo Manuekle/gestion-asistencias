@@ -8,8 +8,8 @@ import {
 const router = Router();
 
 //* GET
-router.get("/qr/:id", getCodigoQr);
+router.get("/show/:id", getCodigoQr);
 //? POST
-router.post("/generate", createCodigoQr);
+router.post("/create", createCodigoQr);
 
 export default router;

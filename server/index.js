@@ -18,12 +18,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(cors());
 app.use(express.json());
 
-app.use(usuariosRoutes);
-app.use(asignaturasRoutes);
-app.use(clasesRoutes);
-app.use(codigosQrRoutes);
-app.use(asistenciasRoutes);
-app.use(reportesRoutes);
+app.use("/api/usuario", usuariosRoutes);
+app.use("/api/asignatura", asignaturasRoutes);
+app.use("/api/clase", clasesRoutes);
+app.use("/api/qr", codigosQrRoutes);
+app.use("/api/asistencia", asistenciasRoutes);
+app.use("/api/reporte", reportesRoutes);
 
 app.use(express.static(join(__dirname, "../client/dist")));
 

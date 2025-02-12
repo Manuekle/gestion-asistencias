@@ -7,6 +7,6 @@ import {
 const router = Router();
 
 //* GET
-router.get("/asignatura/docente/:docenteId", getAsignaturasByDocente);
+router.get("/show-by-docente/:docenteId", getAsignaturasByDocente);
 
 export default router;

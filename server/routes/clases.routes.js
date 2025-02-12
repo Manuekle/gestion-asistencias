@@ -9,24 +9,22 @@ import {
   getClasesDocente,
   getClaseQr,
   getClasesPorDiaYRango,
-  obtenerClasesPorDocente,
+  getClasesPorDocente,
 } from "../controllers/clases.controller.js";
 
 const router = Router();
 
 //* GET
-router.get("/clases", getClases);
-router.get("/clase/:slug/:id", getClase);
-router.get("/claseQr/:id", getClaseQr);
-router.get("/asistencia/:slug/:id", getClaseAsistencias);
-router.get("/diarango", getClasesPorDiaYRango);
+router.get("/show", getClases);
+router.get("/show/:slug/:id", getClase);
+router.get("/show-qr/:id", getClaseQr);
+router.get("/dia-rango", getClasesPorDiaYRango);
+router.get("/show-by-docente/:docenteId", getClasesDocente);
+router.get("/show-all-docente/:docenteId", getClasesPorDocente);
 //? POST
-router.post("/clase/nueva", createClase);
+router.post("/create", createClase);
 //TODO: UPDATE
-router.put("/cancelar/clase/:id", cancelClase);
+router.put("/cancel/:id", cancelClase);
 
-router.get("/docente/:docenteId", getClasesDocente);
-
-router.get("/claseall/:docenteId", obtenerClasesPorDocente);
 
 export default router;

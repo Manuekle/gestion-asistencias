@@ -11,13 +11,13 @@ import {
 const router = Router();
 
 //* GET
-router.get("/usuarios", getUsuarios);
-router.get("/usuario/:id", getUsuario);
+router.get("/show", getUsuarios);
+router.get("/show/:id", getUsuario);
 //? POST
-router.post("/usuario/register", createUsuario);
+router.post("/register", createUsuario);
 //* LOGIN
-router.post("/usuario/login", loginUsuario);
+router.post("/login", loginUsuario);
 //* RECOVER PASSWORD
-router.post("/usuario/recover", recoverPassword);
+router.post("/recover", recoverPassword);
 
 export default router;

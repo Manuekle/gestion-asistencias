@@ -1,6 +1,7 @@
 import { generarReporteCSV } from "../services/asistencia.service.js";
 import { enviarCorreo } from "../services/correo.service.js";
 
+//* SEND
 export const enviarReporteCorreo = async (req, res) => {
   try {
     const { mes, anio, docenteId, email } = req.body;

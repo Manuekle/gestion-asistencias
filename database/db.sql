@@ -1,11 +1,31 @@
--- Tabla: usuario
+-- Tabla: usuario (Solo para administradores)
 CREATE TABLE usuario (
     usua_id INT PRIMARY KEY AUTO_INCREMENT,
     usua_nombre VARCHAR(100) NOT NULL,
     usua_correo VARCHAR(100) UNIQUE NOT NULL,
     usua_password VARCHAR(255) NOT NULL,
-    usua_rol ENUM('administrador', 'docente', 'estudiante') NOT NULL,
+    usua_rol ENUM('administrador') NOT NULL,
     usua_estado BOOLEAN DEFAULT TRUE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla: docente
+CREATE TABLE docente (
+    doc_id INT PRIMARY KEY AUTO_INCREMENT,
+    doc_nombre VARCHAR(100) NOT NULL,
+    doc_correo VARCHAR(100) UNIQUE NOT NULL,
+    doc_password VARCHAR(255) NOT NULL,
+    doc_estado BOOLEAN DEFAULT TRUE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla: estudiante
+CREATE TABLE estudiante (
+    estu_id INT PRIMARY KEY AUTO_INCREMENT,
+    estu_nombre VARCHAR(100) NOT NULL,
+    estu_correo VARCHAR(100) UNIQUE NOT NULL,
+    estu_password VARCHAR(255) NOT NULL,
+    estu_estado BOOLEAN DEFAULT TRUE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -21,7 +41,7 @@ CREATE TABLE asignatura (
     asig_docente_id INT NOT NULL,
     asig_imagen_url VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (asig_docente_id) REFERENCES usuario(usua_id)
+    FOREIGN KEY (asig_docente_id) REFERENCES docente(doc_id)
 );
 
 -- Tabla: clase
@@ -44,7 +64,7 @@ CREATE TABLE asistencia (
     asis_fecha DATE NOT NULL,
     asis_estado ENUM('presente', 'ausente') DEFAULT 'ausente',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (asis_estu_id) REFERENCES usuario(usua_id),
+    FOREIGN KEY (asis_estu_id) REFERENCES estudiante(estu_id),
     FOREIGN KEY (asis_clas_id) REFERENCES clase(clas_id)
 );
 
@@ -53,17 +73,7 @@ CREATE TABLE codigo_qr (
     codi_id INT AUTO_INCREMENT PRIMARY KEY,
     codi_valor VARCHAR(255) NOT NULL,
     codi_clas_id INT NOT NULL,
-    qr_image TEXT, -- Aquí guardamos la imagen en formato Base64
+    codi_qr_image TEXT, -- Aquí guardamos la imagen en formato Base64
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (codi_clas_id) REFERENCES clase(clas_id)
-);
-
--- Tabla: horario
-CREATE TABLE horario (
-    hora_id INT PRIMARY KEY AUTO_INCREMENT,
-    hora_usua_id INT NOT NULL,
-    hora_clas_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (hora_usua_id) REFERENCES usuario(usua_id),
-    FOREIGN KEY (hora_clas_id) REFERENCES clase(clas_id)
 );

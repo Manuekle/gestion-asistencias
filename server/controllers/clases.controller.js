@@ -28,11 +28,11 @@ export const getClaseQr = async (req, res) => {
          asignatura.asig_programa,
          asignatura.asig_semestre,
          asignatura.asig_grupo,
-         usuario.usua_nombre AS docente_nombre,
-         usuario.usua_correo AS docente_correo
+         docente.docen_nombre AS docente_nombre,
+         docente.docen_correo AS docente_correo
        FROM clase
        JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
-       JOIN usuario ON asignatura.asig_docente_id = usuario.usua_id
+       JOIN docente ON asignatura.asig_docente_id = docente.docen_id
        WHERE clase.clas_id = ?`, // Filtramos solo por clas_id
       [id]
     );
@@ -62,56 +62,20 @@ export const getClase = async (req, res) => {
          asignatura.asig_programa,
          asignatura.asig_semestre,
          asignatura.asig_grupo,
-         usuario.usua_nombre AS docente_nombre,
-         usuario.usua_correo AS docente_correo
+         docente.docen_nombre AS docente_nombre,
+         docente.docen_correo AS docente_correo
        FROM clase
        JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
-       JOIN usuario ON asignatura.asig_docente_id = usuario.usua_id
+       JOIN docente ON asignatura.asig_docente_id = docente.docen_id
        WHERE asignatura.asig_slug = ? AND clase.clas_id = ?`,
       [slug, id]
     );
 
-    // if (result.length === 0) {
-    //   return res.status(404).json({ message: "Clase no encontrada." });
-    // }
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Clase no encontrada." });
+    }
 
     return res.status(200).json(result[0]);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-export const getClaseAsistencias = async (req, res) => {
-  try {
-    const { slug, id } = req.params;
-
-    const [result] = await pool.query(
-      `SELECT 
-         estudiante.usua_id AS estudiante_id,
-         estudiante.usua_nombre AS estudiante_nombre,
-         estudiante.usua_correo AS estudiante_correo,
-         asistencia.asis_id,
-         asistencia.asis_estado,
-         asistencia.asis_fecha,
-         asistencia.created_at
-       FROM clase
-       JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
-       JOIN asistencia ON clase.clas_id = asistencia.asis_clas_id
-       JOIN usuario AS estudiante ON asistencia.asis_estu_id = estudiante.usua_id
-       WHERE asignatura.asig_slug = ? AND clase.clas_id = ?`,
-      [slug, id]
-    );
-
-    // if (result.length === 0) {
-    //   return res
-    //     .status(404)
-    //     .json({
-    //       message:
-    //         "No hay estudiantes registrados en la asistencia para esta clase.",
-    //     });
-    // }
-
-    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -141,9 +105,11 @@ export const getClasesDocente = async (req, res) => {
       [docenteId]
     );
 
-    // if (result.length === 0) {
-    //   return res.status(404).json({ message: "No se encontraron clases para este docente." });
-    // }
+    if (result.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No se encontraron clases para este docente." });
+    }
 
     return res.status(200).json(result);
   } catch (error) {
@@ -153,8 +119,8 @@ export const getClasesDocente = async (req, res) => {
 
 export const getClasesPorDiaYRango = async (req, res) => {
   try {
-    const { fecha, rangoHoras, docenteId } = req.query; // formato de fecha: 'YYYY-MM-DD'
-    const rango = parseInt(rangoHoras, 10) || 3; // Rango de 3 horas por defecto
+    const { fecha, rangoHoras, docenteId } = req.query;
+    const rango = parseInt(rangoHoras, 10) || 3;
 
     const [result] = await pool.query(
       `SELECT 
@@ -171,8 +137,8 @@ export const getClasesPorDiaYRango = async (req, res) => {
        FROM clase
        JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
        WHERE clase.clas_fecha = ? 
-       AND clase.clas_estado = 'activa' 
-       AND asignatura.asig_docente_id = ?
+         AND clase.clas_estado = 'activa' 
+         AND asignatura.asig_docente_id = ?
        ORDER BY clase.clas_hora_inicio ASC
        LIMIT 4`,
       [fecha, docenteId]
@@ -208,8 +174,8 @@ export const getClasesPorDiaYRango = async (req, res) => {
   }
 };
 
-export const obtenerClasesPorDocente = async (req, res) => {
-  const { docenteId } = req.params; // Obtener el ID del docente desde la URL
+export const getClasesPorDocente = async (req, res) => {
+  const { docenteId } = req.params;
 
   try {
     const [rows] = await pool.query(
@@ -221,18 +187,23 @@ export const obtenerClasesPorDocente = async (req, res) => {
           c.clas_estado AS estado
       FROM clase c
       JOIN asignatura a ON c.clas_asig_id = a.asig_id
-      WHERE a.asig_docente_id = ? -- Filtrar por docente
+      WHERE a.asig_docente_id = ?
       ORDER BY c.clas_fecha, c.clas_hora_inicio`,
       [docenteId]
     );
 
-    // Agrupar clases por fecha
+    if (rows.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No se encontraron clases para este docente." });
+    }
+
     const clasesPorFecha = rows.reduce((acc, clase) => {
-      const fecha = new Date(clase.fecha); // Convertir a Date
+      const fecha = clase.fecha;
 
       if (!acc[fecha]) {
         acc[fecha] = {
-          fecha: fecha, // Almacenar el objeto Date directamente
+          fecha,
           clases: [],
         };
       }
@@ -245,17 +216,12 @@ export const obtenerClasesPorDocente = async (req, res) => {
       return acc;
     }, {});
 
-    // Convertir el objeto en un array
     const resultado = Object.values(clasesPorFecha);
-
     res.json(resultado);
   } catch (error) {
-    console.error("Error al obtener clases por docente:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
+    return res.status(500).json({ message: "Error interno del servidor" });
   }
 };
-
-
 
 //? POST
 export const createClase = async (req, res) => {
@@ -281,7 +247,7 @@ export const createClase = async (req, res) => {
   }
 };
 
-//TODO: Cancel
+//TODO: CANCEL
 export const cancelClase = async (req, res) => {
   try {
     const { clas_estado } = req.body;
