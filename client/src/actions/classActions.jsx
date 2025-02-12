@@ -33,7 +33,9 @@ export const detailsClass = (id) => async (dispatch) => {
   try {
     dispatch({ type: CLASS_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`http://localhost:4000/api/clase//${id}`);
+    const { data } = await axios.get(
+      `http://localhost:4000/api/clase/show-by-docente/${id}`
+    );
 
     dispatch({
       type: CLASS_DETAILS_SUCCESS,

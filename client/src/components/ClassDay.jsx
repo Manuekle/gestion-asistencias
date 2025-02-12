@@ -16,8 +16,6 @@ function ClassDay() {
   const classDay = useSelector((state) => state.classDay);
   const { day } = classDay;
 
-  console.log(day);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -67,7 +65,6 @@ function ClassDay() {
   const horaInicio = '17:00';
   const horaFin = '16:00';
   const resultado = determinarTiempo(horaInicio, horaFin);
-  console.log(resultado);
 
   useEffect(() => {
     if (fecha) dispatch(showClassDay(fecha, userInfo));

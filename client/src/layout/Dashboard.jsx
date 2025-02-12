@@ -34,7 +34,6 @@ function Dashboard() {
   const { userInfo } = userLogin;
 
   const role = userInfo.user.usua_rol;
-  // console.log(userInfo.user);
 
   return (
     <div className="flex flex-row w-full bg-[#FAFBFD]">

@@ -17,7 +17,6 @@ function Attendance() {
   const dispatch = useDispatch();
 
   const location = useLocation();
-  console.log(window.location.href);
 
   const classQr = useSelector((state) => state.classQr);
   const { codigo } = classQr;

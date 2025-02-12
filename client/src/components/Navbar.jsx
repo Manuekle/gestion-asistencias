@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Navbar() {
   return (
@@ -20,12 +21,12 @@ function Navbar() {
           <a href="/">Acerca de nosotros</a>
         </li>
       </nav>
-      <button
-        type="button"
-        className="text-zinc-800 border-2 border-zinc-800 font-bold px-4 py-2 rounded-lg"
+      <Link
+        to="/auth/register"
+        className="bg-zinc-900 text-white shadow-lg font-normal text-sm px-6 py-2 rounded-lg"
       >
         Crea tu cuenta
-      </button>
+      </Link>
     </div>
   );
 }

@@ -59,8 +59,6 @@ function ReportPageDashboard() {
     'Diciembre'
   ];
 
-  console.log(userInfo);
-
   const handleGenerateReport = () => {
     dispatch(
       createReport(
