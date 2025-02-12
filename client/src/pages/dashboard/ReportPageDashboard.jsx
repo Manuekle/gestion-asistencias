@@ -79,43 +79,51 @@ function ReportPageDashboard() {
 
   return (
     <div className="mx-auto px-6 py-4">
-      <div className="mb-8 flex gap-4">
-        <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-          <SelectTrigger className={`w-[180px] ${commonInputClasses}`}>
-            <div className="flex flex-row items-center gap-4">
-              <Calendar01Icon size={18} color="#7a7a70" variant="stroke" />
-              <SelectValue placeholder="Seleccionar mes" />
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            {months.map((month, index) => (
-              <SelectItem
-                key={index}
-                value={index.toString()}
-                className="text-sm"
-              >
-                {month}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={selectedYear} onValueChange={setSelectedYear}>
-          <SelectTrigger className={`w-[120px] ${commonInputClasses}`}>
-            <SelectValue placeholder="Año" />
-          </SelectTrigger>
-          <SelectContent>
-            {[2023, 2024, 2025].map((year) => (
-              <SelectItem
-                key={year}
-                value={year.toString()}
-                className="text-sm"
-              >
-                {year}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <section className="flex justify-between items-center mb-8">
+        <div className="flex gap-4">
+          <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+            <SelectTrigger className={`w-[180px] ${commonInputClasses}`}>
+              <div className="flex flex-row items-center gap-4">
+                <Calendar01Icon size={18} color="#7a7a70" variant="stroke" />
+                <SelectValue placeholder="Seleccionar mes" />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              {months.map((month, index) => (
+                <SelectItem
+                  key={index}
+                  value={index.toString()}
+                  className="text-sm"
+                >
+                  {month}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={selectedYear} onValueChange={setSelectedYear}>
+            <SelectTrigger className={`w-[120px] ${commonInputClasses}`}>
+              <SelectValue placeholder="Año" />
+            </SelectTrigger>
+            <SelectContent>
+              {[2023, 2024, 2025].map((year) => (
+                <SelectItem
+                  key={year}
+                  value={year.toString()}
+                  className="text-sm"
+                >
+                  {year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <button
+          type="button"
+          className="px-6 py-2 bg-zinc-900 shadow-sm hover:shadow-md rounded-md"
+        >
+          <h1 className="text-xs font-bold text-white">generar reporte</h1>
+        </button>
+      </section>
 
       <div className="grid grid-cols-5 gap-4 bg-white rounded-xl border shadow-sm p-8">
         <div className="text-sm font-medium text-muted-foreground">LUN</div>

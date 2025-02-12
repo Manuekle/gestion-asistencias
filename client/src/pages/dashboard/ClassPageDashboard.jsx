@@ -56,7 +56,7 @@ function ClassPageDashboard() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const [fecha, setFecha] = useState(new Date());
+  // const [fecha, setFecha] = useState(new Date());
 
   // Función para deshabilitar días específicos
   const disabledDays = useCallback((day) => {
@@ -78,7 +78,7 @@ function ClassPageDashboard() {
   }, []);
 
   const [subject, setSubject] = useState('');
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(new Date());
   const [startTime, setStartTime] = useState();
   const [endTime, setEndTime] = useState();
 
@@ -248,8 +248,8 @@ function ClassPageDashboard() {
                   <PopoverContent className="w-auto p-0">
                     <Calendar
                       mode="single"
-                      selected={fecha}
-                      onSelect={setFecha}
+                      selected={date}
+                      onSelect={setDate}
                       disabled={disabledDays}
                     />
                   </PopoverContent>
