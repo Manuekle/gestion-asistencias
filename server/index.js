@@ -10,7 +10,6 @@ import asignaturasRoutes from "./routes/asignaturas.routes.js";
 import clasesRoutes from "./routes/clases.routes.js";
 import codigosQrRoutes from "./routes/codigosqr.routes.js";
 import asistenciasRoutes from "./routes/asistencias.route.js";
-import horariosRoutes from "./routes/horarios.routes.js";
 import reportesRoutes from "./routes/reportes.routes.js";
 
 const app = express();
@@ -24,7 +23,6 @@ app.use(asignaturasRoutes);
 app.use(clasesRoutes);
 app.use(codigosQrRoutes);
 app.use(asistenciasRoutes);
-app.use(horariosRoutes);
 app.use(reportesRoutes);
 
 app.use(express.static(join(__dirname, "../client/dist")));

@@ -5,7 +5,6 @@ import {
   getClase,
   createClase,
   cancelClase,
-  deleteClase,
   getClaseAsistencias,
   getClasesDocente,
   getClaseQr,
@@ -25,8 +24,6 @@ router.get("/diarango", getClasesPorDiaYRango);
 router.post("/clase/nueva", createClase);
 //TODO: UPDATE
 router.put("/cancelar/clase/:id", cancelClase);
-//! DELETE
-router.delete("/clase/:id", deleteClase);
 
 router.get("/docente/:docenteId", getClasesDocente);
 

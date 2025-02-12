@@ -117,77 +117,6 @@ export const getClaseAsistencias = async (req, res) => {
   }
 };
 
-//? POST
-export const createClase = async (req, res) => {
-  try {
-    const { clas_asig_id, clas_fecha, clas_hora_inicio, clas_hora_fin } =
-      req.body;
-
-    const [result] = await pool.query(
-      "INSERT INTO clase (clas_asig_id, clas_fecha, clas_hora_inicio, clas_hora_fin) VALUES (?, ?, ?, ?)",
-      [clas_asig_id, clas_fecha, clas_hora_inicio, clas_hora_fin]
-    );
-
-    return res.status(200).json({
-      clas_id: result.insertId,
-      clas_asig_id,
-      clas_fecha,
-      clas_hora_inicio,
-      clas_hora_fin,
-      clas_estado: "activa", // Devuelve el estado activo
-    });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-//TODO: Cancel
-export const cancelClase = async (req, res) => {
-  try {
-    const { clas_estado } = req.body;
-
-    // Verificar que solo se intenta cambiar el estado a 'finalizada'
-    if (clas_estado !== "finalizada") {
-      return res
-        .status(400)
-        .json({ message: "Solo se puede cambiar el estado a 'finalizada'." });
-    }
-
-    // Actualizar solo si la clase está actualmente 'activa'
-    const result = await pool.query(
-      "UPDATE clase SET clas_estado = ? WHERE clas_id = ? AND clas_estado = 'activa'",
-      [clas_estado, req.params.id]
-    );
-
-    if (result.affectedRows === 0) {
-      return res
-        .status(404)
-        .json({ message: "Clase no encontrada o ya finalizada." });
-    }
-
-    return res.status(200).json({ message: "Clase actualizada exitosamente." });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-
-//! DELETE
-export const deleteClase = async (req, res) => {
-  try {
-    const [result] = await pool.query("DELETE FROM clase WHERE clas_id = ?", [
-      req.params.id,
-    ]);
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Clase no encontrado" });
-    }
-
-    return res.sendStatus(204);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
 export const getClasesDocente = async (req, res) => {
   try {
     const { docenteId } = req.params;
@@ -279,48 +208,6 @@ export const getClasesPorDiaYRango = async (req, res) => {
   }
 };
 
-// Función para obtener las clases del día
-// export const getClasesDelDia = async (req, res) => {
-//   try {
-//     const hoy = new Date();
-//     hoy.setHours(0, 0, 0, 0); // Ajustar a la hora local
-//     const fechaHoy = hoy.toISOString().split("T")[0]; // Formato YYYY-MM-DD
-
-//     const [rows] = await pool.query(
-//       `SELECT 
-//           c.clas_fecha AS fecha,
-//           a.asig_nombre AS asignatura,
-//           c.clas_fecha AS fecha,
-//           c.clas_hora_inicio AS fecha_inicio,
-//           c.clas_hora_fin AS fecha_fin,
-//           c.clas_estado AS estado
-//       FROM clase c
-//       JOIN asignatura a ON c.clas_asig_id = a.asig_id
-//       WHERE c.clas_fecha = ?
-//       ORDER BY c.clas_hora_inicio`,
-//       [hoy]
-//     );
-
-//     const resultado = [
-//       {
-//         fecha: fechaHoy,
-//         clases: rows.map((clase) => ({
-//           asignatura: clase.asignatura,
-//           fecha: clase.fecha,
-//           fecha_inicio: clase.fecha_inicio,
-//           fecha_fin: clase.fecha_fin,
-//           estado: clase.estado,
-//         })),
-//       },
-//     ];
-
-//     res.json(resultado);
-//   } catch (error) {
-//     console.error("Error al obtener clases:", error);
-//     res.status(500).json({ error: "Error interno del servidor" });
-//   }
-// };
-
 export const obtenerClasesPorDocente = async (req, res) => {
   const { docenteId } = req.params; // Obtener el ID del docente desde la URL
 
@@ -367,4 +254,61 @@ export const obtenerClasesPorDocente = async (req, res) => {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
+
+
+
+//? POST
+export const createClase = async (req, res) => {
+  try {
+    const { clas_asig_id, clas_fecha, clas_hora_inicio, clas_hora_fin } =
+      req.body;
+
+    const [result] = await pool.query(
+      "INSERT INTO clase (clas_asig_id, clas_fecha, clas_hora_inicio, clas_hora_fin) VALUES (?, ?, ?, ?)",
+      [clas_asig_id, clas_fecha, clas_hora_inicio, clas_hora_fin]
+    );
+
+    return res.status(200).json({
+      clas_id: result.insertId,
+      clas_asig_id,
+      clas_fecha,
+      clas_hora_inicio,
+      clas_hora_fin,
+      clas_estado: "activa", // Devuelve el estado activo
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+//TODO: Cancel
+export const cancelClase = async (req, res) => {
+  try {
+    const { clas_estado } = req.body;
+
+    // Verificar que solo se intenta cambiar el estado a 'finalizada'
+    if (clas_estado !== "finalizada") {
+      return res
+        .status(400)
+        .json({ message: "Solo se puede cambiar el estado a 'finalizada'." });
+    }
+
+    // Actualizar solo si la clase está actualmente 'activa'
+    const result = await pool.query(
+      "UPDATE clase SET clas_estado = ? WHERE clas_id = ? AND clas_estado = 'activa'",
+      [clas_estado, req.params.id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ message: "Clase no encontrada o ya finalizada." });
+    }
+
+    return res.status(200).json({ message: "Clase actualizada exitosamente." });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 

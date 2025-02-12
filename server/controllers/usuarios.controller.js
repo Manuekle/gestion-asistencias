@@ -92,37 +92,6 @@ export const createUsuario = async (req, res) => {
   }
 };
 
-//TODO: UPDATE
-export const updateUsuario = async (req, res) => {
-  try {
-    const result = await pool.query("UPDATE usuario SET ? WHERE usua_id = ?", [
-      req.body,
-      req.params.id,
-    ]);
-
-    return res.status(200).json(result);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-//! DELETE
-export const deleteUsuario = async (req, res) => {
-  try {
-    const [result] = await pool.query(
-      "DELETE FROM usuario WHERE usua_id = ?",
-      [req.params.id]
-    );
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
-    }
-
-    return res.sendStatus(204);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
 //* LOGIN
 export const loginUsuario = async (req, res) => {
   try {
