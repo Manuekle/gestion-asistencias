@@ -1,15 +1,20 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
-import { Input, Button } from '@heroui/react';
-import { Mail01Icon, Passport01Icon } from 'hugeicons-react';
-import { useToast } from '../../hooks/use-toast.ts';
+import { Input, Button, Select, SelectItem } from '@heroui/react';
+import {
+  Mail01Icon,
+  Passport01Icon,
+  UserSharingIcon,
+  MentoringIcon
+} from 'hugeicons-react';
+import { useToast } from '../../../hooks/use-toast.ts';
 
-import { login } from '../../actions/userActions';
+import { register } from '../../../actions/userActions.jsx';
 
-function LoginPageAuth() {
+function RegisterPageAuth() {
   const [formData, setFormData] = useState(false);
 
   const dispatch = useDispatch();
@@ -18,11 +23,15 @@ function LoginPageAuth() {
 
   const navigate = useNavigate();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { error, userInfo } = userLogin;
+  const userRegister = useSelector((state) => state.userRegister);
+  const { error, userInfo } = userRegister;
 
   const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
+
+  const [status, setStatus] = useState(false);
 
   // regex
   const validateEmail = (value) =>
@@ -32,10 +41,10 @@ function LoginPageAuth() {
     value.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
   const isInvalidEmail = React.useMemo(() => {
-    if (user === '') return false;
+    if (email === '') return false;
 
-    return !validateEmail(user);
-  }, [user]);
+    return !validateEmail(email);
+  }, [email]);
 
   const isInvalidPassword = React.useMemo(() => {
     if (password === '') return false;
@@ -50,19 +59,13 @@ function LoginPageAuth() {
         title: 'Oh oh! Algo salio mal',
         description: error
       });
-    } else {
-      toast({
-        variant: 'destructive',
-        title: 'Oh oh! Algo salio mal',
-        description: 'Por favor intente de nuevo'
-      });
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setFormData(true);
-    dispatch(login(user, password));
-    setTimeout(() => {
+    dispatch(register(user, email, password, role, status));
+    await setTimeout(() => {
       setFormData(false);
     }, 2000);
     alert();
@@ -70,33 +73,43 @@ function LoginPageAuth() {
 
   useEffect(() => {
     if (userInfo) {
-      navigate('/Dashboard');
+      navigate('/dashboard');
     }
   }, [userInfo, navigate]);
   return (
     <div className="flex justify-center items-center h-svh auth">
       <div className="flex flex-col w-full max-w-xl mx-auto px-4 py-16 bg-[#1E201E] rounded-xl shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
-        <div className="self-center mb-2 text-xl font-light text-zinc-100 sm:text-2xl">
-          Iniciar Sesion
+        <div className="self-center mb-2 text-xl font-light text-zinc-100 sm:text-2xl dark:text-white">
+          Crear Cuenta
         </div>
-        <span className="justify-center text-xs text-center text-zinc-300 flex-items-center ">
-          No tienes una cuenta?
-          <Link to="/auth/register" className="ml-2 text-amber-400 underline">
-            Registrate
+        <span className="justify-center text-xs text-center text-zinc-300 flex-items-center dark:text-gray-400">
+          Ya tienes una cuenta?
+          <Link to="/auth/administrador/login" className="ml-2 text-amber-400 underline">
+            Inicia sesion
           </Link>
         </span>
         <div className="p-6 mt-2">
           <div className="flex w-full flex-col md:flex-nowrap mb-6 md:mb-0 gap-4">
             <Input
+              type="text"
+              size="md"
+              placeholder="nombre de usuario"
+              // errorMessage="Por favor ingrese un email valido"
+              // isInvalid={isInvalidEmail}
+              value={user}
+              onValueChange={setUser}
+              startContent={
+                <UserSharingIcon size={18} color="#000" variant="stroke" />
+              }
+            />
+            <Input
               size="md"
               type="email"
-              // color={isInvalid ? 'danger' : 'success'}
-              onChange={(e) => setUser(e.target.value)}
               placeholder="you@example.com"
               errorMessage="Por favor ingrese un email valido"
               isInvalid={isInvalidEmail}
-              value={user}
-              onValueChange={setUser}
+              value={email}
+              onValueChange={setEmail}
               startContent={
                 <Mail01Icon size={18} color="#000" variant="stroke" />
               }
@@ -105,7 +118,6 @@ function LoginPageAuth() {
               size="md"
               type="password"
               placeholder="contraseña"
-              onChange={(e) => setPassword(e.target.value)}
               errorMessage="Por favor ingrese una contraseña valida"
               isInvalid={isInvalidPassword}
               value={password}
@@ -114,12 +126,28 @@ function LoginPageAuth() {
                 <Passport01Icon size={18} color="#000" variant="stroke" />
               }
             />
+
+            <Select
+              size="sm"
+              startContent={
+                <MentoringIcon size={18} color="#000" variant="stroke" />
+              }
+              label="Seleccione el rol"
+              variant="solid"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="max-w-full"
+            >
+              <SelectItem key="administrador">Administrador</SelectItem>
+              <SelectItem key="docente">Docente</SelectItem>
+              <SelectItem key="estudiante">Estudiante</SelectItem>
+            </Select>
             {!formData ? (
               <Button
                 onPress={handleSubmit}
                 className="bg-amber-400 text-white shadow-lg"
               >
-                Iniciar Sesion
+                Registrarse
               </Button>
             ) : (
               <Button
@@ -151,15 +179,6 @@ function LoginPageAuth() {
                 Cargando
               </Button>
             )}
-            <div className="flex text-xs w-full justify-center items-center">
-              <h1 className="text-zinc-300">Olvidaste tu contraseña?</h1>
-              <Link
-                to="/auth/forgot-password"
-                className="underline ml-2 text-amber-400"
-              >
-                Recuperar
-              </Link>
-            </div>
           </div>
         </div>
       </div>
@@ -167,4 +186,4 @@ function LoginPageAuth() {
   );
 }
 
-export default LoginPageAuth;
+export default RegisterPageAuth;

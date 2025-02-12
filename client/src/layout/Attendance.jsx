@@ -39,7 +39,7 @@ function Attendance() {
         title: 'Exito!',
         description: `Has entrado a tu clase de ${codigo.asig_nombre}`
       });
-      // navigate('/auth/login');
+      // navigate('/auth/administrador/login');
     } else {
       toast({
         variant: 'destructive',
@@ -66,7 +66,7 @@ function Attendance() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/auth/login');
+      navigate('/auth/administrador/login');
     }
 
     if (id && token) {

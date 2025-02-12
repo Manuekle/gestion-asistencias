@@ -32,13 +32,13 @@ export default function Sidebar({ children }) {
   const logoutHandler = () => {
     dispatch(logout());
     if (userInfo) {
-      navigate('/auth/login');
+      navigate('/auth/administrador/login');
     }
   };
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/auth/login');
+      navigate('/auth/administrador/login');
     } else {
       dispatch(getUserDetails(userInfo.user.usua_id));
     }

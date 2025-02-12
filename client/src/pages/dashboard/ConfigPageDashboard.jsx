@@ -16,7 +16,7 @@ function ConfigPageDashboard() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/auth/login');
+      navigate('/auth/administrador/login');
     } else {
       dispatch(getUserDetails(userInfo.user.usua_id));
     }
