@@ -6,12 +6,20 @@ import {
   userLoginReducer,
   userRegisterReducer,
   userDetailsReducer,
-  userUpdateProfileReducer,
-  userListReducer,
-  userDeleteReducer,
-  userUpdateReducer,
   userRecoverReducer
 } from './reducers/userReducers';
+
+import {
+  docenteLoginReducer,
+  docenteRegisterReducer,
+  docenteDetailsReducer
+} from './reducers/docenteReducers';
+
+import {
+  estudianteLoginReducer,
+  estudianteRegisterReducer,
+  estudianteDetailsReducer
+} from './reducers/estudianteReducers';
 
 import {
   classDetailsReducer,
@@ -36,11 +44,15 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
-  userUpdateProfile: userUpdateProfileReducer,
-  userList: userListReducer,
-  userDelete: userDeleteReducer,
-  userUpdate: userUpdateReducer,
   userRecover: userRecoverReducer,
+
+  docenteLogin: docenteLoginReducer,
+  docenteRegister: docenteRegisterReducer,
+  docenteDetails: docenteDetailsReducer,
+
+  estudianteLogin: estudianteLoginReducer,
+  estudianteRegister: estudianteRegisterReducer,
+  estudianteDetails: estudianteDetailsReducer,
 
   classDetails: classDetailsReducer,
   classCreate: classCreateReducer,

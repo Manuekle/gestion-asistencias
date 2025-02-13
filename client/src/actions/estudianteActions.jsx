@@ -1,47 +1,159 @@
+/* eslint-disable camelcase */
 import axios from 'axios';
 import {
-  ESTUDIANTE_LIST_REQUEST,
-  ESTUDIANTE_LIST_SUCCESS,
-  ESTUDIANTE_LIST_FAIL,
+  ESTUDIANTE_LOGIN_REQUEST,
+  ESTUDIANTE_LOGIN_SUCCESS,
+  ESTUDIANTE_LOGIN_FAIL,
+  ESTUDIANTE_LOGOUT,
+  ESTUDIANTE_REGISTER_REQUEST,
+  ESTUDIANTE_REGISTER_SUCCESS,
+  ESTUDIANTE_REGISTER_FAIL,
   ESTUDIANTE_DETAILS_REQUEST,
   ESTUDIANTE_DETAILS_SUCCESS,
   ESTUDIANTE_DETAILS_FAIL,
-  ESTUDIANTE_CREATE_REQUEST,
-  ESTUDIANTE_CREATE_SUCCESS,
-  ESTUDIANTE_CREATE_FAIL,
-  ESTUDIANTE_UPDATE_REQUEST,
-  ESTUDIANTE_UPDATE_SUCCESS,
-  ESTUDIANTE_UPDATE_FAIL,
-  ESTUDIANTE_DELETE_REQUEST,
-  ESTUDIANTE_DELETE_SUCCESS,
-  ESTUDIANTE_DELETE_FAIL
+  ESTUDIANTE_DETAILS_RESET,
+  ESTUDIANTE_LIST_RESET,
+  ESTUDIANTE_RECOVER_REQUEST,
+  ESTUDIANTE_RECOVER_SUCCESS,
+  ESTUDIANTE_RECOVER_FAIL
 } from '../constants/estudianteConstants';
 
-// Fetch all students
-export const fetchEstudiantes = () => async (dispatch) => {
+export const estudianteLogin =
+  (estu_correo, estu_password) => async (dispatch) => {
+    try {
+      dispatch({
+        type: ESTUDIANTE_LOGIN_REQUEST
+      });
+
+      const config = {
+        headers: {
+          'Content-type': 'application/json'
+        }
+      };
+
+      const { data } = await axios.post(
+        'http://localhost:4000/api/estudiante/login',
+        { estu_correo, estu_password },
+        config
+      );
+
+      dispatch({
+        type: ESTUDIANTE_LOGIN_SUCCESS,
+        payload: data
+      });
+
+      localStorage.setItem('userInfo', JSON.stringify(data));
+    } catch (error) {
+      dispatch({
+        type: ESTUDIANTE_LOGIN_FAIL,
+        payload: error.response.data.message
+      });
+    }
+  };
+
+export const estudianteLogout = () => (dispatch) => {
+  localStorage.removeItem('userInfo');
+  dispatch({ type: ESTUDIANTE_LOGOUT });
+  dispatch({ type: ESTUDIANTE_DETAILS_RESET });
+  dispatch({ type: ESTUDIANTE_LIST_RESET });
+};
+
+export const estudianteRegister =
+  (estu_nombre, estu_correo, estu_password, rol, estu_estado) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: ESTUDIANTE_REGISTER_REQUEST
+      });
+
+      const config = {
+        headers: {
+          'Content-type': 'application/json'
+        }
+      };
+
+      const { data } = await axios.post(
+        'http://localhost:4000/api/estudiante/register',
+        { estu_nombre, estu_correo, estu_password, rol, estu_estado },
+        config
+      );
+
+      dispatch({
+        type: ESTUDIANTE_REGISTER_SUCCESS,
+        payload: data
+      });
+
+      dispatch({
+        type: ESTUDIANTE_LOGIN_SUCCESS,
+        payload: data
+      });
+
+      localStorage.setItem('userInfo', JSON.stringify(data));
+    } catch (error) {
+      dispatch({
+        type: ESTUDIANTE_REGISTER_FAIL,
+        payload: error.response.data.message
+      });
+    }
+  };
+
+export const estudianteRecoverPassword = (estu_correo) => async (dispatch) => {
   try {
-    dispatch({ type: ESTUDIANTE_LIST_REQUEST });
-    const { data } = await axios.get('/api/estudiantes');
     dispatch({
-      type: ESTUDIANTE_LIST_SUCCESS,
+      type: ESTUDIANTE_RECOVER_REQUEST
+    });
+
+    const config = {
+      headers: {
+        'Content-type': 'application/json'
+      }
+    };
+
+    const { data } = await axios.post(
+      'http://localhost:4000/api/estudiante/recover',
+      { estu_correo },
+      config
+    );
+
+    dispatch({
+      type: ESTUDIANTE_RECOVER_SUCCESS,
+      payload: data
+    });
+
+    dispatch({
+      type: ESTUDIANTE_RECOVER_SUCCESS,
       payload: data
     });
   } catch (error) {
     dispatch({
-      type: ESTUDIANTE_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+      type: ESTUDIANTE_RECOVER_FAIL,
+      payload: error.response.data.message
     });
   }
 };
 
-// Fetch a single student by ID
-export const fetchEstudianteById = (id) => async (dispatch) => {
+export const getEstudianteDetails = (estu_id) => async (dispatch, getState) => {
   try {
-    dispatch({ type: ESTUDIANTE_DETAILS_REQUEST });
-    const { data } = await axios.get(`/api/estudiantes/${id}`);
+    dispatch({
+      type: ESTUDIANTE_DETAILS_REQUEST
+    });
+
+    const {
+      estudianteLogin: { userInfo }
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`
+      }
+    };
+
+    const { data } = await axios.get(
+      `http://localhost:4000/api/estudiante/show/${estu_id}/`,
+      config
+    );
+
     dispatch({
       type: ESTUDIANTE_DETAILS_SUCCESS,
       payload: data
@@ -50,68 +162,8 @@ export const fetchEstudianteById = (id) => async (dispatch) => {
     dispatch({
       type: ESTUDIANTE_DETAILS_FAIL,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-    });
-  }
-};
-
-// Create a new student
-export const createEstudiante = (estudiante) => async (dispatch) => {
-  try {
-    dispatch({ type: ESTUDIANTE_CREATE_REQUEST });
-    const { data } = await axios.post('/api/estudiantes', estudiante);
-    dispatch({
-      type: ESTUDIANTE_CREATE_SUCCESS,
-      payload: data
-    });
-  } catch (error) {
-    dispatch({
-      type: ESTUDIANTE_CREATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-    });
-  }
-};
-
-// Update an existing student
-export const updateEstudiante = (estudiante) => async (dispatch) => {
-  try {
-    dispatch({ type: ESTUDIANTE_UPDATE_REQUEST });
-    const { data } = await axios.put(
-      `/api/estudiantes/${estudiante.id}`,
-      estudiante
-    );
-    dispatch({
-      type: ESTUDIANTE_UPDATE_SUCCESS,
-      payload: data
-    });
-  } catch (error) {
-    dispatch({
-      type: ESTUDIANTE_UPDATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-    });
-  }
-};
-
-// Delete a student
-export const deleteEstudiante = (id) => async (dispatch) => {
-  try {
-    dispatch({ type: ESTUDIANTE_DELETE_REQUEST });
-    await axios.delete(`/api/estudiantes/${id}`);
-    dispatch({ type: ESTUDIANTE_DELETE_SUCCESS });
-  } catch (error) {
-    dispatch({
-      type: ESTUDIANTE_DELETE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data.detail
+          ? error.response.data.detail
           : error.message
     });
   }
