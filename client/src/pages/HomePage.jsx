@@ -1,15 +1,17 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+
 import {
   GlassesIcon,
   Mortarboard02Icon,
   QrCodeIcon,
   Timer02Icon,
   UserGroupIcon,
-  GraduationScrollIcon
+  GraduationScrollIcon,
+  GithubIcon
 } from 'hugeicons-react';
 import { Button } from '@heroui/react';
 import { Image } from '@heroui/image';
@@ -351,7 +353,9 @@ function HomePage() {
             >
               <SvgNode className="w-6 h-6" />
             </button>
-            <h1 className="text-zinc-800 font-bold text-sm">nodejs</h1>
+            <h1 className="text-zinc-800 font-bold text-sm bg-[#FAFBFD]">
+              nodejs
+            </h1>
           </div>
           <div className="flex flex-col gap-1 justify-center items-center">
             <button
@@ -360,7 +364,9 @@ function HomePage() {
             >
               <SvgReact className="w-6 h-6" />
             </button>
-            <h1 className="text-zinc-800 font-bold text-sm">react</h1>
+            <h1 className="text-zinc-800 font-bold text-sm bg-[#FAFBFD]">
+              reactjs
+            </h1>
           </div>
           <div className="flex flex-col gap-1 justify-center items-center">
             <button
@@ -369,7 +375,9 @@ function HomePage() {
             >
               <SvgTailwind className="w-6 h-6" />
             </button>
-            <h1 className="text-zinc-800 font-bold text-sm">tailwindcss</h1>
+            <h1 className="text-zinc-800 font-bold text-sm bg-[#FAFBFD]">
+              tailwindcss
+            </h1>
           </div>
           <div className="flex flex-col gap-1 justify-center items-center">
             <button
@@ -378,8 +386,19 @@ function HomePage() {
             >
               <SvgMySql className="w-6 h-6" />
             </button>
-            <h1 className="text-zinc-800 font-bold text-sm">mysql</h1>
+            <h1 className="text-zinc-800 font-bold text-sm bg-[#FAFBFD]">
+              mysql
+            </h1>
           </div>
+        </div>
+        <div className="flex justify-center items-center py-6">
+          <Link
+            to="/"
+            className="bg-zinc-900 px-8 py-2 rounded-lg shadow-md hover:shadow-lg flex flex-row gap-4 items-center justify-center"
+          >
+            <GithubIcon size={18} color="#eee" variant="stroke" />
+            <h1 className="text-white text-sm">repositorio de github</h1>
+          </Link>
         </div>
       </section>
       <Footer />
