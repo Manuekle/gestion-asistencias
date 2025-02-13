@@ -12,7 +12,7 @@ import {
 } from 'hugeicons-react';
 import { useToast } from '../../../hooks/use-toast.ts';
 
-import { register } from '../../../actions/userActions.jsx';
+import { userRegister } from '../../../actions/userActions.jsx';
 
 function RegisterPageAuth() {
   const [formData, setFormData] = useState(false);

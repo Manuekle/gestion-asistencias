@@ -12,7 +12,7 @@ import {
   TooltipTrigger
 } from './ui/tooltip.tsx';
 
-import { getUserDetails, logout } from '../actions/userActions';
+import { getUserDetails, userLogout } from '../actions/userActions';
 
 const SidebarContext = createContext();
 
@@ -30,7 +30,7 @@ export default function Sidebar({ children }) {
   const { user } = userDetails;
 
   const logoutHandler = () => {
-    dispatch(logout());
+    dispatch(userLogout());
     if (userInfo) {
       navigate('/auth/administrador/login');
     }

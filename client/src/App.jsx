@@ -12,14 +12,14 @@ import HomePage from './pages/HomePage';
 import Dashboard from './layout/Dashboard';
 import Attendance from './layout/Attendance';
 // admin
-import LoginPageAuth from './pages/auth/administrador/LoginPageAuth';
-import RegisterPageAuth from './pages/auth/administrador/RegisterPageAuth';
+import LoginPageAdmin from './pages/auth/administrador/LoginPageAdmin';
+import RegisterPageAdmin from './pages/auth/administrador/RegisterPageAdmin.jsx';
 // estudiante
-import LoginPageEstudiante from './pages/auth/estudiante/LoginPageAuth';
-import RegisterPageEstudiante from './pages/auth/estudiante/RegisterPageAuth';
+import LoginPageEstudiante from './pages/auth/estudiante/LoginPageEstudiante.jsx';
+import RegisterPageEstudiante from './pages/auth/estudiante/RegisterPageEstudiante.jsx';
 // docente
-import LoginPageDocente from './pages/auth/docente/LoginPageAuth';
-import RegisterPageDocente from './pages/auth/docente/RegisterPageAuth';
+import LoginPageDocente from './pages/auth/docente/LoginPageDocente.jsx';
+import RegisterPageDocente from './pages/auth/docente/RegisterPageDocente.jsx';
 import RestorePasswordPageAuth from './pages/auth/RestorePasswordPageAuth';
 import NotFoundPage from './pages/NotFoundPage';
 import { Toaster } from './components/ui/toaster.tsx';
@@ -34,10 +34,13 @@ function App() {
           <Route path="/attendance" element={<Attendance />} />
           <Route path="/dashboard/*" element={<Dashboard />} />
           {/* admin */}
-          <Route path="/auth/administrador/login" element={<LoginPageAuth />} />
+          <Route
+            path="/auth/administrador/login"
+            element={<LoginPageAdmin />}
+          />
           <Route
             path="/auth/administrador/register"
-            element={<RegisterPageAuth />}
+            element={<RegisterPageAdmin />}
           />
           <Route
             path="/auth/administrador/forgot-password"
@@ -60,7 +63,7 @@ function App() {
           />
           {/* recover */}
           <Route
-            path="/auth/administrador/forgot-password"
+            path="/auth/docente/forgot-password"
             element={<RestorePasswordPageAuth />}
           />
           <Route path="*" element={<NotFoundPage />} />

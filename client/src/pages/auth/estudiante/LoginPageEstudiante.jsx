@@ -7,7 +7,7 @@ import { Input, Button } from '@heroui/react';
 import { Mail01Icon, Passport01Icon } from 'hugeicons-react';
 import { useToast } from '../../../hooks/use-toast.ts';
 
-import { login } from '../../../actions/userActions';
+import { userLogin } from '../../../actions/userActions.jsx';
 
 function LoginPageAuth() {
   const [formData, setFormData] = useState(false);

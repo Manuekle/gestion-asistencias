@@ -4,7 +4,7 @@ import { Input, Button } from '@heroui/react';
 import { Mail01Icon } from 'hugeicons-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '../../hooks/use-toast.ts';
-import { recoverPassword } from '../../actions/userActions';
+import { userRecoverPassword } from '../../actions/userActions';
 
 function RestorePasswordPageAuth() {
   const [formData, setFormData] = useState(false);
