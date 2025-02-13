@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../server/app.js'; // Asegúrate de que la ruta al archivo principal de tu aplicación sea correcta
+import app from '../server/index';
 
 describe('API Tests', () => {
   it('should get usuarios', async () => {
