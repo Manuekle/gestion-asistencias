@@ -9,6 +9,9 @@
     "start": "node server/index.js",
     "test": "jest"
   },
+  "jest": {
+  "testMatch": ["**/tests/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
