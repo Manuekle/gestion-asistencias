@@ -1,7 +1,7 @@
 export default {
   testMatch: [
-    "**/test/**/*.test.js",
-    "**/test/**/*.spec.js",
+    "**/tests/**/*.test.js",
+    "**/tests/**/*.spec.js",
     "**/__tests__/**/*.js",
   ],
   testPathIgnorePatterns: ["/node_modules/"],
