@@ -1,6 +1,6 @@
-//? Usuarios Controllers
+//? Docentes Controllers
 import { pool } from "../db.js";
-import { createUsuarioSchema } from "../schemas/usuario.js";
+import { createDocenteSchema } from "../schemas/docente.js";
 
 import { SECRET_KEY, EMAIL_USER, EMAIL_PASSWORD } from "../config.js";
 
@@ -11,10 +11,10 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 
 //* GET
-export const getUsuarios = async (req, res) => {
+export const getDocentes = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM usuario ORDER BY created_at ASC"
+      "SELECT * FROM docente ORDER BY created_at ASC"
     );
     return res.status(200).json(result);
   } catch (error) {
@@ -22,14 +22,14 @@ export const getUsuarios = async (req, res) => {
   }
 };
 
-export const getUsuario = async (req, res) => {
+export const getDocente = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM usuario WHERE usua_id = ?",
+      "SELECT * FROM docente WHERE doc_id = ?",
       [req.params.id]
     );
     if (result.length === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "Docente no encontrado" });
     }
     return res.status(200).json(result[0]);
   } catch (error) {
@@ -38,14 +38,14 @@ export const getUsuario = async (req, res) => {
 };
 
 //? POST
-export const createUsuario = async (req, res) => {
+export const createDocente = async (req, res) => {
   try {
-    const data = createUsuarioSchema.parse(req.body);
+    const data = createDocenteSchema.parse(req.body);
 
     // Verificar si el correo ya existe
     const [existingUser] = await pool.query(
-      "SELECT * FROM usuario WHERE usua_correo = ?",
-      [data.usua_correo]
+      "SELECT * FROM docente WHERE doc_correo = ?",
+      [data.doc_correo]
     );
 
     if (existingUser.length > 0) {
@@ -53,34 +53,34 @@ export const createUsuario = async (req, res) => {
     }
 
     // Hash de la contraseña
-    const hashedPassword = await bcrypt.hash(data.usua_password, 10);
+    const hashedPassword = await bcrypt.hash(data.doc_password, 10);
 
-    // Insertar usuario con contraseña cifrada
+    // Insertar docente con contraseña cifrada
     const [result] = await pool.query(
-      "INSERT INTO usuario(usua_nombre, usua_correo, usua_password, rol, usua_estado) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO docente(doc_nombre, doc_correo, doc_password, rol, doc_estado) VALUES (?, ?, ?, ?, ?)",
       [
-        data.usua_nombre,
-        data.usua_correo,
+        data.doc_nombre,
+        data.doc_correo,
         hashedPassword,
         data.rol,
-        data.usua_estado,
+        data.doc_estado,
       ]
     );
 
     // Generar el token JWT
     const token = jwt.sign(
-      { id: result.insertId, correo: data.usua_correo },
+      { id: result.insertId, correo: data.doc_correo },
       SECRET_KEY,
       { expiresIn: "1h" } // Duración del token
     );
 
-    // show data user and no show user.usua_password;
+    // show data user and no show user.doc_password;
     const user = {
-      usua_id: result.insertId,
-      usua_nombre: data.usua_nombre,
-      usua_correo: data.usua_correo,
+      doc_id: result.insertId,
+      doc_nombre: data.doc_nombre,
+      doc_correo: data.doc_correo,
       rol: data.rol,
-      usua_estado: data.usua_estado,
+      doc_estado: data.doc_estado,
     };
 
     return res.status(200).json({ message: "Registro exitoso", token, user });
@@ -93,26 +93,26 @@ export const createUsuario = async (req, res) => {
 };
 
 //* LOGIN
-export const loginUsuario = async (req, res) => {
+export const loginDocente = async (req, res) => {
   try {
-    const { usua_correo, usua_password } = req.body;
+    const { doc_correo, doc_password } = req.body;
 
-    // Buscar usuario por correo
+    // Buscar Docente por correo
     const [result] = await pool.query(
-      "SELECT * FROM usuario WHERE usua_correo = ?",
-      [usua_correo]
+      "SELECT * FROM docente WHERE doc_correo = ?",
+      [doc_correo]
     );
 
     if (result.length === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "Docente no encontrado" });
     }
 
     const user = result[0];
 
     // Verificar contraseña
     const isPasswordValid = await bcrypt.compare(
-      usua_password,
-      user.usua_password
+      doc_password,
+      user.doc_password
     );
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
@@ -120,7 +120,7 @@ export const loginUsuario = async (req, res) => {
 
     // Generar token JWT
     const token = jwt.sign(
-      { id: user.usua_id, correo: user.usua_correo },
+      { id: user.doc_id, correo: user.doc_correo },
       SECRET_KEY,
       { expiresIn: "1h" } // Token válido por 1 hora
     );
@@ -134,12 +134,12 @@ export const loginUsuario = async (req, res) => {
 //* FORGOT PASSWORD
 export const recoverPassword = async (req, res) => {
   try {
-    const { usua_correo } = req.body;
+    const { doc_correo } = req.body;
 
     // Verificar si el correo existe
     const [result] = await pool.query(
-      "SELECT * FROM usuario WHERE usua_correo = ?",
-      [usua_correo]
+      "SELECT * FROM docente WHERE doc_correo = ?",
+      [doc_correo]
     );
 
     if (result.length === 0) {
@@ -153,9 +153,9 @@ export const recoverPassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     // Actualizar la contraseña en la base de datos
-    await pool.query("UPDATE usuario SET usua_password = ? WHERE usua_id = ?", [
+    await pool.query("UPDATE docente SET doc_password = ? WHERE doc_id = ?", [
       hashedPassword,
-      user.usua_id,
+      user.doc_id,
     ]);
 
     // Configurar el servicio de nodemailer
@@ -172,9 +172,9 @@ export const recoverPassword = async (req, res) => {
     // Configurar el contenido del correo
     const mailOptions = {
       from: EMAIL_USER,
-      to: usua_correo,
+      to: doc_correo,
       subject: "Recuperación de contraseña",
-      text: `Hola ${user.usua_nombre}, Tu nueva contraseña temporal es: ${newPassword}\n\nTe recomendamos cambiarla después de iniciar sesión.`,
+      text: `Hola ${user.doc_nombre}, Tu nueva contraseña temporal es: ${newPassword}\n\nTe recomendamos cambiarla después de iniciar sesión.`,
     };
 
     // Enviar el correo

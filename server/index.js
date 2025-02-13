@@ -6,6 +6,8 @@ import { fileURLToPath } from "url";
 import { PORT, HOSTNAME } from "./config.js";
 
 import usuariosRoutes from "./routes/usuarios.routes.js";
+import docentesRoutes from "./routes/docentes.routes.js";
+import estudiantesRoutes from "./routes/estudiantes.routes.js";
 import asignaturasRoutes from "./routes/asignaturas.routes.js";
 import clasesRoutes from "./routes/clases.routes.js";
 import codigosQrRoutes from "./routes/codigosqr.routes.js";
@@ -19,6 +21,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/usuario", usuariosRoutes);
+app.use("/api/docente", docentesRoutes);
+app.use("/api/estudiante", estudiantesRoutes);
 app.use("/api/asignatura", asignaturasRoutes);
 app.use("/api/clase", clasesRoutes);
 app.use("/api/qr", codigosQrRoutes);
