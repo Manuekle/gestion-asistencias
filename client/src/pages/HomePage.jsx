@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -7,12 +8,20 @@ import {
   Mortarboard02Icon,
   QrCodeIcon,
   Timer02Icon,
-  UserGroupIcon
+  UserGroupIcon,
+  GraduationScrollIcon
 } from 'hugeicons-react';
 import { Button } from '@heroui/react';
+import { Image } from '@heroui/image';
+import FUP from '../../public/fup.jpg';
 import SvgQr from '../components/svg/SvgQr';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+// icons
+import SvgNode from '../components/svg/SvgNode';
+import SvgReact from '../components/svg/SvgReact';
+import SvgTailwind from '../components/svg/SvgTailwind';
+import SvgMySql from '../components/svg/SvgMySql';
 
 function HomePage() {
   const userLogin = useSelector((state) => state.userLogin);
@@ -132,15 +141,6 @@ function HomePage() {
             ))}
           </div>
         </span>
-        {/* <span className="flex justify-center items-center w-full">
-          <Image
-            isBlurred
-            isZoomed
-            alt="Qr animation"
-            src={LandindGif}
-            width={240}
-          />
-        </span> */}
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-amber-100 to-zinc-100 rounded-2xl transform rotate-6" />
           <div className="relative bg-white p-6 rounded-2xl shadow-lg">
@@ -170,7 +170,218 @@ function HomePage() {
           </div>
         </div>
       </section>
-      {/* <section className="h-96 px-48 py-32">a</section> */}
+      <section className="px-48 py-32">
+        <div className="grid gap-12 lg:grid-cols-2 items-center">
+          <div className="space-y-8">
+            <h1 className="text-zinc-900 font-bold text-6xl">El Proyecto</h1>
+            <span className="flex flex-col gap-2 py-4 bg-[#FAFBFD]">
+              <p className="text-md text-wrap">
+                <strong className="text-gray-500">edu</strong>
+                <strong className="text-amber-400">Track</strong> nació como un
+                proyecto universitario en la Fundacion Universitaria de Popayan
+                , con el objetivo de modernizar y simplificar el proceso de
+                registro de asistencia en entornos educativos. Nuestra visión es
+                transformar la manera en que se gestiona la asistencia,
+                haciéndola más eficiente y confiable.
+              </p>
+              <p className="text-md text-wrap">
+                Este proyecto fue desarrollado como parte de nuestro trabajo de
+                grado, buscando resolver problemas reales en la educación
+                mediante el uso de tecnologías modernas. La implementación de
+                códigos QR no solo agiliza el proceso, sino que también
+                proporciona datos precisos para el seguimiento académico.
+              </p>
+            </span>
+            <div className="flex flex-col sm:flex-row gap-12">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full border flex items-center justify-center">
+                  <GraduationScrollIcon
+                    size={18}
+                    color="#000"
+                    variant="stroke"
+                  />
+                </div>
+                <div>
+                  <h4 className="font-semibold">Proyecto de Grado</h4>
+                  <p className="text-sm text-zinc-500">
+                    Fundacion Universitaria de Popayan - 2025
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full border flex items-center justify-center">
+                  <UserGroupIcon size={18} color="#000" variant="stroke" />
+                </div>
+                <div>
+                  <h4 className="font-semibold">Impacto Esperado</h4>
+                  <p className="text-sm text-zinc-500">
+                    +50 docentes beneficiados
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-100 to-zinc-100 rounded-2xl transform rotate-3" />
+            <Image isZoomed isBlurred alt="Sede San Jose" src={FUP} />
+          </div>
+        </div>
+      </section>
+      <section className="bg-zinc-900 w-full flex flex-col gap-10 justify-center items-center py-32">
+        <span className="flex flex-col items-center gap-2">
+          <h1 className="text-6xl font-bold text-white px-5">Nuestro Equipo</h1>
+          <p className="text-zinc-300 text-sm tracking-wide text-center py-2 px-8">
+            Conoce a los estudiantes y docentes detrás de{' '}
+            <strong className="text-gray-300">edu</strong>
+            <strong className="text-amber-400">Track</strong>
+          </p>
+        </span>
+        <span className="flex flex-row gap-32 items-center justify-center py-10">
+          <div className="flex flex-col items-center justify-center">
+            <h1 className="text-white text-lg pb-12 text-left w-full font-bold">
+              Estudiantes
+            </h1>
+            <span className="flex flex-col gap-8">
+              <div className="flex items-center space-x-4">
+                <div className="w-20 h-20 overflow-hidden rounded-full bg-gray-800">
+                  <Image
+                    isBlurred
+                    alt="Sede San Jose"
+                    src="https://avatars.githubusercontent.com/u/30373425?v=4"
+                  />
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold text-white">
+                    Manuel Esteban Erazo Medina
+                  </h4>
+                  <p className="text-zinc-300 font-bold text-sm">
+                    Desarrollador Principal
+                  </p>
+                  <p className="text-xs text-zinc-300">
+                    Ingenieria de Sistemas
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="w-20 h-20 overflow-hidden rounded-full bg-zinc-900">
+                  <Image
+                    isBlurred
+                    alt="Sede San Jose"
+                    src="https://avatars.githubusercontent.com/u/30373425?v=4"
+                  />
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold text-white">
+                    Manuel Esteban Erazo Medina
+                  </h4>
+                  <p className="text-zinc-300 font-bold text-sm">
+                    Director del Proyecto
+                  </p>
+                  <p className="text-xs text-zinc-300">
+                    Ingenieria de Sistemas
+                  </p>
+                </div>
+              </div>
+            </span>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <h1 className="text-white text-lg pb-12 text-right w-full font-bold">
+              Docentes
+            </h1>
+            <span className="flex flex-col gap-8">
+              <div className="flex items-center space-x-4">
+                <div>
+                  <h4 className="text-lg text-right font-semibold text-white">
+                    Manuel Esteban Erazo Medina
+                  </h4>
+                  <p className="text-zinc-300 text-right font-bold text-sm">
+                    Director del Proyecto
+                  </p>
+                  <p className="text-xs text-right text-zinc-300">
+                    Ingenieria de Sistemas
+                  </p>
+                </div>
+                <div className="w-20 h-20 overflow-hidden rounded-full bg-gray-800">
+                  <Image
+                    isBlurred
+                    alt="Sede San Jose"
+                    src="https://avatars.githubusercontent.com/u/30373425?v=4"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div>
+                  <h4 className="text-lg text-right font-semibold text-white">
+                    Manuel Esteban Erazo Medina
+                  </h4>
+                  <p className="text-zinc-300 text-right font-bold text-sm">
+                    Director del Proyecto
+                  </p>
+                  <p className="text-xs text-right text-zinc-300">
+                    Ingenieria de Sistemas
+                  </p>
+                </div>
+                <div className="w-20 h-20 overflow-hidden rounded-full bg-gray-800">
+                  <Image
+                    isBlurred
+                    alt="Sede San Jose"
+                    src="https://avatars.githubusercontent.com/u/30373425?v=4"
+                  />
+                </div>
+              </div>
+            </span>
+          </div>
+        </span>
+      </section>
+      <section className="px-48 py-32">
+        <div className="flex flex-col items-center gap-4">
+          <h1 className="text-6xl font-bold text-zinc-800 bg-[#FAFBFD] px-5">
+            Stack Tecnologico
+          </h1>
+          <p className="text-zinc-800 text-sm tracking-wide text-center py-2 bg-[#FAFBFD] px-8">
+            Un stack pensado para eficiencia, seguridad y una mejor experiencia
+            de usuario
+          </p>
+        </div>
+        <div className="flex justify-center flex-row gap-12 py-6">
+          <div className="flex flex-col gap-1 justify-center items-center">
+            <button
+              type="button"
+              className="border bg-white shadow-md p-3 rounded-full"
+            >
+              <SvgNode className="w-6 h-6" />
+            </button>
+            <h1 className="text-zinc-800 font-bold text-sm">nodejs</h1>
+          </div>
+          <div className="flex flex-col gap-1 justify-center items-center">
+            <button
+              type="button"
+              className="border bg-white shadow-md p-3 rounded-full"
+            >
+              <SvgReact className="w-6 h-6" />
+            </button>
+            <h1 className="text-zinc-800 font-bold text-sm">react</h1>
+          </div>
+          <div className="flex flex-col gap-1 justify-center items-center">
+            <button
+              type="button"
+              className="border bg-white shadow-md p-3 rounded-full"
+            >
+              <SvgTailwind className="w-6 h-6" />
+            </button>
+            <h1 className="text-zinc-800 font-bold text-sm">tailwindcss</h1>
+          </div>
+          <div className="flex flex-col gap-1 justify-center items-center">
+            <button
+              type="button"
+              className="border bg-white shadow-md p-3 rounded-full"
+            >
+              <SvgMySql className="w-6 h-6" />
+            </button>
+            <h1 className="text-zinc-800 font-bold text-sm">mysql</h1>
+          </div>
+        </div>
+      </section>
       <Footer />
     </div>
   );
