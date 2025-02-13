@@ -55,6 +55,10 @@ function App() {
             path="/auth/estudiante/register"
             element={<RegisterPageEstudiante />}
           />
+          <Route
+            path="/auth/estudiante/forgot-password"
+            element={<RestorePasswordPageAuth />}
+          />
           {/* docente */}
           <Route path="/auth/docente/login" element={<LoginPageDocente />} />
           <Route

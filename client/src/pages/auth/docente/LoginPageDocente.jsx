@@ -7,9 +7,9 @@ import { Input, Button } from '@heroui/react';
 import { Mail01Icon, Passport01Icon } from 'hugeicons-react';
 import { useToast } from '../../../hooks/use-toast.ts';
 
-import { userLogin } from '../../../actions/userActions.jsx';
+import { docenteLogin } from '../../../actions/docenteActions';
 
-function LoginPageAuth() {
+function LoginPageDocente() {
   const [formData, setFormData] = useState(false);
 
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ function LoginPageAuth() {
 
   const handleSubmit = () => {
     setFormData(true);
-    dispatch(login(user, password));
+    dispatch(docenteLogin(user, password));
     setTimeout(() => {
       setFormData(false);
     }, 2000);
@@ -157,7 +157,7 @@ function LoginPageAuth() {
             <div className="flex text-xs w-full justify-center items-center">
               <h1 className="text-zinc-300">Olvidaste tu contraseña?</h1>
               <Link
-                to="/auth/administrador/forgot-password"
+                to="/auth/docente/forgot-password"
                 className="underline ml-2 text-amber-400"
               >
                 Recuperar
@@ -170,4 +170,4 @@ function LoginPageAuth() {
   );
 }
 
-export default LoginPageAuth;
+export default LoginPageDocente;

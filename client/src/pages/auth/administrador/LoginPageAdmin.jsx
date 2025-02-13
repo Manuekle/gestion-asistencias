@@ -7,7 +7,7 @@ import { Input, Button } from '@heroui/react';
 import { Mail01Icon, Passport01Icon } from 'hugeicons-react';
 import { useToast } from '../../../hooks/use-toast.ts';
 
-import { userLogin } from '../../../actions/userActions';
+import { userLogin as loginUser } from '../../../actions/userActions';
 
 function LoginPageAuth() {
   const [formData, setFormData] = useState(false);
@@ -61,7 +61,7 @@ function LoginPageAuth() {
 
   const handleSubmit = () => {
     setFormData(true);
-    dispatch(login(user, password));
+    dispatch(loginUser(user, password));
     setTimeout(() => {
       setFormData(false);
     }, 2000);

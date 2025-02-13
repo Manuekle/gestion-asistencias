@@ -12,7 +12,7 @@ import {
 } from 'hugeicons-react';
 import { useToast } from '../../../hooks/use-toast.ts';
 
-import { userRegister } from '../../../actions/userActions.jsx';
+import { estudianteRegister } from '../../../actions/estudianteActions';
 
 function RegisterPageAuth() {
   const [formData, setFormData] = useState(false);
@@ -64,7 +64,7 @@ function RegisterPageAuth() {
 
   const handleSubmit = async () => {
     setFormData(true);
-    dispatch(register(user, email, password, role, status));
+    dispatch(estudianteRegister(user, email, password, role, status));
     await setTimeout(() => {
       setFormData(false);
     }, 2000);
@@ -84,7 +84,10 @@ function RegisterPageAuth() {
         </div>
         <span className="justify-center text-xs text-center text-zinc-300 flex-items-center dark:text-gray-400">
           Ya tienes una cuenta?
-          <Link to="/auth/administrador/login" className="ml-2 text-amber-400 underline">
+          <Link
+            to="/auth/administrador/login"
+            className="ml-2 text-amber-400 underline"
+          >
             Inicia sesion
           </Link>
         </span>
@@ -138,8 +141,6 @@ function RegisterPageAuth() {
               onChange={(e) => setRole(e.target.value)}
               className="max-w-full"
             >
-              <SelectItem key="administrador">Administrador</SelectItem>
-              <SelectItem key="docente">Docente</SelectItem>
               <SelectItem key="estudiante">Estudiante</SelectItem>
             </Select>
             {!formData ? (
