@@ -52,20 +52,22 @@ function HomePage() {
           </p>
         </span>
         <span className="flex flex-row gap-8 items-center justify-center">
-          <button
-            type="button"
+          <Link
+            to="/auth/docente/login"
             className="bg-zinc-800 flex flex-row items-center justify-center gap-2 text-white text-sm rounded-lg hover:shadow-lg shadow-md px-6 py-2"
           >
             <GlassesIcon size={18} color="#eee" variant="stroke" />
-            Iniciar sesion como docente
-          </button>
-          <button
-            type="button"
+            <h1 className="text-white text-sm">Iniciar sesion como docente</h1>
+          </Link>
+          <Link
+            to="/auth/estudiante/login"
             className="bg-zinc-50 flex flex-row items-center justify-center gap-2 text-zinc-800 text-sm rounded-lg hover:shadow-lg shadow-md px-6 py-2"
           >
             <Mortarboard02Icon size={18} color="#000" variant="stroke" />
-            Iniciar sesion como estudiante
-          </button>
+            <h1 className="text-zinc-800 text-sm">
+              Iniciar sesion como estudiante
+            </h1>
+          </Link>
         </span>
       </section>
       <section className="w-full flex flex-col gap-10 justify-center items-center pt-10 pb-32">
@@ -392,13 +394,15 @@ function HomePage() {
           </div>
         </div>
         <div className="flex justify-center items-center py-6">
-          <Link
-            to="/"
+          <a
+            href="https://github.com/Manuekle/gestion-asistencias"
+            target="_blank"
             className="bg-zinc-900 px-8 py-2 rounded-lg shadow-md hover:shadow-lg flex flex-row gap-4 items-center justify-center"
+            rel="noreferrer"
           >
             <GithubIcon size={18} color="#eee" variant="stroke" />
             <h1 className="text-white text-sm">repositorio de github</h1>
-          </Link>
+          </a>
         </div>
       </section>
       <Footer />
