@@ -1,7 +1,7 @@
 export default {
   testMatch: [
-    "**/tests/**/*.test.js",
-    "**/tests/**/*.spec.js",
+    "**/test/**/*.test.js",
+    "**/test/**/*.spec.js",
     "**/__tests__/**/*.js",
   ],
   testPathIgnorePatterns: ["/node_modules/"],
@@ -10,8 +10,6 @@ export default {
     "^.+\\.jsx?$": "babel-jest",
   },
   transformIgnorePatterns: ["/node_modules/"],
-  collectCoverage: true,
-  collectCoverageFrom: ["**/src/**/*.{js,jsx}", "!**/node_modules/**"],
-  coverageReporters: ["json", "lcov", "text", "clover"],
+  collectCoverage: false,
   passWithNoTests: true,
 };
