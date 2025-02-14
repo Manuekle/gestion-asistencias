@@ -45,8 +45,8 @@ function Dashboard() {
   return (
     <div className="flex flex-row w-full bg-[#FAFBFD]">
       <Sidebar>
-        {userInfo.user.rol === 'administrador' ||
-        userInfo.user.rol === 'docente' ? (
+        {(userInfo && userInfo.user.rol === 'administrador') ||
+        (userInfo && userInfo.user.rol === 'docente') ? (
           <>
             <SidebarItem
               icon={<Home07Icon size={20} color="#ffffff" variant="stroke" />}
@@ -79,7 +79,7 @@ function Dashboard() {
             />
           </>
         ) : null}
-        {userInfo.user.rol === 'estudiante' ? (
+        {userInfo && userInfo.user.rol === 'estudiante' ? (
           <SidebarItem
             icon={<Calendar03Icon size={20} color="#ffffff" variant="stroke" />}
             text="Horarios"
@@ -108,7 +108,7 @@ function Dashboard() {
             path="/"
             element={
               <ProtectedRoute
-                role={userInfo.user.rol}
+                role={userInfo && userInfo.user.rol}
                 allowedRoles={['administrador', 'docente', 'estudiante']}
               >
                 <HomePageDashboard />
@@ -119,7 +119,7 @@ function Dashboard() {
             path="schedule"
             element={
               <ProtectedRoute
-                role={userInfo.user.rol}
+                role={userInfo && userInfo.user.rol}
                 allowedRoles={['administrador', 'estudiante']}
               >
                 <SchedulePageDashboard />
@@ -130,7 +130,7 @@ function Dashboard() {
             path="schedule/:id"
             element={
               <ProtectedRoute
-                role={userInfo.user.rol}
+                role={userInfo && userInfo.user.rol}
                 allowedRoles={['administrador', 'docente', 'estudiante']}
               >
                 <Classes />
@@ -141,7 +141,7 @@ function Dashboard() {
             path="class"
             element={
               <ProtectedRoute
-                role={userInfo.user.rol}
+                role={userInfo && userInfo.user.rol}
                 allowedRoles={['administrador', 'docente']}
               >
                 <ClassPageDashboard />
@@ -152,7 +152,7 @@ function Dashboard() {
             path="class/:name/:id"
             element={
               <ProtectedRoute
-                role={userInfo.user.rol}
+                role={userInfo && userInfo.user.rol}
                 allowedRoles={['administrador', 'docente']}
               >
                 <Classes />
@@ -163,7 +163,7 @@ function Dashboard() {
             path="signature"
             element={
               <ProtectedRoute
-                role={userInfo.user.rol}
+                role={userInfo && userInfo.user.rol}
                 allowedRoles={['administrador', 'docente']}
               >
                 <SignaturePageDashboard />
@@ -174,7 +174,7 @@ function Dashboard() {
             path="report"
             element={
               <ProtectedRoute
-                role={userInfo.user.rol}
+                role={userInfo && userInfo.user.rol}
                 allowedRoles={['administrador', 'docente']}
               >
                 <ReportPageDashboard />
@@ -185,7 +185,7 @@ function Dashboard() {
             path="settings"
             element={
               <ProtectedRoute
-                role={userInfo.user.rol}
+                role={userInfo && userInfo.user.rol}
                 allowedRoles={['administrador', 'docente', 'estudiante']}
               >
                 <ConfigPageDashboard />

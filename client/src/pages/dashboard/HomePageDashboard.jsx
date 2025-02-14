@@ -17,7 +17,7 @@ function HomePageDashboard() {
     <div className="flex flex-col gap-6">
       <section className="col-span-3 flex flex-col rounded-xl bg-white border shadow-sm px-6 py-4">
         <h1 className="text-md font-medium">
-          ¡Hola, <span className="capitalize">{userInfo.user.user_nombre}</span>
+          ¡Hola, <span className="capitalize">{userInfo && userInfo.user.user_nombre}</span>
           ! Hoy es {fechaFormateada}. Aquí tienes un resumen de tu actividad
         </h1>
       </section>

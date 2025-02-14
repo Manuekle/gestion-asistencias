@@ -67,10 +67,14 @@ function Attendance() {
   useEffect(() => {
     if (!userInfo) {
       navigate('/dashboard/');
+    } else {
+      navigate('/auth/estudiante/login');
     }
 
     if (!error) {
       navigate('/dashboard/');
+    } else {
+      navigate('/auth/estudiante/login');
     }
 
     if (id && token) {
@@ -86,7 +90,8 @@ function Attendance() {
         </div>
         <span className="flex items-center justify-center px-6 py-4">
           <p className="text-wrap text-xs text-zinc-300">
-            ¿Hola <strong>{userInfo.user.user_nombre}</strong> vas a la clase de{' '}
+            ¿Hola <strong>{userInfo && userInfo.user.user_nombre}</strong> vas a
+            la clase de{' '}
             <strong>
               {codigo.asig_nombre}-{codigo.asig_grupo}
             </strong>

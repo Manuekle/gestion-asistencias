@@ -26,7 +26,7 @@ function ConfigPageDashboard() {
       <section className="col-span-3 flex flex-col rounded-xl bg-white border shadow-sm px-6 pt-4">
         <div className="flex flex-col pb-4">
           <h2 className="font-bold text-md capitalize">
-            {userInfo.user.user_nombre}
+            {userInfo && userInfo.user.user_nombre}
           </h2>
           <p className="text-gray-500 text-xs">
             Administra tu cuenta y configuración
@@ -38,7 +38,9 @@ function ConfigPageDashboard() {
             <h1>Foto</h1>
           </div>
           <img
-            src={`https://ui-avatars.com/api/?name=${userInfo.user.user_nombre}/?background=f0e9e9&color=000&bold=true`}
+            src={`https://ui-avatars.com/api/?name=${
+              userInfo && userInfo.user.user_nombre
+            }/?background=f0e9e9&color=000&bold=true`}
             alt=""
             className="w-10 h-10 rounded-md"
           />
@@ -57,7 +59,7 @@ function ConfigPageDashboard() {
             <h1>Nombre</h1>
           </div>
           <div className="w-full text-zinc-800 capitalize font-normal text-sm flex flex-row gap-56 items-center">
-            <h1>{userInfo.user.user_nombre}</h1>
+            <h1>{userInfo && userInfo.user.user_nombre}</h1>
           </div>
           {/* <div className="col-span-2 flex items-end justify-end">
             <button
@@ -74,7 +76,7 @@ function ConfigPageDashboard() {
             <h1>Correo electronico</h1>
           </div>
           <div className="w-full text-zinc-800 font-normal text-sm flex flex-row gap-56 items-center">
-            <h1>{userInfo.user.user_correo}</h1>
+            <h1>{userInfo && userInfo.user.user_correo}</h1>
           </div>
           {/* <div className="col-span-2 flex items-end justify-end">
             <button
@@ -91,7 +93,7 @@ function ConfigPageDashboard() {
             <h1>Cargo</h1>
           </div>
           <div className="w-full text-zinc-800 capitalize font-normal text-sm flex flex-row gap-56 items-center">
-            <h1>{userInfo.user.rol}</h1>
+            <h1>{userInfo && userInfo.user.rol}</h1>
           </div>
         </article>
         <hr />
