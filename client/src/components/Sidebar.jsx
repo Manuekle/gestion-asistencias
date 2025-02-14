@@ -27,15 +27,18 @@ export default function Sidebar({ children }) {
   const { userInfo } = userLogin;
 
   const logoutHandler = () => {
-    dispatch(userLogout());
     if (userInfo.user.rol === 'administrador') {
+      dispatch(userLogout());
       navigate('/auth/administrador/login');
     }
     if (userInfo.user.rol === 'docente') {
       navigate('/auth/docente/login');
+      dispatch(userLogout());
     }
     if (userInfo.user.rol === 'estudiante') {
+      console.log('estufiante');
       navigate('/auth/estudiante/login');
+      dispatch(userLogout());
     }
   };
 
