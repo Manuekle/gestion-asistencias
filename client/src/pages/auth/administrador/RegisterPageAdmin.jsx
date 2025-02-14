@@ -74,7 +74,7 @@ function RegisterPageAuth() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/');
+      navigate('/auth/administrador/register');
     }
   }, [userInfo, navigate]);
   return (

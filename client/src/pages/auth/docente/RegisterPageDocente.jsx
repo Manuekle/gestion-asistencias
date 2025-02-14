@@ -74,7 +74,7 @@ function RegisterPageDocente() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/');
+      navigate('/auth/docente/register');
     }
   }, [userInfo, navigate]);
   return (

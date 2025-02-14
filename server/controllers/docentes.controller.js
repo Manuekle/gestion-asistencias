@@ -130,10 +130,8 @@ export const loginDocente = async (req, res) => {
       user_id: user.doc_id,
       user_nombre: user.doc_nombre,
       user_correo: user.doc_correo,
-      user_password: user.doc_password,
       user_estado: user.doc_estado,
       rol: user.rol,
-      created_at: user.created_at,
     };
 
     return res

@@ -71,7 +71,7 @@ function LoginPageEstudiante() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/');
+      navigate('/auth/estudiante/login');
     }
   }, [userInfo, navigate]);
   return (

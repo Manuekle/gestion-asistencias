@@ -71,7 +71,7 @@ function LoginPageDocente() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/');
+      navigate('/auth/docente/login');
     }
   }, [userInfo, navigate]);
   return (

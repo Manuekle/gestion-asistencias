@@ -125,7 +125,18 @@ export const loginUsuario = async (req, res) => {
       { expiresIn: "1h" } // Token válido por 1 hora
     );
 
-    return res.status(200).json({ message: "Login exitoso", token, user });
+    // Renombrar las propiedades del usuario
+    const transformedUser = {
+      user_id: user.usua_id,
+      user_nombre: user.usua_nombre,
+      user_correo: user.usua_correo,
+      user_estado: user.usua_estado,
+      rol: user.rol,
+    };
+
+    return res
+      .status(200)
+      .json({ message: "Login exitoso", token, user: transformedUser });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

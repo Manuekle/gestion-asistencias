@@ -71,7 +71,7 @@ function LoginPageAuth() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/');
+      navigate('/auth/administrador/login');
     }
   }, [userInfo, navigate]);
   return (

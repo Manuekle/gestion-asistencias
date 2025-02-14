@@ -130,10 +130,8 @@ export const loginEstudiante = async (req, res) => {
       user_id: user.estu_id,
       user_nombre: user.estu_nombre,
       user_correo: user.estu_correo,
-      user_password: user.estu_password,
       user_estado: user.estu_estado,
       rol: user.rol,
-      created_at: user.created_at,
     };
 
     return res
