@@ -1,13 +1,7 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
 import {
-  DOCENTE_LOGIN_REQUEST,
-  DOCENTE_LOGIN_SUCCESS,
-  DOCENTE_LOGIN_FAIL,
   DOCENTE_LOGOUT,
-  DOCENTE_REGISTER_REQUEST,
-  DOCENTE_REGISTER_SUCCESS,
-  DOCENTE_REGISTER_FAIL,
   DOCENTE_DETAILS_REQUEST,
   DOCENTE_DETAILS_SUCCESS,
   DOCENTE_DETAILS_FAIL,
@@ -18,10 +12,19 @@ import {
   DOCENTE_RECOVER_FAIL
 } from '../constants/docenteConstants';
 
+import {
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_FAIL,
+  USER_REGISTER_SUCCESS,
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_FAIL
+} from '../constants/userConstants';
+
 export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
   try {
     dispatch({
-      type: DOCENTE_LOGIN_REQUEST
+      type: USER_LOGIN_REQUEST
     });
 
     const config = {
@@ -37,14 +40,14 @@ export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
     );
 
     dispatch({
-      type: DOCENTE_LOGIN_SUCCESS,
+      type: USER_LOGIN_SUCCESS,
       payload: data
     });
 
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
-      type: DOCENTE_LOGIN_FAIL,
+      type: USER_LOGIN_FAIL,
       payload: error.response.data.message
     });
   }
@@ -62,7 +65,7 @@ export const docenteRegister =
   async (dispatch) => {
     try {
       dispatch({
-        type: DOCENTE_REGISTER_REQUEST
+        type: USER_REGISTER_REQUEST
       });
 
       const config = {
@@ -78,19 +81,19 @@ export const docenteRegister =
       );
 
       dispatch({
-        type: DOCENTE_REGISTER_SUCCESS,
+        type: USER_REGISTER_SUCCESS,
         payload: data
       });
 
       dispatch({
-        type: DOCENTE_LOGIN_SUCCESS,
+        type: USER_LOGIN_SUCCESS,
         payload: data
       });
 
       localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
       dispatch({
-        type: DOCENTE_REGISTER_FAIL,
+        type: USER_REGISTER_FAIL,
         payload: error.response.data.message
       });
     }

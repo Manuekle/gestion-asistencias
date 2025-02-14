@@ -1,12 +1,7 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
 import {
-  ESTUDIANTE_LOGIN_REQUEST,
-  ESTUDIANTE_LOGIN_SUCCESS,
-  ESTUDIANTE_LOGIN_FAIL,
   ESTUDIANTE_LOGOUT,
-  ESTUDIANTE_REGISTER_REQUEST,
-  ESTUDIANTE_REGISTER_SUCCESS,
   ESTUDIANTE_REGISTER_FAIL,
   ESTUDIANTE_DETAILS_REQUEST,
   ESTUDIANTE_DETAILS_SUCCESS,
@@ -18,11 +13,19 @@ import {
   ESTUDIANTE_RECOVER_FAIL
 } from '../constants/estudianteConstants';
 
+import {
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_FAIL,
+  USER_REGISTER_SUCCESS,
+  USER_REGISTER_REQUEST
+} from '../constants/userConstants';
+
 export const estudianteLogin =
   (estu_correo, estu_password) => async (dispatch) => {
     try {
       dispatch({
-        type: ESTUDIANTE_LOGIN_REQUEST
+        type: USER_LOGIN_REQUEST
       });
 
       const config = {
@@ -38,14 +41,14 @@ export const estudianteLogin =
       );
 
       dispatch({
-        type: ESTUDIANTE_LOGIN_SUCCESS,
+        type: USER_LOGIN_SUCCESS,
         payload: data
       });
 
       localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
       dispatch({
-        type: ESTUDIANTE_LOGIN_FAIL,
+        type: USER_LOGIN_FAIL,
         payload: error.response.data.message
       });
     }
@@ -63,7 +66,7 @@ export const estudianteRegister =
   async (dispatch) => {
     try {
       dispatch({
-        type: ESTUDIANTE_REGISTER_REQUEST
+        type: USER_REGISTER_REQUEST
       });
 
       const config = {
@@ -79,12 +82,12 @@ export const estudianteRegister =
       );
 
       dispatch({
-        type: ESTUDIANTE_REGISTER_SUCCESS,
+        type: USER_REGISTER_SUCCESS,
         payload: data
       });
 
       dispatch({
-        type: ESTUDIANTE_LOGIN_SUCCESS,
+        type: USER_LOGIN_SUCCESS,
         payload: data
       });
 

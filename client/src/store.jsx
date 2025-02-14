@@ -10,13 +10,13 @@ import {
 } from './reducers/userReducers';
 
 import {
-  docenteLoginReducer,
+  // docenteLoginReducer,
   docenteRegisterReducer,
   docenteDetailsReducer
 } from './reducers/docenteReducers';
 
 import {
-  estudianteLoginReducer,
+  // estudianteLoginReducer,
   estudianteRegisterReducer,
   estudianteDetailsReducer
 } from './reducers/estudianteReducers';
@@ -46,11 +46,11 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   userRecover: userRecoverReducer,
 
-  docenteLogin: docenteLoginReducer,
+  // docenteLogin: docenteLoginReducer,
   docenteRegister: docenteRegisterReducer,
   docenteDetails: docenteDetailsReducer,
 
-  estudianteLogin: estudianteLoginReducer,
+  // estudianteLogin: estudianteLoginReducer,
   estudianteRegister: estudianteRegisterReducer,
   estudianteDetails: estudianteDetailsReducer,
 

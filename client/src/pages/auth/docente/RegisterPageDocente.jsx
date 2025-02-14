@@ -67,9 +67,9 @@ function RegisterPageDocente() {
     dispatch(docenteRegister(user, email, password, role, status));
     await setTimeout(() => {
       setFormData(false);
+      navigate('/dashboard');
     }, 2000);
-    alert();
-    navigate('/dashboard');
+    // alert();
   };
 
   useEffect(() => {

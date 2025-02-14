@@ -49,7 +49,7 @@ function RestorePasswordPageAuth() {
 
   const handleSubmit = () => {
     setFormData(true);
-    dispatch(recoverPassword(user));
+    dispatch(userRecoverPassword(user));
     setTimeout(() => {
       setFormData(false);
     }, 2000);

@@ -1,11 +1,5 @@
 import {
-  ESTUDIANTE_LOGIN_REQUEST,
-  ESTUDIANTE_LOGIN_SUCCESS,
-  ESTUDIANTE_LOGIN_FAIL,
   ESTUDIANTE_LOGOUT,
-  ESTUDIANTE_REGISTER_REQUEST,
-  ESTUDIANTE_REGISTER_SUCCESS,
-  ESTUDIANTE_REGISTER_FAIL,
   ESTUDIANTE_DETAILS_REQUEST,
   ESTUDIANTE_DETAILS_SUCCESS,
   ESTUDIANTE_DETAILS_FAIL,
@@ -15,15 +9,24 @@ import {
   ESTUDIANTE_RECOVER_FAIL
 } from '../constants/estudianteConstants';
 
+import {
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_FAIL,
+  USER_REGISTER_SUCCESS,
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_FAIL
+} from '../constants/userConstants';
+
 export const estudianteLoginReducer = (state = {}, action) => {
   switch (action.type) {
-    case ESTUDIANTE_LOGIN_REQUEST:
+    case USER_LOGIN_REQUEST:
       return { loading: true };
 
-    case ESTUDIANTE_LOGIN_SUCCESS:
+    case USER_LOGIN_SUCCESS:
       return { loading: false, userInfo: action.payload };
 
-    case ESTUDIANTE_LOGIN_FAIL:
+    case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
 
     case ESTUDIANTE_LOGOUT:
@@ -36,13 +39,13 @@ export const estudianteLoginReducer = (state = {}, action) => {
 
 export const estudianteRegisterReducer = (state = {}, action) => {
   switch (action.type) {
-    case ESTUDIANTE_REGISTER_REQUEST:
+    case USER_REGISTER_REQUEST:
       return { loading: true };
 
-    case ESTUDIANTE_REGISTER_SUCCESS:
+    case USER_REGISTER_SUCCESS:
       return { loading: false, userInfo: action.payload };
 
-    case ESTUDIANTE_REGISTER_FAIL:
+    case USER_REGISTER_FAIL:
       return { loading: false, error: action.payload };
 
     case ESTUDIANTE_LOGOUT:

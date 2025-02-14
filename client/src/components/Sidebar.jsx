@@ -26,7 +26,7 @@ export default function Sidebar({ children }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  console.log(userInfo);
+  // console.log(userInfo);
 
   const logoutHandler = () => {
     dispatch(userLogout());

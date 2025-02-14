@@ -1,11 +1,5 @@
 import {
-  DOCENTE_LOGIN_REQUEST,
-  DOCENTE_LOGIN_SUCCESS,
-  DOCENTE_LOGIN_FAIL,
   DOCENTE_LOGOUT,
-  DOCENTE_REGISTER_REQUEST,
-  DOCENTE_REGISTER_SUCCESS,
-  DOCENTE_REGISTER_FAIL,
   DOCENTE_DETAILS_REQUEST,
   DOCENTE_DETAILS_SUCCESS,
   DOCENTE_DETAILS_FAIL,
@@ -15,15 +9,24 @@ import {
   DOCENTE_RECOVER_FAIL
 } from '../constants/docenteConstants';
 
+import {
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_FAIL,
+  USER_REGISTER_SUCCESS,
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_FAIL
+} from '../constants/userConstants';
+
 export const docenteLoginReducer = (state = {}, action) => {
   switch (action.type) {
-    case DOCENTE_LOGIN_REQUEST:
+    case USER_LOGIN_REQUEST:
       return { loading: true };
 
-    case DOCENTE_LOGIN_SUCCESS:
+    case USER_LOGIN_SUCCESS:
       return { loading: false, userInfo: action.payload };
 
-    case DOCENTE_LOGIN_FAIL:
+    case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
 
     case DOCENTE_LOGOUT:
@@ -36,13 +39,13 @@ export const docenteLoginReducer = (state = {}, action) => {
 
 export const docenteRegisterReducer = (state = {}, action) => {
   switch (action.type) {
-    case DOCENTE_REGISTER_REQUEST:
+    case USER_REGISTER_REQUEST:
       return { loading: true };
 
-    case DOCENTE_REGISTER_SUCCESS:
+    case USER_REGISTER_SUCCESS:
       return { loading: false, userInfo: action.payload };
 
-    case DOCENTE_REGISTER_FAIL:
+    case USER_REGISTER_FAIL:
       return { loading: false, error: action.payload };
 
     case DOCENTE_LOGOUT:

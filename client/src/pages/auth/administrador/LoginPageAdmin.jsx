@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -64,9 +65,9 @@ function LoginPageAuth() {
     dispatch(loginUser(user, password));
     setTimeout(() => {
       setFormData(false);
+      navigate('/dashboard');
     }, 2000);
-    alert();
-    navigate('/dashboard');
+    // alert();
   };
 
   useEffect(() => {
