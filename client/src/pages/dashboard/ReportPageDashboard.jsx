@@ -104,8 +104,8 @@ function ReportPageDashboard() {
             <SelectContent>
               {months.map((month, index) => (
                 <SelectItem
-                  key={index}
-                  value={index.toString()}
+                  key={index + 1}
+                  value={(index + 1).toString()}
                   className="text-sm"
                 >
                   {month}
