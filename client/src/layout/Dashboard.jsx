@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/extensions */
-import React from 'react';
-import { Routes, Route, useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import {
   Home07Icon,
   UserGroupIcon,
@@ -29,11 +29,18 @@ import Classes from '../pages/dashboardItems/Classes';
 function Dashboard() {
   const params = useParams();
   const urlActive = params['*'];
+  const navigate = useNavigate();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
   console.log(userInfo);
+
+  useEffect(() => {
+    if (!userInfo) {
+      console.log('no');
+      navigate('/');
+    }
+  }, [userInfo, navigate]);
 
   return (
     <div className="flex flex-row w-full bg-[#FAFBFD]">
@@ -102,7 +109,7 @@ function Dashboard() {
             element={
               <ProtectedRoute
                 role={userInfo.user.rol}
-                allowedRoles={['administrador', 'docente']}
+                allowedRoles={['administrador', 'docente', 'estudiante']}
               >
                 <HomePageDashboard />
               </ProtectedRoute>

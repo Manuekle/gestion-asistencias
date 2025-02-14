@@ -65,7 +65,6 @@ function LoginPageAuth() {
     dispatch(loginUser(user, password));
     setTimeout(() => {
       setFormData(false);
-      navigate('/dashboard');
     }, 2000);
     // alert();
   };
@@ -73,6 +72,8 @@ function LoginPageAuth() {
   useEffect(() => {
     if (!userInfo) {
       navigate('/auth/administrador/login');
+    } else {
+      navigate('/dashboard/');
     }
   }, [userInfo, navigate]);
   return (

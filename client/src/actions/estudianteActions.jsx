@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
 import {
-  ESTUDIANTE_LOGOUT,
   ESTUDIANTE_REGISTER_FAIL,
   ESTUDIANTE_DETAILS_REQUEST,
   ESTUDIANTE_DETAILS_SUCCESS,
@@ -14,6 +13,7 @@ import {
 } from '../constants/estudianteConstants';
 
 import {
+  USER_LOGOUT,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
@@ -56,7 +56,7 @@ export const estudianteLogin =
 
 export const estudianteLogout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
-  dispatch({ type: ESTUDIANTE_LOGOUT });
+  dispatch({ type: USER_LOGOUT });
   dispatch({ type: ESTUDIANTE_DETAILS_RESET });
   dispatch({ type: ESTUDIANTE_LIST_RESET });
 };

@@ -45,6 +45,7 @@ function LoginPageEstudiante() {
   }, [password]);
 
   const alert = () => {
+    console.log(error);
     if (error) {
       toast({
         variant: 'destructive',
@@ -65,7 +66,6 @@ function LoginPageEstudiante() {
     dispatch(estudianteLogin(user, password));
     setTimeout(() => {
       setFormData(false);
-      navigate('/dashboard');
     }, 2000);
     // alert();
   };
@@ -73,6 +73,8 @@ function LoginPageEstudiante() {
   useEffect(() => {
     if (!userInfo) {
       navigate('/auth/estudiante/login');
+    } else {
+      navigate('/dashboard/');
     }
   }, [userInfo, navigate]);
   return (

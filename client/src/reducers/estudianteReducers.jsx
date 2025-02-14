@@ -1,5 +1,4 @@
 import {
-  ESTUDIANTE_LOGOUT,
   ESTUDIANTE_DETAILS_REQUEST,
   ESTUDIANTE_DETAILS_SUCCESS,
   ESTUDIANTE_DETAILS_FAIL,
@@ -10,6 +9,7 @@ import {
 } from '../constants/estudianteConstants';
 
 import {
+  USER_LOGOUT,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
@@ -29,7 +29,7 @@ export const estudianteLoginReducer = (state = {}, action) => {
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
 
-    case ESTUDIANTE_LOGOUT:
+    case USER_LOGOUT:
       return {};
 
     default:
@@ -48,7 +48,7 @@ export const estudianteRegisterReducer = (state = {}, action) => {
     case USER_REGISTER_FAIL:
       return { loading: false, error: action.payload };
 
-    case ESTUDIANTE_LOGOUT:
+    case USER_LOGOUT:
       return {};
 
     default:

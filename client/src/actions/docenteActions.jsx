@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
 import {
-  DOCENTE_LOGOUT,
   DOCENTE_DETAILS_REQUEST,
   DOCENTE_DETAILS_SUCCESS,
   DOCENTE_DETAILS_FAIL,
@@ -13,6 +12,7 @@ import {
 } from '../constants/docenteConstants';
 
 import {
+  USER_LOGOUT,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
@@ -55,7 +55,7 @@ export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
 
 export const docenteLogout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
-  dispatch({ type: DOCENTE_LOGOUT });
+  dispatch({ type: USER_LOGOUT });
   dispatch({ type: DOCENTE_DETAILS_RESET });
   dispatch({ type: DOCENTE_LIST_RESET });
 };

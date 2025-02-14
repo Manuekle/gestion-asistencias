@@ -67,14 +67,15 @@ function RegisterPageAuth() {
     dispatch(estudianteRegister(user, email, password, role, status));
     await setTimeout(() => {
       setFormData(false);
-      navigate('/dashboard');
     }, 2000);
     // alert();
   };
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/');
+      navigate('/auth/estudiante/register');
+    } else {
+      navigate('/dashboard/');
     }
   }, [userInfo, navigate]);
   return (

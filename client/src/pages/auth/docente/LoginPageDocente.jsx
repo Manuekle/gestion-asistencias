@@ -65,7 +65,6 @@ function LoginPageDocente() {
     dispatch(docenteLogin(user, password));
     setTimeout(() => {
       setFormData(false);
-      navigate('/dashboard');
     }, 2000);
     // alert();
   };
@@ -73,6 +72,8 @@ function LoginPageDocente() {
   useEffect(() => {
     if (!userInfo) {
       navigate('/auth/docente/login');
+    } else {
+      navigate('/dashboard/');
     }
   }, [userInfo, navigate]);
   return (
