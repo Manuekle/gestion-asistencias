@@ -74,6 +74,7 @@ CREATE TABLE asistencia (
 CREATE TABLE codigo_qr (
     codi_id INT AUTO_INCREMENT PRIMARY KEY,
     codi_valor VARCHAR(255) NOT NULL,
+    codi_url VARCHAR(255) NOT NULL,
     codi_clas_id INT NOT NULL,
     codi_qr_image TEXT, -- Aquí guardamos la imagen en formato Base64
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

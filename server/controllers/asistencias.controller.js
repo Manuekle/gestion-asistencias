@@ -92,9 +92,9 @@ export const getClaseAsistencias = async (req, res) => {
 
     const [result] = await pool.query(
       `SELECT 
-         estudiante.usua_id AS estudiante_id,
-         estudiante.usua_nombre AS estudiante_nombre,
-         estudiante.usua_correo AS estudiante_correo,
+         estudiante.estu_id AS estudiante_id,
+         estudiante.estu_nombre AS estudiante_nombre,
+         estudiante.estu_correo AS estudiante_correo,
          asistencia.asis_id,
          asistencia.asis_estado,
          asistencia.asis_fecha,
@@ -102,7 +102,7 @@ export const getClaseAsistencias = async (req, res) => {
        FROM clase
        JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
        JOIN asistencia ON clase.clas_id = asistencia.asis_clas_id
-       JOIN estudiante ON asistencia.asis_estu_id = estudiante.usua_id
+       JOIN estudiante ON asistencia.asis_estu_id = estudiante.estu_id
        WHERE asignatura.asig_slug = ? AND clase.clas_id = ?`,
       [slug, id]
     );

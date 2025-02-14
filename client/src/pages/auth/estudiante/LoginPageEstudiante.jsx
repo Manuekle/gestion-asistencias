@@ -82,7 +82,7 @@ function LoginPageEstudiante() {
         <span className="justify-center text-xs text-center text-zinc-300 flex-items-center ">
           No tienes una cuenta?
           <Link
-            to="/auth/administrador/register"
+            to="/auth/estudiante/register"
             className="ml-2 text-amber-400 underline"
           >
             Registrate

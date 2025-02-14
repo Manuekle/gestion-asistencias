@@ -12,7 +12,7 @@ import {
   TooltipTrigger
 } from './ui/tooltip.tsx';
 
-import { getUserDetails, userLogout } from '../actions/userActions';
+import { userLogout } from '../actions/userActions';
 
 const SidebarContext = createContext();
 
@@ -26,8 +26,7 @@ export default function Sidebar({ children }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userDetails = useSelector((state) => state.userDetails);
-  const { user } = userDetails;
+  console.log(userInfo);
 
   const logoutHandler = () => {
     dispatch(userLogout());
@@ -39,8 +38,6 @@ export default function Sidebar({ children }) {
   useEffect(() => {
     if (!userInfo) {
       navigate('/auth/administrador/login');
-    } else {
-      dispatch(getUserDetails(userInfo.user.usua_id));
     }
   }, [dispatch, navigate, userInfo]);
 
@@ -67,7 +64,7 @@ export default function Sidebar({ children }) {
 
         <div className="flex items-center p-3">
           <img
-            src={`https://ui-avatars.com/api/?name=${user.usua_nombre}/?background=f0e9e9&color=000&bold=true`}
+            src={`https://ui-avatars.com/api/?name=${userInfo.user.user_nombre}/?background=f0e9e9&color=000&bold=true`}
             alt=""
             className="w-10 h-10 rounded-md"
           />
@@ -79,9 +76,11 @@ export default function Sidebar({ children }) {
           >
             <div className="leading-4">
               <h4 className="font-semibold capitalize text-sm text-gray-100">
-                {user.usua_nombre}
+                {userInfo.user.user_nombre}
               </h4>
-              <span className="text-xs text-gray-200">{user.usua_correo}</span>
+              <span className="text-xs text-gray-200">
+                {userInfo.user.user_correo}
+              </span>
             </div>
             <TooltipProvider>
               <Tooltip>

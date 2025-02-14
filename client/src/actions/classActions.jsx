@@ -188,7 +188,7 @@ export const showClassDay = (fecha, userInfo) => async (dispatch) => {
     dispatch({ type: CLASS_DAY_REQUEST });
 
     const { data } = await axios.get(
-      `http://localhost:4000/api/clase/dia-rango?fecha=${fecha}&rangoHoras=6&docenteId=${userInfo.user.usua_id}`
+      `http://localhost:4000/api/clase/dia-rango?fecha=${fecha}&rangoHoras=6&docenteId=${userInfo.user.user_id}`
     );
 
     dispatch({

@@ -25,10 +25,13 @@ function GenerateCodeQR({ value, name, id }) {
       elapsed += 30; // Incrementar el tiempo en cada ejecución
 
       try {
-        const response = await axios.post('http://localhost:4000/generate', {
-          codi_valor: name,
-          codi_clas_id: id
-        });
+        const response = await axios.post(
+          'http://localhost:4000/api/qr/create',
+          {
+            codi_valor: name,
+            codi_clas_id: id
+          }
+        );
 
         setQrImage(response.data.qrImage);
       } catch (error) {
@@ -44,7 +47,7 @@ function GenerateCodeQR({ value, name, id }) {
 
   const handleGenerarQR = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/generate', {
+      const response = await axios.post('http://localhost:4000/api/qr/create', {
         codi_valor: name,
         codi_clas_id: id
       });

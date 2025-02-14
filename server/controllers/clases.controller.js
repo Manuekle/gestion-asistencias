@@ -28,11 +28,11 @@ export const getClaseQr = async (req, res) => {
          asignatura.asig_programa,
          asignatura.asig_semestre,
          asignatura.asig_grupo,
-         docente.docen_nombre AS docente_nombre,
-         docente.docen_correo AS docente_correo
+         docente.doc_nombre AS docente_nombre,
+         docente.doc_correo AS docente_correo
        FROM clase
        JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
-       JOIN docente ON asignatura.asig_docente_id = docente.docen_id
+       JOIN docente ON asignatura.asig_docente_id = docente.doc_id
        WHERE clase.clas_id = ?`, // Filtramos solo por clas_id
       [id]
     );
@@ -62,11 +62,11 @@ export const getClase = async (req, res) => {
          asignatura.asig_programa,
          asignatura.asig_semestre,
          asignatura.asig_grupo,
-         docente.docen_nombre AS docente_nombre,
-         docente.docen_correo AS docente_correo
+         docente.doc_nombre AS docente_nombre,
+         docente.doc_correo AS docente_correo
        FROM clase
        JOIN asignatura ON clase.clas_asig_id = asignatura.asig_id
-       JOIN docente ON asignatura.asig_docente_id = docente.docen_id
+       JOIN docente ON asignatura.asig_docente_id = docente.doc_id
        WHERE asignatura.asig_slug = ? AND clase.clas_id = ?`,
       [slug, id]
     );

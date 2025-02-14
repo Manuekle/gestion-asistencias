@@ -85,7 +85,7 @@ function RegisterPageAuth() {
         <span className="justify-center text-xs text-center text-zinc-300 flex-items-center dark:text-gray-400">
           Ya tienes una cuenta?
           <Link
-            to="/auth/administrador/login"
+            to="/auth/estudiante/login"
             className="ml-2 text-amber-400 underline"
           >
             Inicia sesion

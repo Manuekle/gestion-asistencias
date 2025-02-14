@@ -76,11 +76,11 @@ export const createDocente = async (req, res) => {
 
     // show data user and no show user.doc_password;
     const user = {
-      doc_id: result.insertId,
-      doc_nombre: data.doc_nombre,
-      doc_correo: data.doc_correo,
+      user_id: result.insertId,
+      user_nombre: data.doc_nombre,
+      user_correo: data.doc_correo,
       rol: data.rol,
-      doc_estado: data.doc_estado,
+      user_estado: data.doc_estado,
     };
 
     return res.status(200).json({ message: "Registro exitoso", token, user });

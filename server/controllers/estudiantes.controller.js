@@ -76,11 +76,11 @@ export const createEstudiante = async (req, res) => {
 
     // show data user and no show user.estu_password;
     const user = {
-      estu_id: result.insertId,
-      estu_nombre: data.estu_nombre,
-      estu_correo: data.estu_correo,
+      user_id: result.insertId,
+      user_nombre: data.estu_nombre,
+      user_correo: data.estu_correo,
       rol: data.rol,
-      estu_estado: data.estu_estado,
+      user_estado: data.estu_estado,
     };
 
     return res.status(200).json({ message: "Registro exitoso", token, user });

@@ -82,11 +82,11 @@ function Attendance() {
         </div>
         <span className="flex items-center justify-center px-6 py-4">
           <p className="text-wrap text-xs text-zinc-300">
-            ¿Vas a la clase de{' '}
+            ¿Hola <strong>{userInfo.user.user_nombre}</strong> vas a la clase de{' '}
             <strong>
               {codigo.asig_nombre}-{codigo.asig_grupo}
-            </strong>{' '}
-            ¡Confirma tu presencia!
+            </strong>
+            ? ¡Confirma tu presencia!
           </p>
         </span>
         <div className="p-6">
