@@ -30,14 +30,20 @@ export default function Sidebar({ children }) {
 
   const logoutHandler = () => {
     dispatch(userLogout());
-    if (userInfo) {
+    if (userInfo.user.rol === 'administrador') {
       navigate('/auth/administrador/login');
+    }
+    if (userInfo.user.rol === 'docente') {
+      navigate('/auth/docente/login');
+    }
+    if (userInfo.user.rol === 'estudiante') {
+      navigate('/auth/estudiante/login');
     }
   };
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/auth/administrador/login');
+      navigate('/');
     }
   }, [dispatch, navigate, userInfo]);
 

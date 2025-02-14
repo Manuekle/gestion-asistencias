@@ -1,16 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-// import ChartRadialText from '../../components/ChartRadialText';
-// import ChartRadialPercentage from '../../components/ChartRadialPercentage';
-import { AddCircleIcon, Delete02Icon } from 'hugeicons-react';
+import { Delete02Icon } from 'hugeicons-react';
 import { useSelector } from 'react-redux';
 import DashboardCard from '../../components/DashboardCard';
 import DashboardCalendar from '../../components/DashboardCalendar';
 import DashboardAssigments from '../../components/DashboardAssigments';
 
 function HomePageDashboard() {
-  const userDetails = useSelector((state) => state.userDetails);
-  const { user } = userDetails;
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const fechaActual = new Date();
   const opciones = { day: 'numeric', month: 'long' };
@@ -19,8 +17,8 @@ function HomePageDashboard() {
     <div className="flex flex-col gap-6">
       <section className="col-span-3 flex flex-col rounded-xl bg-white border shadow-sm px-6 py-4">
         <h1 className="text-md font-medium">
-          ¡Hola, <span className="capitalize">{user.usua_nombre}</span>! Hoy es{' '}
-          {fechaFormateada}. Aquí tienes un resumen de tu actividad
+          ¡Hola, <span className="capitalize">{userInfo.user.user_nombre}</span>
+          ! Hoy es {fechaFormateada}. Aquí tienes un resumen de tu actividad
         </h1>
       </section>
       <div className="grid grid-cols-5 grid-rows-3 gap-4">

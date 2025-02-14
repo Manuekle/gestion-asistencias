@@ -53,7 +53,7 @@ function Attendance() {
     setFormData(true);
     dispatch(
       createAttendance(
-        userInfo.user.usua_id,
+        userInfo.user.user_id,
         codigo.clas_id,
         window.location.href
       )
@@ -66,7 +66,7 @@ function Attendance() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/auth/administrador/login');
+      navigate('/');
     }
 
     if (id && token) {
