@@ -1,6 +1,13 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
 import {
+  DOCENTE_LOGOUT,
+  DOCENTE_LOGIN_REQUEST,
+  DOCENTE_LOGIN_SUCCESS,
+  DOCENTE_LOGIN_FAIL,
+  DOCENTE_REGISTER_SUCCESS,
+  DOCENTE_REGISTER_REQUEST,
+  DOCENTE_REGISTER_FAIL,
   DOCENTE_DETAILS_REQUEST,
   DOCENTE_DETAILS_SUCCESS,
   DOCENTE_DETAILS_FAIL,
@@ -11,20 +18,10 @@ import {
   DOCENTE_RECOVER_FAIL
 } from '../constants/docenteConstants';
 
-import {
-  USER_LOGOUT,
-  USER_LOGIN_REQUEST,
-  USER_LOGIN_SUCCESS,
-  USER_LOGIN_FAIL,
-  USER_REGISTER_SUCCESS,
-  USER_REGISTER_REQUEST,
-  USER_REGISTER_FAIL
-} from '../constants/userConstants';
-
 export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
   try {
     dispatch({
-      type: USER_LOGIN_REQUEST
+      type: DOCENTE_LOGIN_REQUEST
     });
 
     const config = {
@@ -40,22 +37,22 @@ export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
     );
 
     dispatch({
-      type: USER_LOGIN_SUCCESS,
+      type: DOCENTE_LOGIN_SUCCESS,
       payload: data
     });
 
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
-      type: USER_LOGIN_FAIL,
-      payload: error.response.data.message
+      type: DOCENTE_LOGIN_FAIL,
+      payload: error.response.data
     });
   }
 };
 
 export const docenteLogout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
-  dispatch({ type: USER_LOGOUT });
+  dispatch({ type: DOCENTE_LOGOUT });
   dispatch({ type: DOCENTE_DETAILS_RESET });
   dispatch({ type: DOCENTE_LIST_RESET });
 };
@@ -65,7 +62,7 @@ export const docenteRegister =
   async (dispatch) => {
     try {
       dispatch({
-        type: USER_REGISTER_REQUEST
+        type: DOCENTE_REGISTER_REQUEST
       });
 
       const config = {
@@ -81,20 +78,20 @@ export const docenteRegister =
       );
 
       dispatch({
-        type: USER_REGISTER_SUCCESS,
+        type: DOCENTE_REGISTER_SUCCESS,
         payload: data
       });
 
       dispatch({
-        type: USER_LOGIN_SUCCESS,
+        type: DOCENTE_LOGIN_SUCCESS,
         payload: data
       });
 
       localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
       dispatch({
-        type: USER_REGISTER_FAIL,
-        payload: error.response.data.message
+        type: DOCENTE_REGISTER_FAIL,
+        payload: error.response.data
       });
     }
   };
@@ -129,7 +126,7 @@ export const docenteRecoverPassword = (doc_correo) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: DOCENTE_RECOVER_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };

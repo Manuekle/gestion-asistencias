@@ -38,7 +38,7 @@ export const createAttendance =
     } catch (error) {
       dispatch({
         type: ATTENDANCE_CREATE_FAIL,
-        payload: error.response.data.message
+        payload: error.response.data
       });
     }
   };

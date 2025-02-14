@@ -104,7 +104,13 @@ export const loginDocente = async (req, res) => {
     );
 
     if (result.length === 0) {
-      return res.status(404).json({ message: "Docente no encontrado" });
+      return res
+        .status(404)
+        .json({
+          code: "NOT_FOUND",
+          status: 404,
+          message: "Docente no encontrado",
+        });
     }
 
     const user = result[0];
@@ -115,7 +121,13 @@ export const loginDocente = async (req, res) => {
       user.doc_password
     );
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Contraseña incorrecta" });
+      return res
+        .status(404)
+        .json({
+          code: "NOT_FOUND",
+          status: 404,
+          message: "Contraseña incorrecta",
+        });
     }
 
     // Generar token JWT
@@ -136,9 +148,21 @@ export const loginDocente = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Login exitoso", token, user: transformedUser });
+      .json({
+        code: "SUCCESS",
+        status: 200,
+        message: "Autenticado correctamente",
+        token,
+        user: transformedUser,
+      });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res
+      .status(500)
+      .json({
+        code: "INTERNAL_SERVER_ERROR",
+        status: 500,
+        message: "Ocurrió un error inesperado",
+      });
   }
 };
 

@@ -44,7 +44,7 @@ export const detailsClass = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CLASS_DETAILS_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };
@@ -81,7 +81,7 @@ export const createClass =
     } catch (error) {
       dispatch({
         type: CLASS_CREATE_FAIL,
-        payload: error.response.data.message
+        payload: error.response.data
       });
     }
   };
@@ -102,7 +102,7 @@ export const showClass = (slug, id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CLASS_SHOW_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };
@@ -123,7 +123,7 @@ export const showClassSignature = (slug, id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CLASS_SIGNATURE_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };
@@ -144,7 +144,7 @@ export const showClassQr = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CLASS_QR_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };
@@ -177,7 +177,7 @@ export const cancelClassStatus = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CLASS_CANCEL_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };
@@ -198,7 +198,7 @@ export const showClassDay = (fecha, userInfo) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CLASS_DAY_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };
@@ -219,7 +219,7 @@ export const showClassAll = (userInfo) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CLASS_ALL_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };

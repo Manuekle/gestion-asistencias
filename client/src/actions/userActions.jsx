@@ -108,7 +108,7 @@ export const userRegister =
     } catch (error) {
       dispatch({
         type: USER_REGISTER_FAIL,
-        payload: error.response.data.message
+        payload: error.response.data
       });
     }
   };
@@ -143,7 +143,7 @@ export const userRecoverPassword = (usua_correo) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_RECOVER_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };

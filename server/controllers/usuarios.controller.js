@@ -160,7 +160,6 @@ export const loginUsuario = async (req, res) => {
         code: "INTERNAL_SERVER_ERROR",
         status: 500,
         message: "Ocurrió un error inesperado",
-        error: error.message
       });
   }
 };

@@ -21,6 +21,7 @@ function LoginPageDocente() {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { error, userInfo } = userLogin;
+  // console.log(error);
 
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');

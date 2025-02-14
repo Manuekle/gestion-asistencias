@@ -15,18 +15,63 @@ import {
   USER_RECOVER_FAIL
 } from '../constants/userConstants';
 
+import {
+  DOCENTE_LOGIN_REQUEST,
+  DOCENTE_LOGIN_SUCCESS,
+  DOCENTE_LOGIN_FAIL,
+  DOCENTE_LOGOUT,
+  DOCENTE_REGISTER_REQUEST,
+  DOCENTE_REGISTER_SUCCESS,
+  DOCENTE_REGISTER_FAIL
+} from '../constants/docenteConstants';
+
+import {
+  ESTUDIANTE_LOGIN_REQUEST,
+  ESTUDIANTE_LOGIN_SUCCESS,
+  ESTUDIANTE_LOGIN_FAIL,
+  ESTUDIANTE_LOGOUT,
+  ESTUDIANTE_REGISTER_REQUEST,
+  ESTUDIANTE_REGISTER_SUCCESS,
+  ESTUDIANTE_REGISTER_FAIL
+} from '../constants/estudianteConstants';
+
+// GLOBAL
 export const userLoginReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_LOGIN_REQUEST:
       return { loading: true };
 
+    case DOCENTE_LOGIN_REQUEST:
+      return { loading: true };
+
+    case ESTUDIANTE_LOGIN_REQUEST:
+      return { loading: true };
+
     case USER_LOGIN_SUCCESS:
+      return { loading: false, userInfo: action.payload };
+
+    case DOCENTE_LOGIN_SUCCESS:
+      return { loading: false, userInfo: action.payload };
+
+    case ESTUDIANTE_LOGIN_SUCCESS:
       return { loading: false, userInfo: action.payload };
 
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
 
+    case DOCENTE_LOGIN_FAIL:
+      return { loading: false, error: action.payload };
+
+    case ESTUDIANTE_LOGIN_FAIL:
+      return { loading: false, error: action.payload };
+
     case USER_LOGOUT:
+      return {};
+
+    case DOCENTE_LOGOUT:
+      return {};
+
+    case ESTUDIANTE_LOGOUT:
       return {};
 
     default:
@@ -46,6 +91,30 @@ export const userRegisterReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
 
     case USER_LOGOUT:
+      return {};
+
+    case DOCENTE_REGISTER_REQUEST:
+      return { loading: true };
+
+    case DOCENTE_REGISTER_SUCCESS:
+      return { loading: false, userInfo: action.payload };
+
+    case DOCENTE_REGISTER_FAIL:
+      return { loading: false, error: action.payload };
+
+    case DOCENTE_LOGOUT:
+      return {};
+
+    case ESTUDIANTE_REGISTER_REQUEST:
+      return { loading: true };
+
+    case ESTUDIANTE_REGISTER_SUCCESS:
+      return { loading: false, userInfo: action.payload };
+
+    case ESTUDIANTE_REGISTER_FAIL:
+      return { loading: false, error: action.payload };
+
+    case ESTUDIANTE_LOGOUT:
       return {};
 
     default:

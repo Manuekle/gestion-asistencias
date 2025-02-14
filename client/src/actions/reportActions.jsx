@@ -39,7 +39,7 @@ export const createReport =
     } catch (error) {
       dispatch({
         type: REPORT_CREATE_FAIL,
-        payload: error.response.data.message
+        payload: error.response.data
       });
     }
   };

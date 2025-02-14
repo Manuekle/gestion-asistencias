@@ -49,7 +49,7 @@ export const estudianteLogin =
     } catch (error) {
       dispatch({
         type: USER_LOGIN_FAIL,
-        payload: error.response.data.message
+        payload: error.response.data
       });
     }
   };
@@ -95,7 +95,7 @@ export const estudianteRegister =
     } catch (error) {
       dispatch({
         type: ESTUDIANTE_REGISTER_FAIL,
-        payload: error.response.data.message
+        payload: error.response.data
       });
     }
   };
@@ -130,7 +130,7 @@ export const estudianteRecoverPassword = (estu_correo) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ESTUDIANTE_RECOVER_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };

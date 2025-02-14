@@ -36,7 +36,7 @@ export const createQR = (codi_valor, codi_clas_id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: QR_CREATE_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };
