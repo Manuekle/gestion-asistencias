@@ -37,15 +37,23 @@ export const getClaseQr = async (req, res) => {
       [id]
     );
 
-    // if (result.length === 0) {
-    //   return res.status(404).json({ message: "Clase no encontrada." });
-    // }
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Clase no encontrada." });
+    }
+
+    // Verificar el estado de la clase
+    if (result[0].clas_estado === "finalizada") {
+      return res.status(400).json({
+        message: "No se puede generar código QR para una clase ya finalizada.",
+      });
+    }
 
     return res.status(200).json(result[0]);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
+
 
 export const getClase = async (req, res) => {
   try {

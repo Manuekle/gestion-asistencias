@@ -43,6 +43,19 @@ export const createCodigoQr = async (req, res) => {
   try {
     const { codi_valor, codi_clas_id } = req.body;
 
+    // Verificar el estado de la clase
+    const [clase] = await pool.query(
+      "SELECT clas_estado FROM clase WHERE clas_id = ?",
+      [codi_clas_id]
+    );
+
+    if (clase[0].clas_estado === "finalizada") {
+      return res.status(400).json({
+        message:
+          "No se puede generar un código QR para una clase ya finalizada.",
+      });
+    }
+
     // Generar un token único para el QR
     const token = generateUniqueToken();
     const qrData = `http://localhost:5173/attendance?id=${codi_clas_id}&token=${token}`;
@@ -89,4 +102,5 @@ export const createCodigoQr = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
 

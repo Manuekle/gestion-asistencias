@@ -19,10 +19,10 @@ function Attendance() {
   const location = useLocation();
 
   const classQr = useSelector((state) => state.classQr);
-  const { codigo } = classQr;
+  const { error, codigo } = classQr;
 
   const attendanceCreate = useSelector((state) => state.attendanceCreate);
-  const { error, asistencia } = attendanceCreate;
+  const { success, asistencia } = attendanceCreate;
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id') || 'ID no encontrado';
@@ -33,7 +33,7 @@ function Attendance() {
   const navigate = useNavigate();
 
   const alertSuccess = () => {
-    if (!error) {
+    if (success) {
       toast({
         variant: 'default',
         title: 'Exito!',
@@ -66,13 +66,17 @@ function Attendance() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/');
+      navigate('/dashboard/');
+    }
+
+    if (!error) {
+      navigate('/dashboard/');
     }
 
     if (id && token) {
       dispatch(showClassQr(id));
     }
-  }, [userInfo, navigate]);
+  }, [userInfo, navigate, error]);
 
   return (
     <div className="flex justify-center items-center h-svh auth">
