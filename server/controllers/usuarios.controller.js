@@ -104,7 +104,13 @@ export const loginUsuario = async (req, res) => {
     );
 
     if (result.length === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res
+        .status(404)
+        .json({
+          code: "NOT_FOUND",
+          status: 404,
+          message: "Usuario no encontrado"
+        });
     }
 
     const user = result[0];
@@ -115,7 +121,13 @@ export const loginUsuario = async (req, res) => {
       user.usua_password
     );
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Contraseña incorrecta" });
+      return res
+        .status(404)
+        .json({
+          code: "NOT_FOUND",
+          status: 404,
+          message: "Contraseña incorrecta"
+        });
     }
 
     // Generar token JWT
@@ -131,14 +143,25 @@ export const loginUsuario = async (req, res) => {
       user_nombre: user.usua_nombre,
       user_correo: user.usua_correo,
       user_estado: user.usua_estado,
-      rol: user.rol,
+      rol: user.rol
     };
 
-    return res
-      .status(200)
-      .json({ message: "Login exitoso", token, user: transformedUser });
+    return res.status(200).json({
+      code: "SUCCESS",
+      status: 200,
+      message: "Autenticado correctamente",
+      token,
+      user: transformedUser
+    });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res
+      .status(500)
+      .json({
+        code: "INTERNAL_SERVER_ERROR",
+        status: 500,
+        message: "Ocurrió un error inesperado",
+        error: error.message
+      });
   }
 };
 

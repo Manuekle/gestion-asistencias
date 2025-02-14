@@ -62,7 +62,7 @@ export const userLogin = (usua_correo, usua_password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data
     });
   }
 };

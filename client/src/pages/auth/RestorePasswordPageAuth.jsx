@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input, Button } from '@heroui/react';
@@ -37,7 +38,7 @@ function RestorePasswordPageAuth() {
         description:
           'Se ha enviado un correo electronico con tu contraseña nueva'
       });
-      navigate('/auth/administrador/login');
+      // navigate('/auth/administrador/login');
     } else {
       toast({
         variant: 'destructive',

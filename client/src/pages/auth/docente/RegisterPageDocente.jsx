@@ -52,12 +52,12 @@ function RegisterPageDocente() {
     return !validatePassword(password);
   }, [password]);
 
-  const alert = () => {
-    if (error) {
+  const alert = (data) => {
+    if (data.status === 404) {
       toast({
         variant: 'destructive',
         title: 'Oh oh! Algo salio mal',
-        description: error
+        description: error.message
       });
     }
   };
@@ -67,8 +67,8 @@ function RegisterPageDocente() {
     dispatch(docenteRegister(user, email, password, role, status));
     await setTimeout(() => {
       setFormData(false);
+      alert(error);
     }, 2000);
-    // alert();
   };
 
   useEffect(() => {
