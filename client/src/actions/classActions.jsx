@@ -209,7 +209,7 @@ export const showClassAll = (userInfo) => async (dispatch) => {
     dispatch({ type: CLASS_ALL_REQUEST });
 
     const { data } = await axios.get(
-      `http://localhost:4000/api/clase/show-all-docente/${userInfo.user.usua_id}`
+      `http://localhost:4000/api/clase/show-all-docente/${userInfo.user.user_id}`
     );
 
     dispatch({

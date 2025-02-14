@@ -64,8 +64,8 @@ function ReportPageDashboard() {
       createReport(
         selectedMonth,
         selectedYear,
-        userInfo.user.usua_id,
-        userInfo.user.usua_correo
+        userInfo.user.user_id,
+        userInfo.user.user_correo
       )
     );
   };
