@@ -66,11 +66,12 @@ function LoginPageDocente() {
       setFormData(false);
     }, 2000);
     alert();
+    navigate('/dashboard');
   };
 
   useEffect(() => {
-    if (userInfo) {
-      navigate('/Dashboard');
+    if (!userInfo) {
+      navigate('/');
     }
   }, [userInfo, navigate]);
   return (

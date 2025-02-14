@@ -125,7 +125,20 @@ export const loginDocente = async (req, res) => {
       { expiresIn: "1h" } // Token válido por 1 hora
     );
 
-    return res.status(200).json({ message: "Login exitoso", token, user });
+    // Renombrar las propiedades del usuario
+    const transformedUser = {
+      user_id: user.doc_id,
+      user_nombre: user.doc_nombre,
+      user_correo: user.doc_correo,
+      user_password: user.doc_password,
+      user_estado: user.doc_estado,
+      rol: user.rol,
+      created_at: user.created_at,
+    };
+
+    return res
+      .status(200)
+      .json({ message: "Login exitoso", token, user: transformedUser });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
