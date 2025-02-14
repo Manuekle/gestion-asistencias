@@ -53,8 +53,8 @@ function RestorePasswordPageAuth() {
     dispatch(userRecoverPassword(user));
     setTimeout(() => {
       setFormData(false);
+      alertSuccess();
     }, 2000);
-    alertSuccess();
   };
   return (
     <div className="flex justify-center items-center h-svh auth">
