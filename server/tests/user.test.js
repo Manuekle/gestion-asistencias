@@ -7,6 +7,14 @@ describe('GET /api/usuario/show', () => {
     const request = testServer(getUsuarios);
     const response = await request.get('/api/usuario/show');
     expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual([{ id: 1, name: 'John Doe' }]);
+    expect(response.body).toEqual([
+      {
+        usua_id: 1,
+        usua_nombre: 'John Doe',
+        usua_correo: 'jhon@gmail.com',
+        usua_rol: 'estudiante',
+        usua_estado: 0,
+      },
+    ]);
   });
 });
