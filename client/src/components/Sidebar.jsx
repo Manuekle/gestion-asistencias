@@ -36,7 +36,6 @@ export default function Sidebar({ children }) {
       dispatch(userLogout());
     }
     if (userInfo.user.rol === 'estudiante') {
-      console.log('estufiante');
       navigate('/auth/estudiante/login');
       dispatch(userLogout());
     }

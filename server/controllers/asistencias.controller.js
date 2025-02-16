@@ -8,7 +8,7 @@ export const createAsistencia = async (req, res) => {
 
     // 1. Verificar si la URL proporcionada es válida
     const [qrUrlExistente] = await pool.query(
-      "SELECT * FROM codigo_qr WHERE codi_valor = ?",
+      "SELECT * FROM codigo_qr WHERE codi_url = ?",
       [qr_url]
     );
 
