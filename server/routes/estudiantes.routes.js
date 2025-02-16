@@ -1,23 +1,23 @@
-import { Router } from "express";
+import { Router } from 'express';
 
 import {
   getEstudiantes,
   getEstudiante,
   createEstudiante,
   loginEstudiante,
-  recoverPassword,
-} from "../controllers/estudiantes.controller.js";
+  recoverPassword
+} from '../controllers/estudiantes.controller.js';
 
 const router = Router();
 
 //* GET
-router.get("/show", getEstudiantes);
-router.get("/show/:id", getEstudiante);
+router.get('/show', getEstudiantes);
+router.get('/show/:id', getEstudiante);
 //? POST
-router.post("/register", createEstudiante);
+router.post('/register', createEstudiante);
 //* LOGIN
-router.post("/login", loginEstudiante);
+router.post('/login', loginEstudiante);
 //* RECOVER PASSWORD
-router.post("/recover", recoverPassword);
+router.post('/recover', recoverPassword);
 
 export default router;

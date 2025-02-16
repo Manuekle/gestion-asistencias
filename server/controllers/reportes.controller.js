@@ -1,5 +1,5 @@
-import { generarReporteCSV } from "../services/asistencia.service.js";
-import { enviarCorreo } from "../services/correo.service.js";
+import { generarReporteCSV } from '../services/asistencia.service.js';
+import { enviarCorreo } from '../services/correo.service.js';
 
 //* SEND
 export const enviarReporteCorreo = async (req, res) => {
@@ -12,9 +12,9 @@ export const enviarReporteCorreo = async (req, res) => {
     // Enviar el correo
     await enviarCorreo(email, rutaArchivo, mes, anio);
 
-    res.status(200).json({ message: "Reporte enviado exitosamente." });
+    res.status(200).json({ message: 'Reporte enviado exitosamente.' });
   } catch (error) {
-    console.error("Error al enviar el reporte:", error);
-    res.status(500).json({ error: "Error al generar y enviar el reporte" });
+    console.error('Error al enviar el reporte:', error);
+    res.status(500).json({ error: 'Error al generar y enviar el reporte' });
   }
 };

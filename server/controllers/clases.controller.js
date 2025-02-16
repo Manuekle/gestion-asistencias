@@ -1,11 +1,11 @@
 //? Clases Controllers
-import { pool } from "../db.js";
+import { pool } from '../db.js';
 
 //* GET
 export const getClases = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM clase ORDER BY created_at ASC"
+      'SELECT * FROM clase ORDER BY created_at ASC'
     );
     return res.status(200).json(result);
   } catch (error) {
@@ -38,13 +38,13 @@ export const getClaseQr = async (req, res) => {
     );
 
     if (result.length === 0) {
-      return res.status(404).json({ message: "Clase no encontrada." });
+      return res.status(404).json({ message: 'Clase no encontrada.' });
     }
 
     // Verificar el estado de la clase
-    if (result[0].clas_estado === "finalizada") {
+    if (result[0].clas_estado === 'finalizada') {
       return res.status(400).json({
-        message: "No se puede generar código QR para una clase ya finalizada.",
+        message: 'No se puede generar código QR para una clase ya finalizada.'
       });
     }
 
@@ -53,7 +53,6 @@ export const getClaseQr = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
 
 export const getClase = async (req, res) => {
   try {
@@ -157,9 +156,9 @@ export const getClasesPorDiaYRango = async (req, res) => {
 
     const clasesEnRango = result.filter((clase) => {
       const [horaInicio, minutoInicio] = clase.clas_hora_inicio
-        .split(":")
+        .split(':')
         .map(Number);
-      const [horaFin, minutoFin] = clase.clas_hora_fin.split(":").map(Number);
+      const [horaFin, minutoFin] = clase.clas_hora_fin.split(':').map(Number);
 
       const inicioClase = horaInicio * 60 + minutoInicio;
       const finClase = horaFin * 60 + minutoFin;
@@ -175,7 +174,7 @@ export const getClasesPorDiaYRango = async (req, res) => {
     return res.status(200).json({
       fecha: fecha,
       rango_horas: rango,
-      clases: clasesEnRango,
+      clases: clasesEnRango
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -212,14 +211,14 @@ export const getClasesPorDocente = async (req, res) => {
       if (!acc[fecha]) {
         acc[fecha] = {
           fecha,
-          clases: [],
+          clases: []
         };
       }
       acc[fecha].clases.push({
         asignatura: clase.asignatura,
         fecha_inicio: clase.fecha_inicio,
         fecha_fin: clase.fecha_fin,
-        estado: clase.estado,
+        estado: clase.estado
       });
       return acc;
     }, {});
@@ -227,7 +226,7 @@ export const getClasesPorDocente = async (req, res) => {
     const resultado = Object.values(clasesPorFecha);
     res.json(resultado);
   } catch (error) {
-    return res.status(500).json({ message: "Error interno del servidor" });
+    return res.status(500).json({ message: 'Error interno del servidor' });
   }
 };
 
@@ -238,7 +237,7 @@ export const createClase = async (req, res) => {
       req.body;
 
     const [result] = await pool.query(
-      "INSERT INTO clase (clas_asig_id, clas_fecha, clas_hora_inicio, clas_hora_fin) VALUES (?, ?, ?, ?)",
+      'INSERT INTO clase (clas_asig_id, clas_fecha, clas_hora_inicio, clas_hora_fin) VALUES (?, ?, ?, ?)',
       [clas_asig_id, clas_fecha, clas_hora_inicio, clas_hora_fin]
     );
 
@@ -248,7 +247,7 @@ export const createClase = async (req, res) => {
       clas_fecha,
       clas_hora_inicio,
       clas_hora_fin,
-      clas_estado: "activa", // Devuelve el estado activo
+      clas_estado: 'activa' // Devuelve el estado activo
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -261,7 +260,7 @@ export const cancelClase = async (req, res) => {
     const { clas_estado } = req.body;
 
     // Verificar que solo se intenta cambiar el estado a 'finalizada'
-    if (clas_estado !== "finalizada") {
+    if (clas_estado !== 'finalizada') {
       return res
         .status(400)
         .json({ message: "Solo se puede cambiar el estado a 'finalizada'." });
@@ -279,10 +278,8 @@ export const cancelClase = async (req, res) => {
     //     .json({ message: "Clase no encontrada o ya finalizada." });
     // }
 
-    return res.status(200).json({ message: "Clase actualizada exitosamente." });
+    return res.status(200).json({ message: 'Clase actualizada exitosamente.' });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
-
-

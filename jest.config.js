@@ -1,15 +1,15 @@
 export default {
   testMatch: [
-    "**/tests/**/*.test.js",
-    "**/tests/**/*.spec.js",
-    "**/__tests__/**/*.js",
+    '**/tests/**/*.test.js',
+    '**/tests/**/*.spec.js',
+    '**/__tests__/**/*.js'
   ],
-  testPathIgnorePatterns: ["/node_modules/"],
-  testEnvironment: "node",
+  testPathIgnorePatterns: ['/node_modules/'],
+  testEnvironment: 'node',
   transform: {
-    "^.+\\.jsx?$": "babel-jest",
+    '^.+\\.jsx?$': 'babel-jest'
   },
-  transformIgnorePatterns: ["/node_modules/"],
+  transformIgnorePatterns: ['/node_modules/'],
   collectCoverage: false,
-  passWithNoTests: true,
+  passWithNoTests: true
 };

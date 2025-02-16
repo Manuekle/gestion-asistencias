@@ -13,8 +13,8 @@ describe('GET /api/usuario/show', () => {
         usua_nombre: 'John Doe',
         usua_correo: 'jhon@gmail.com',
         usua_rol: 'estudiante',
-        usua_estado: 0,
-      },
+        usua_estado: 0
+      }
     ]);
   });
 });

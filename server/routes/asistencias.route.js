@@ -1,17 +1,16 @@
-import { Router } from "express";
+import { Router } from 'express';
 
 import {
   createAsistencia,
-  getClaseAsistencias,
-} from "../controllers/asistencias.controller.js";
+  getClaseAsistencias
+} from '../controllers/asistencias.controller.js';
 
 const router = Router();
 
 //? POST
-router.post("/create", createAsistencia);
+router.post('/create', createAsistencia);
 
 //* GET
-router.get("/show-asistencia/:slug/:id", getClaseAsistencias);
-
+router.get('/show-asistencia/:slug/:id', getClaseAsistencias);
 
 export default router;

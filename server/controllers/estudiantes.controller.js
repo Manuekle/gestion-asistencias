@@ -1,20 +1,20 @@
 //? Estudiantes Controllers
-import { pool } from "../db.js";
-import { createEstudianteSchema } from "../schemas/estudiante.js";
+import { pool } from '../db.js';
+import { createEstudianteSchema } from '../schemas/estudiante.js';
 
-import { SECRET_KEY, EMAIL_USER, EMAIL_PASSWORD } from "../config.js";
+import { SECRET_KEY, EMAIL_USER, EMAIL_PASSWORD } from '../config.js';
 
-import { z } from "zod";
-import nodemailer from "nodemailer";
-import bcrypt from "bcrypt";
-import crypto from "crypto";
-import jwt from "jsonwebtoken";
+import { z } from 'zod';
+import nodemailer from 'nodemailer';
+import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 
 //* GET
 export const getEstudiantes = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM estudiante ORDER BY created_at ASC"
+      'SELECT * FROM estudiante ORDER BY created_at ASC'
     );
     return res.status(200).json(result);
   } catch (error) {
@@ -25,11 +25,11 @@ export const getEstudiantes = async (req, res) => {
 export const getEstudiante = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM Estudiante WHERE estu_id = ?",
+      'SELECT * FROM Estudiante WHERE estu_id = ?',
       [req.params.id]
     );
     if (result.length === 0) {
-      return res.status(404).json({ message: "Estudiante no encontrado" });
+      return res.status(404).json({ message: 'Estudiante no encontrado' });
     }
     return res.status(200).json(result[0]);
   } catch (error) {
@@ -44,12 +44,12 @@ export const createEstudiante = async (req, res) => {
 
     // Verificar si el correo ya existe
     const [existingUser] = await pool.query(
-      "SELECT * FROM estudiante WHERE estu_correo = ?",
+      'SELECT * FROM estudiante WHERE estu_correo = ?',
       [data.estu_correo]
     );
 
     if (existingUser.length > 0) {
-      return res.status(400).json({ message: "El correo ya está registrado" });
+      return res.status(400).json({ message: 'El correo ya está registrado' });
     }
 
     // Hash de la contraseña
@@ -57,13 +57,13 @@ export const createEstudiante = async (req, res) => {
 
     // Insertar Estudiante con contraseña cifrada
     const [result] = await pool.query(
-      "INSERT INTO estudiante(estu_nombre, estu_correo, estu_password, rol, estu_estado) VALUES (?, ?, ?, ?, ?)",
+      'INSERT INTO estudiante(estu_nombre, estu_correo, estu_password, rol, estu_estado) VALUES (?, ?, ?, ?, ?)',
       [
         data.estu_nombre,
         data.estu_correo,
         hashedPassword,
         data.rol,
-        data.estu_estado,
+        data.estu_estado
       ]
     );
 
@@ -71,7 +71,7 @@ export const createEstudiante = async (req, res) => {
     const token = jwt.sign(
       { id: result.insertId, correo: data.estu_correo },
       SECRET_KEY,
-      { expiresIn: "1h" } // Duración del token
+      { expiresIn: '1h' } // Duración del token
     );
 
     // show data user and no show user.estu_password;
@@ -80,10 +80,10 @@ export const createEstudiante = async (req, res) => {
       user_nombre: data.estu_nombre,
       user_correo: data.estu_correo,
       rol: data.rol,
-      user_estado: data.estu_estado,
+      user_estado: data.estu_estado
     };
 
-    return res.status(200).json({ message: "Registro exitoso", token, user });
+    return res.status(200).json({ message: 'Registro exitoso', token, user });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: error.errors[0].message });
@@ -99,18 +99,16 @@ export const loginEstudiante = async (req, res) => {
 
     // Buscar Estudiante por correo
     const [result] = await pool.query(
-      "SELECT * FROM estudiante WHERE estu_correo = ?",
+      'SELECT * FROM estudiante WHERE estu_correo = ?',
       [estu_correo]
     );
 
     if (result.length === 0) {
-      return res
-        .status(404)
-        .json({
-          code: "NOT_FOUND",
-          status: 404,
-          message: "Estudiante no encontrado",
-        });
+      return res.status(404).json({
+        code: 'NOT_FOUND',
+        status: 404,
+        message: 'Estudiante no encontrado'
+      });
     }
 
     const user = result[0];
@@ -121,20 +119,18 @@ export const loginEstudiante = async (req, res) => {
       user.estu_password
     );
     if (!isPasswordValid) {
-      return res
-        .status(404)
-        .json({
-          code: "NOT_FOUND",
-          status: 404,
-          message: "Contraseña incorrecta",
-        });
+      return res.status(404).json({
+        code: 'NOT_FOUND',
+        status: 404,
+        message: 'Contraseña incorrecta'
+      });
     }
 
     // Generar token JWT
     const token = jwt.sign(
       { id: user.estu_id, correo: user.estu_correo },
       SECRET_KEY,
-      { expiresIn: "1h" } // Token válido por 1 hora
+      { expiresIn: '1h' } // Token válido por 1 hora
     );
 
     // Renombrar las propiedades del usuario
@@ -143,26 +139,22 @@ export const loginEstudiante = async (req, res) => {
       user_nombre: user.estu_nombre,
       user_correo: user.estu_correo,
       user_estado: user.estu_estado,
-      rol: user.rol,
+      rol: user.rol
     };
 
-    return res
-      .status(200)
-      .json({
-        code: "SUCCESS",
-        status: 200,
-        message: "Autenticado correctamente",
-        token,
-        user: transformedUser,
-      });
+    return res.status(200).json({
+      code: 'SUCCESS',
+      status: 200,
+      message: 'Autenticado correctamente',
+      token,
+      user: transformedUser
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        code: "INTERNAL_SERVER_ERROR",
-        status: 500,
-        message: "Ocurrió un error inesperado",
-      });
+    return res.status(500).json({
+      code: 'INTERNAL_SERVER_ERROR',
+      status: 500,
+      message: 'Ocurrió un error inesperado'
+    });
   }
 };
 
@@ -173,43 +165,43 @@ export const recoverPassword = async (req, res) => {
 
     // Verificar si el correo existe
     const [result] = await pool.query(
-      "SELECT * FROM estudiante WHERE estu_correo = ?",
+      'SELECT * FROM estudiante WHERE estu_correo = ?',
       [estu_correo]
     );
 
     if (result.length === 0) {
-      return res.status(404).json({ message: "Correo no encontrado" });
+      return res.status(404).json({ message: 'Correo no encontrado' });
     }
 
     const user = result[0];
 
     // Generar una nueva contraseña temporal
-    const newPassword = crypto.randomBytes(8).toString("hex"); // Genera una contraseña aleatoria
+    const newPassword = crypto.randomBytes(8).toString('hex'); // Genera una contraseña aleatoria
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     // Actualizar la contraseña en la base de datos
-    await pool.query("UPDATE estudiante SET estu_password = ? WHERE estu_id = ?", [
-      hashedPassword,
-      user.estu_id,
-    ]);
+    await pool.query(
+      'UPDATE estudiante SET estu_password = ? WHERE estu_id = ?',
+      [hashedPassword, user.estu_id]
+    );
 
     // Configurar el servicio de nodemailer
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      host: "smtp.gmail.com",
+      service: 'gmail',
+      host: 'smtp.gmail.com',
       port: 587,
       auth: {
         user: EMAIL_USER,
-        pass: EMAIL_PASSWORD,
-      },
+        pass: EMAIL_PASSWORD
+      }
     });
 
     // Configurar el contenido del correo
     const mailOptions = {
       from: EMAIL_USER,
       to: estu_correo,
-      subject: "Recuperación de contraseña",
-      text: `Hola ${user.estu_nombre}, Tu nueva contraseña temporal es: ${newPassword}\n\nTe recomendamos cambiarla después de iniciar sesión.`,
+      subject: 'Recuperación de contraseña',
+      text: `Hola ${user.estu_nombre}, Tu nueva contraseña temporal es: ${newPassword}\n\nTe recomendamos cambiarla después de iniciar sesión.`
     };
 
     // Enviar el correo
@@ -217,7 +209,7 @@ export const recoverPassword = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Correo enviado con la nueva contraseña" });
+      .json({ message: 'Correo enviado con la nueva contraseña' });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
