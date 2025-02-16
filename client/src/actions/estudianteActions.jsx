@@ -21,8 +21,8 @@ import {
   USER_REGISTER_REQUEST
 } from '../constants/userConstants';
 
-const dev = import.meta.API_DEVELOPMENT;
-const pro = import.meta.API_PRODUCTION;
+const dev = import.meta.env.VITE_REACT_APP_API_DEVELOPMENT;
+const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
 
 export const estudianteLogin =
   (estu_correo, estu_password) => async (dispatch) => {

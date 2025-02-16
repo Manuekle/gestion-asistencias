@@ -28,14 +28,15 @@ import {
   CLASS_ALL_FAIL
 } from '../constants/classConstants';
 
+const dev = import.meta.env.VITE_REACT_APP_API_DEVELOPMENT;
+const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
+
 // DETAILS
 export const detailsClass = (id) => async (dispatch) => {
   try {
     dispatch({ type: CLASS_DETAILS_REQUEST });
 
-    const { data } = await axios.get(
-      `http://localhost:4000/api/clase/show-by-docente/${id}`
-    );
+    const { data } = await axios.get(`${dev}/clase/show-by-docente/${id}`);
 
     dispatch({
       type: CLASS_DETAILS_SUCCESS,
@@ -65,7 +66,7 @@ export const createClass =
       };
 
       const { data } = await axios.post(
-        `http://localhost:4000/api/clase/create`,
+        `${dev}/clase/create`,
         {
           clas_asig_id,
           clas_fecha,
@@ -92,7 +93,7 @@ export const showClass = (slug, id) => async (dispatch) => {
     dispatch({ type: CLASS_SHOW_REQUEST });
 
     const { data } = await axios.get(
-      `http://localhost:4000/api/asistencia/show-asistencia/${slug}/${id}`
+      `${dev}/asistencia/show-asistencia/${slug}/${id}`
     );
 
     dispatch({
@@ -112,9 +113,7 @@ export const showClassSignature = (slug, id) => async (dispatch) => {
   try {
     dispatch({ type: CLASS_SIGNATURE_REQUEST });
 
-    const { data } = await axios.get(
-      `http://localhost:4000/api/clase/show/${slug}/${id}`
-    );
+    const { data } = await axios.get(`${dev}/clase/show/${slug}/${id}`);
 
     dispatch({
       type: CLASS_SIGNATURE_SUCCESS,
@@ -133,9 +132,7 @@ export const showClassQr = (id) => async (dispatch) => {
   try {
     dispatch({ type: CLASS_QR_REQUEST });
 
-    const { data } = await axios.get(
-      `http://localhost:4000/api/clase/show-qr/${id}`
-    );
+    const { data } = await axios.get(`${dev}/clase/show-qr/${id}`);
 
     dispatch({
       type: CLASS_QR_SUCCESS,
@@ -163,7 +160,7 @@ export const cancelClassStatus = (id) => async (dispatch) => {
     };
 
     const { data } = await axios.put(
-      `http://localhost:4000/api/clase/cancel/${id}`,
+      `${dev}/clase/cancel/${id}`,
       {
         clas_estado: 'finalizada'
       },
@@ -182,16 +179,13 @@ export const cancelClassStatus = (id) => async (dispatch) => {
   }
 };
 
-const dev = import.meta.API_DEVELOPMENT;
-const pro = import.meta.API_PRODUCTION;
-
 // SHOW CLASS DAY
 export const showClassDay = (fecha, userInfo) => async (dispatch) => {
   try {
     dispatch({ type: CLASS_DAY_REQUEST });
 
     const { data } = await axios.get(
-      `http://localhost:4000/api/clase/dia-rango?fecha=${fecha}&rangoHoras=6&docenteId=${userInfo && userInfo.user.user_id}`
+      `${dev}/clase/dia-rango?fecha=${fecha}&rangoHoras=6&docenteId=${userInfo && userInfo.user.user_id}`
     );
 
     dispatch({

@@ -8,8 +8,8 @@ import {
   REPORT_CREATE_FAIL
 } from '../constants/reportConstants';
 
-const dev = import.meta.API_DEVELOPMENT;
-const pro = import.meta.API_PRODUCTION;
+const dev = import.meta.env.VITE_REACT_APP_API_DEVELOPMENT;
+const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
 
 // CREATE
 export const createReport =

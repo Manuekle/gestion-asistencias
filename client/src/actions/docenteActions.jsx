@@ -18,8 +18,8 @@ import {
   DOCENTE_RECOVER_FAIL
 } from '../constants/docenteConstants';
 
-const dev = import.meta.API_DEVELOPMENT;
-const pro = import.meta.API_PRODUCTION;
+const dev = import.meta.env.VITE_REACT_APP_API_DEVELOPMENT;
+const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
 
 export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
   try {
@@ -34,7 +34,7 @@ export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `${dev}/api/docente/login`,
+      `${dev}/docente/login`,
       { doc_correo, doc_password },
       config
     );
