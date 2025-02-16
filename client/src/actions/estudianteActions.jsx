@@ -18,7 +18,8 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
   USER_REGISTER_SUCCESS,
-  USER_REGISTER_REQUEST
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_FAIL
 } from '../constants/userConstants';
 
 const dev = import.meta.env.VITE_REACT_APP_API_DEVELOPMENT;
@@ -59,7 +60,7 @@ export const estudianteLogin =
 
 export const estudianteLogout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
-  dispatch({ type: USER_LOGOUT });
+  dispatch({ type: ESTUDIANTE_LOGOUT });
   dispatch({ type: ESTUDIANTE_DETAILS_RESET });
   dispatch({ type: ESTUDIANTE_LIST_RESET });
 };
@@ -97,7 +98,7 @@ export const estudianteRegister =
       localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
       dispatch({
-        type: ESTUDIANTE_REGISTER_FAIL,
+        type: USER_REGISTER_FAIL,
         payload: error.response.data
       });
     }

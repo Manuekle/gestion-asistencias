@@ -29,14 +29,14 @@ export default function Sidebar({ children }) {
   const logoutHandler = () => {
     if (userInfo.user.rol === 'administrador') {
       dispatch(userLogout());
-      navigate('/auth/administrador/login');
+      navigate('/');
     }
     if (userInfo.user.rol === 'docente') {
-      navigate('/auth/docente/login');
+      navigate('/');
       dispatch(userLogout());
     }
     if (userInfo.user.rol === 'estudiante') {
-      navigate('/auth/estudiante/login');
+      navigate('/');
       dispatch(userLogout());
     }
   };

@@ -18,13 +18,23 @@ import {
   DOCENTE_RECOVER_FAIL
 } from '../constants/docenteConstants';
 
+import {
+  USER_LOGOUT,
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_FAIL,
+  USER_REGISTER_SUCCESS,
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_FAIL
+} from '../constants/userConstants';
+
 const dev = import.meta.env.VITE_REACT_APP_API_DEVELOPMENT;
 const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
 
 export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
   try {
     dispatch({
-      type: DOCENTE_LOGIN_REQUEST
+      type: USER_LOGIN_REQUEST
     });
 
     const config = {
@@ -40,14 +50,14 @@ export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
     );
 
     dispatch({
-      type: DOCENTE_LOGIN_SUCCESS,
+      type: USER_LOGIN_SUCCESS,
       payload: data
     });
 
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
-      type: DOCENTE_LOGIN_FAIL,
+      type: USER_LOGIN_FAIL,
       payload: error.response.data
     });
   }
@@ -65,7 +75,7 @@ export const docenteRegister =
   async (dispatch) => {
     try {
       dispatch({
-        type: DOCENTE_REGISTER_REQUEST
+        type: USER_REGISTER_REQUEST
       });
 
       const config = {
@@ -81,19 +91,19 @@ export const docenteRegister =
       );
 
       dispatch({
-        type: DOCENTE_REGISTER_SUCCESS,
+        type: USER_REGISTER_SUCCESS,
         payload: data
       });
 
       dispatch({
-        type: DOCENTE_LOGIN_SUCCESS,
+        type: USER_LOGIN_SUCCESS,
         payload: data
       });
 
       localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
       dispatch({
-        type: DOCENTE_REGISTER_FAIL,
+        type: USER_REGISTER_FAIL,
         payload: error.response.data
       });
     }
