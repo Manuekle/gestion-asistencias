@@ -62,10 +62,10 @@ function ReportPageDashboard() {
   const handleGenerateReport = () => {
     dispatch(
       createReport(
-        selectedMonth,
-        selectedYear,
-        userInfo.user.user_id,
-        userInfo.user.user_correo
+      (parseInt(selectedMonth) + 1).toString(),
+      selectedYear,
+      userInfo.user.user_id,
+      userInfo.user.user_correo
       )
     );
   };
@@ -104,8 +104,8 @@ function ReportPageDashboard() {
             <SelectContent>
               {months.map((month, index) => (
                 <SelectItem
-                  key={index + 1}
-                  value={(index + 1).toString()}
+                  key={(index + 1)}
+                  value={index.toString()}
                   className="text-sm"
                 >
                   {month}
@@ -165,9 +165,9 @@ function ReportPageDashboard() {
               </div>
               <div className="p-3 pt-0 grid grid-cols-2 gap-3">
                 {classes.map((cls, clsIndex) => (
-                  <Link
+                  <button
+                    type='button'
                     key={clsIndex}
-                    to="/"
                     className="flex flex-col gap-1 bg-[#FAFBFD] rounded-lg p-2 border"
                   >
                     <h1 className="font-bold text-xs text-zinc-800">
@@ -176,7 +176,7 @@ function ReportPageDashboard() {
                     <h1 className="font-bold text-xs text-zinc-400">
                       {cls.fecha_inicio} - {cls.fecha_fin}
                     </h1>
-                  </Link>
+                  </button>
                 ))}
               </div>
             </div>
