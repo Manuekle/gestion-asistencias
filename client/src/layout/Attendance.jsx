@@ -66,15 +66,11 @@ function Attendance() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/dashboard/');
-    } else {
-      navigate('/auth/estudiante/login');
+      //navigate('/dashboard/');
     }
 
     if (!error) {
-      navigate('/dashboard/');
-    } else {
-      navigate('/auth/estudiante/login');
+      //navigate('/dashboard/');
     }
 
     if (id && token) {
