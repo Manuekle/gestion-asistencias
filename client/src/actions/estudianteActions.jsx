@@ -21,6 +21,9 @@ import {
   USER_REGISTER_REQUEST
 } from '../constants/userConstants';
 
+const dev = process.env.API_DEVELOPMENT;
+const pro = process.env.API_PRODUCTION;
+
 export const estudianteLogin =
   (estu_correo, estu_password) => async (dispatch) => {
     try {
@@ -76,7 +79,7 @@ export const estudianteRegister =
       };
 
       const { data } = await axios.post(
-        'http://localhost:4000/api/estudiante/register',
+        `${dev}/estudiante/register`,
         { estu_nombre, estu_correo, estu_password, rol, estu_estado },
         config
       );
@@ -113,7 +116,7 @@ export const estudianteRecoverPassword = (estu_correo) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      'http://localhost:4000/api/estudiante/recover',
+     `${dev}/estudiante/recover`,
       { estu_correo },
       config
     );
@@ -153,7 +156,7 @@ export const getEstudianteDetails = (estu_id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://localhost:4000/api/estudiante/show/${estu_id}/`,
+      `${dev}/estudiante/show/${estu_id}/`,
       config
     );
 

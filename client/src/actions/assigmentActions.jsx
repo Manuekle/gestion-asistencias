@@ -7,14 +7,15 @@ import {
   ASSIGMENT_DETAILS_FAIL
 } from '../constants/assigmentConstants';
 
+const dev = process.env.API_DEVELOPMENT;
+const pro = process.env.API_PRODUCTION;
+
 //* DETAILS
 export const detailsAssigment = (id) => async (dispatch) => {
   try {
     dispatch({ type: ASSIGMENT_DETAILS_REQUEST });
 
-    const { data } = await axios.get(
-      `http://localhost:4000/api/asignatura/show-by-docente/${id}`
-    );
+    const { data } = await axios.get(`${dev}/asignatura/show-by-docente/${id}`);
 
     dispatch({
       type: ASSIGMENT_DETAILS_SUCCESS,

@@ -8,6 +8,9 @@ import {
   QR_CREATE_FAIL
 } from '../constants/qrConstants';
 
+const dev = process.env.API_DEVELOPMENT;
+const pro = process.env.API_PRODUCTION;
+
 // CREATE
 export const createQR = (codi_valor, codi_clas_id) => async (dispatch) => {
   try {
@@ -22,7 +25,7 @@ export const createQR = (codi_valor, codi_clas_id) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `http://localhost:4000/api/qr/create`,
+      `${dev}/qr/create`,
       {
         codi_valor,
         codi_clas_id

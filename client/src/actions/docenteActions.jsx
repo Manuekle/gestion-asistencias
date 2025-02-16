@@ -18,6 +18,9 @@ import {
   DOCENTE_RECOVER_FAIL
 } from '../constants/docenteConstants';
 
+const dev = process.env.API_DEVELOPMENT;
+const pro = process.env.API_PRODUCTION;
+
 export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
   try {
     dispatch({
@@ -31,7 +34,7 @@ export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      'http://localhost:4000/api/docente/login',
+      `${dev}/api/docente/login`,
       { doc_correo, doc_password },
       config
     );
@@ -72,7 +75,7 @@ export const docenteRegister =
       };
 
       const { data } = await axios.post(
-        'http://localhost:4000/api/docente/register',
+        `${dev}/docente/register`,
         { doc_nombre, doc_correo, doc_password, rol, doc_estado },
         config
       );
@@ -109,7 +112,7 @@ export const docenteRecoverPassword = (doc_correo) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      'http://localhost:4000/api/docente/recover',
+      `${dev}/docente/recover`,
       { doc_correo },
       config
     );
@@ -148,10 +151,7 @@ export const getDocenteDetails = (doc_id) => async (dispatch, getState) => {
       }
     };
 
-    const { data } = await axios.get(
-      `http://localhost:4000/api/docente/show/${doc_id}/`,
-      config
-    );
+    const { data } = await axios.get(`${dev}/docente/show/${doc_id}/`, config);
 
     dispatch({
       type: DOCENTE_DETAILS_SUCCESS,

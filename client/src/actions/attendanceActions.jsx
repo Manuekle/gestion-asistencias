@@ -8,6 +8,9 @@ import {
   ATTENDANCE_CREATE_FAIL
 } from '../constants/attendanceConstants';
 
+const dev = process.env.API_DEVELOPMENT;
+const pro = process.env.API_PRODUCTION;
+
 //* CREATE
 export const createAttendance =
   (estu_id, clas_id, qr_url) => async (dispatch) => {
@@ -23,7 +26,7 @@ export const createAttendance =
       };
 
       const { data } = await axios.post(
-        `http://localhost:4000/api/asistencia/create`,
+        `${dev}/asistencia/create`,
         {
           estu_id,
           clas_id,

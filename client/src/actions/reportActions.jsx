@@ -8,6 +8,9 @@ import {
   REPORT_CREATE_FAIL
 } from '../constants/reportConstants';
 
+const dev = process.env.API_DEVELOPMENT;
+const pro = process.env.API_PRODUCTION;
+
 // CREATE
 export const createReport =
   (mes, anio, docenteId, email) => async (dispatch) => {
@@ -23,7 +26,7 @@ export const createReport =
       };
 
       const { data } = await axios.post(
-        `http://localhost:4000/api/reporte/send`,
+        `${dev}/reporte/send`,
         {
           mes,
           anio,

@@ -182,6 +182,9 @@ export const cancelClassStatus = (id) => async (dispatch) => {
   }
 };
 
+const dev = process.env.API_DEVELOPMENT;
+const pro = process.env.API_PRODUCTION;
+
 // SHOW CLASS DAY
 export const showClassDay = (fecha, userInfo) => async (dispatch) => {
   try {
@@ -209,7 +212,7 @@ export const showClassAll = (userInfo) => async (dispatch) => {
     dispatch({ type: CLASS_ALL_REQUEST });
 
     const { data } = await axios.get(
-      `http://localhost:4000/api/clase/show-all-docente/${userInfo && userInfo.user.user_id}`
+      `${dev}/clase/show-all-docente/${userInfo && userInfo.user.user_id}`
     );
 
     dispatch({

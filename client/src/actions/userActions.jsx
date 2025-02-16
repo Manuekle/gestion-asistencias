@@ -35,6 +35,9 @@ import {
   USER_RECOVER_FAIL
 } from '../constants/userConstants';
 
+const dev = process.env.API_DEVELOPMENT;
+const pro = process.env.API_PRODUCTION;
+
 export const userLogin = (usua_correo, usua_password) => async (dispatch) => {
   try {
     dispatch({
@@ -48,7 +51,7 @@ export const userLogin = (usua_correo, usua_password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      'http://localhost:4000/api/usuario/login',
+      `${dev}/usuario/login`,
       { usua_correo: usua_correo, usua_password: usua_password },
       config
     );
@@ -89,7 +92,7 @@ export const userRegister =
       };
 
       const { data } = await axios.post(
-        'http://localhost:4000/api/usuario/register',
+         `${dev}/usuario/register`,
         { usua_nombre, usua_correo, usua_password, rol, usua_estado },
         config
       );
@@ -126,7 +129,7 @@ export const userRecoverPassword = (usua_correo) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      'http://localhost:4000/api/usuario/recover',
+      `${dev}/usuario/recover`,
       { usua_correo },
       config
     );
@@ -165,10 +168,7 @@ export const getUserDetails = (usua_id) => async (dispatch, getState) => {
       }
     };
 
-    const { data } = await axios.get(
-      `http://localhost:4000/api/usuario/show/${usua_id}/`,
-      config
-    );
+    const { data } = await axios.get(`${dev}/usuario/show/${usua_id}/`, config);
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
