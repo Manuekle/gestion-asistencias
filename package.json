@@ -11,8 +11,8 @@
     "start": "node server/index.js",
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["asistencia", "gestion", "proyecto", "nodejs", "express"],
+  "author": "manuekle",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
