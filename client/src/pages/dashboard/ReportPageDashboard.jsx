@@ -135,7 +135,7 @@ function ReportPageDashboard() {
           onClick={handleGenerateReport}
           className="px-6 py-2 bg-zinc-900 shadow-sm hover:shadow-md rounded-md"
         >
-          <h1 className="text-xs font-bold text-white">generar reporte</h1>
+          <h1 className="text-xs font-bold text-white">Generar Reporte</h1>
         </button>
       </section>
 

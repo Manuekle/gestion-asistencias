@@ -183,7 +183,7 @@ function ClassPageDashboard() {
           </span>
           <Dialog>
             <DialogTrigger className="bg-zinc-800 py-2 px-4 gap-1 rounded-lg flex flex-row items-center hover:shadow-md">
-              <h1 className="font-bold text-xs text-white">Crear clase</h1>
+              <h1 className="font-bold text-xs text-white">Crear Clase</h1>
             </DialogTrigger>
             <DialogContent className="space-y-0 w-full">
               <DialogHeader>

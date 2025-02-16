@@ -109,7 +109,7 @@ function ConfigPageDashboard() {
               type="button"
               className="bg-zinc-800 font-bold text-xs text-white px-4 py-2 rounded-lg hover:shadow-md"
             >
-              cambiar
+              Cambiar
             </button>
           </div>
         </article>
