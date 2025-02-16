@@ -27,25 +27,11 @@ export default function Sidebar({ children }) {
   const { userInfo } = userLogin;
 
   const logoutHandler = () => {
-    if (userInfo.user.rol === 'administrador') {
-      dispatch(userLogout());
-      navigate('/');
-    }
-    if (userInfo.user.rol === 'docente') {
-      navigate('/');
-      dispatch(userLogout());
-    }
-    if (userInfo.user.rol === 'estudiante') {
-      navigate('/');
-      dispatch(userLogout());
-    }
+    dispatch(userLogout());    
   };
 
   useEffect(() => {
-    if (!userInfo) {
-      navigate('/');
-    }
-  }, [dispatch, navigate, userInfo]);
+  }, [dispatch, userInfo]);
 
   return (
     <aside className="h-screen">
