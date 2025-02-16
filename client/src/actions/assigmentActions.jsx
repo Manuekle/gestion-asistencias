@@ -7,7 +7,7 @@ import {
   ASSIGMENT_DETAILS_FAIL
 } from '../constants/assigmentConstants';
 
-const dev = import.meta.env.VITE_REACT_APP_APP_API_DEVELOPMENT;
+const dev = import.meta.env.VITE_REACT_APP_API_DEVELOPMENT;
 const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
 
 //* DETAILS

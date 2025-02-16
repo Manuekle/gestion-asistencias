@@ -132,7 +132,6 @@ function ClassPageDashboard() {
   useEffect(() => {
     if (userInfo) {
       dispatch(detailsClass(userInfo.user.user_id));
-
       dispatch(detailsAssigment(userInfo.user.user_id));
     }
   }, [dispatch, userInfo]);
