@@ -182,8 +182,8 @@ export const cancelClassStatus = (id) => async (dispatch) => {
   }
 };
 
-const dev = process.env.API_DEVELOPMENT;
-const pro = process.env.API_PRODUCTION;
+const dev = import.meta.API_DEVELOPMENT;
+const pro = import.meta.API_PRODUCTION;
 
 // SHOW CLASS DAY
 export const showClassDay = (fecha, userInfo) => async (dispatch) => {

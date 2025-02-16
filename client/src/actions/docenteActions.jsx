@@ -18,8 +18,8 @@ import {
   DOCENTE_RECOVER_FAIL
 } from '../constants/docenteConstants';
 
-const dev = process.env.API_DEVELOPMENT;
-const pro = process.env.API_PRODUCTION;
+const dev = import.meta.API_DEVELOPMENT;
+const pro = import.meta.API_PRODUCTION;
 
 export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
   try {

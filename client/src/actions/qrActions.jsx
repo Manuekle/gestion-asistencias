@@ -8,8 +8,8 @@ import {
   QR_CREATE_FAIL
 } from '../constants/qrConstants';
 
-const dev = process.env.API_DEVELOPMENT;
-const pro = process.env.API_PRODUCTION;
+const dev = import.meta.API_DEVELOPMENT;
+const pro = import.meta.API_PRODUCTION;
 
 // CREATE
 export const createQR = (codi_valor, codi_clas_id) => async (dispatch) => {

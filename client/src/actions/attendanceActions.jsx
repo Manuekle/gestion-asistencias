@@ -8,8 +8,8 @@ import {
   ATTENDANCE_CREATE_FAIL
 } from '../constants/attendanceConstants';
 
-const dev = process.env.API_DEVELOPMENT;
-const pro = process.env.API_PRODUCTION;
+const dev = import.meta.API_DEVELOPMENT;
+const pro = import.meta.API_PRODUCTION;
 
 //* CREATE
 export const createAttendance =

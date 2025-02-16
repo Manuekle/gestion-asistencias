@@ -35,8 +35,8 @@ import {
   USER_RECOVER_FAIL
 } from '../constants/userConstants';
 
-const dev = process.env.API_DEVELOPMENT;
-const pro = process.env.API_PRODUCTION;
+const dev = import.meta.API_DEVELOPMENT;
+const pro = import.meta.API_PRODUCTION;
 
 export const userLogin = (usua_correo, usua_password) => async (dispatch) => {
   try {
