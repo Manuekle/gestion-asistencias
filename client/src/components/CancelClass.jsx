@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Modal,
   ModalContent,
@@ -8,12 +8,12 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Button,
-} from "@heroui/react";
+  Button
+} from '@heroui/react';
 
-import { useDispatch } from "react-redux";
-import { Delete02Icon } from "hugeicons-react";
-import { cancelClassStatus } from "../actions/classActions";
+import { useDispatch } from 'react-redux';
+import { Delete02Icon } from 'hugeicons-react';
+import { cancelClassStatus } from '../actions/classActions';
 
 function CancelClass({ value, id }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -48,8 +48,8 @@ function CancelClass({ value, id }) {
         onOpenChange={onOpenChange}
         backdrop="opaque"
         classNames={{
-          backdrop: "bg-black bg-opacity-70",
-          modal: "bg-white rounded-lg shadow-lg w-96 p-6",
+          backdrop: 'bg-black bg-opacity-70',
+          modal: 'bg-white rounded-lg shadow-lg w-96 p-6'
         }}
       >
         <ModalContent>

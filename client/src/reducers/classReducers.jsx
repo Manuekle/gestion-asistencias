@@ -23,8 +23,8 @@ import {
   CLASS_DAY_FAIL,
   CLASS_ALL_SUCCESS,
   CLASS_ALL_REQUEST,
-  CLASS_ALL_FAIL,
-} from "../constants/classConstants";
+  CLASS_ALL_FAIL
+} from '../constants/classConstants';
 
 // DETAILS
 export const classDetailsReducer = (state = { clases: [] }, action) => {

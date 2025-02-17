@@ -1,10 +1,10 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable radix */
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 // import { StudentCardIcon } from 'hugeicons-react';
-import { useNavigate, useParams } from "react-router-dom";
-import { Separator } from "../../components/ui/separator.tsx";
+import { useNavigate, useParams } from 'react-router-dom';
+import { Separator } from '../../components/ui/separator.tsx';
 import {
   Table,
   TableBody,
@@ -12,14 +12,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableCaption,
-} from "../../components/ui/table.tsx";
+  TableCaption
+} from '../../components/ui/table.tsx';
 // actions
-import { showClass, showClassSignature } from "../../actions/classActions";
+import { showClass, showClassSignature } from '../../actions/classActions';
 
 // component
-import CodeQR from "../../components/GenerateCodeQR";
-import Cancel from "../../components/CancelClass";
+import CodeQR from '../../components/GenerateCodeQR';
+import Cancel from '../../components/CancelClass';
 
 function Classes() {
   const classShow = useSelector((state) => state.classShow);
@@ -38,11 +38,11 @@ function Classes() {
 
     // Verifica si la fecha es válida
     if (isNaN(date.getTime())) {
-      return "Fecha inválida";
+      return 'Fecha inválida';
     }
 
-    const hora = date.getHours().toString().padStart(2, "0");
-    const minutos = date.getMinutes().toString().padStart(2, "0");
+    const hora = date.getHours().toString().padStart(2, '0');
+    const minutos = date.getMinutes().toString().padStart(2, '0');
     // const segundos = date.getSeconds().toString().padStart(2, '0');
 
     return `${hora}:${minutos}`;
@@ -52,23 +52,23 @@ function Classes() {
     const fecha = new Date(fechaISO);
 
     const opciones = {
-      year: "numeric",
-      month: "2-digit", // 'numeric', 'long', 'short', 'narrow'
-      day: "2-digit", // 'numeric'
+      year: 'numeric',
+      month: '2-digit', // 'numeric', 'long', 'short', 'narrow'
+      day: '2-digit' // 'numeric'
       // hour: '2-digit',  // Para incluir la hora
       // minute: '2-digit',// Para incluir los minutos
       // second: '2-digit' // Para incluir los segundos
     };
 
-    const fechaFormateada = fecha.toLocaleDateString("es-ES", opciones); // 'es-ES' para español
+    const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones); // 'es-ES' para español
 
     // Formatos personalizados (opcional)
-    if (formato === "DD/MM/YYYY") {
-      const [month, day, year] = fechaFormateada.split("/");
+    if (formato === 'DD/MM/YYYY') {
+      const [month, day, year] = fechaFormateada.split('/');
       return `${day}/${month}/${year}`;
     }
-    if (formato === "YYYY-MM-DD") {
-      const [month, day, year] = fechaFormateada.split("/");
+    if (formato === 'YYYY-MM-DD') {
+      const [month, day, year] = fechaFormateada.split('/');
       return `${year}-${month}-${day}`;
     }
 
@@ -76,7 +76,7 @@ function Classes() {
   }
 
   useEffect(() => {
-    if (signature.clas_estado === "finalizada") {
+    if (signature.clas_estado === 'finalizada') {
       navigate(-1);
     }
     if (name && id) {
@@ -124,10 +124,10 @@ function Classes() {
                     signature.clas_hora_fin
                   } (${
                     parseInt(signature.clas_hora_inicio) < 18
-                      ? "Diurno"
-                      : "Nocturno"
+                      ? 'Diurno'
+                      : 'Nocturno'
                   })`
-                : "Horario no disponible"}
+                : 'Horario no disponible'}
             </h1>
           </div>
           <Separator orientation="vertical" />
@@ -137,7 +137,7 @@ function Classes() {
           </div>
         </div>
 
-        {signature.clas_estado === "activa" && (
+        {signature.clas_estado === 'activa' && (
           <div className="flex flex-col gap-4 w-full">
             <CodeQR value={signature.asig_nombre} name={name} id={id} />
             <Cancel value={signature.asig_nombre} name={name} id={id} />
@@ -147,9 +147,9 @@ function Classes() {
           <span className="flex flex-row items-center justify-between">
             <h1 className="font-bold text-sm">Lista de Estudiantes</h1>
             <h1 className="font-bold text-xs">
-              Estudiantes presentes:{" "}
+              Estudiantes presentes:{' '}
               {
-                show.filter((student) => student.asis_estado === "presente")
+                show.filter((student) => student.asis_estado === 'presente')
                   .length
               }
             </h1>
@@ -196,14 +196,14 @@ function Classes() {
                     <TableCell className="text-right">
                       <span
                         className={`text-xs font-bold rounded-full px-4 py-1 justify-center items-center ${
-                          obj.asis_estado === "presente"
-                            ? "text-[#319C78] bg-[#E7FFF6]"
-                            : "text-[#C25269] bg-[#FEF2F2]"
+                          obj.asis_estado === 'presente'
+                            ? 'text-[#319C78] bg-[#E7FFF6]'
+                            : 'text-[#C25269] bg-[#FEF2F2]'
                         }`}
                       >
-                        {obj.asis_estado === "presente"
-                          ? "presente"
-                          : "ausente"}
+                        {obj.asis_estado === 'presente'
+                          ? 'presente'
+                          : 'ausente'}
                       </span>
                     </TableCell>
                   </TableRow>

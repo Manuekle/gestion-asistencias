@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { useDispatch, useSelector } from "react-redux";
-import { Input, Button } from "@heroui/react";
-import { Mail01Icon, Passport01Icon } from "hugeicons-react";
-import { useToast } from "../../../hooks/use-toast.ts";
+import { useDispatch, useSelector } from 'react-redux';
+import { Input, Button } from '@heroui/react';
+import { Mail01Icon, Passport01Icon } from 'hugeicons-react';
+import { useToast } from '../../../hooks/use-toast.ts';
 
-import { estudianteLogin } from "../../../actions/estudianteActions";
+import { estudianteLogin } from '../../../actions/estudianteActions';
 
 function LoginPageEstudiante() {
   const [formData, setFormData] = useState(false);
@@ -22,8 +22,8 @@ function LoginPageEstudiante() {
   const userLogin = useSelector((state) => state.userLogin);
   const { error, userInfo } = userLogin;
 
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
 
   // regex
   const validateEmail = (value) =>
@@ -33,13 +33,13 @@ function LoginPageEstudiante() {
     value.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
   const isInvalidEmail = React.useMemo(() => {
-    if (user === "") return false;
+    if (user === '') return false;
 
     return !validateEmail(user);
   }, [user]);
 
   const isInvalidPassword = React.useMemo(() => {
-    if (password === "") return false;
+    if (password === '') return false;
 
     return !validatePassword(password);
   }, [password]);
@@ -47,9 +47,9 @@ function LoginPageEstudiante() {
   const alert = (data) => {
     if (data.status === 404) {
       toast({
-        variant: "destructive",
-        title: "Oh oh! Algo salio mal",
-        description: error.message,
+        variant: 'destructive',
+        title: 'Oh oh! Algo salio mal',
+        description: error.message
       });
     }
   };
@@ -65,9 +65,9 @@ function LoginPageEstudiante() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate("/auth/estudiante/login");
+      navigate('/auth/estudiante/login');
     } else {
-      navigate("/dashboard/");
+      navigate('/dashboard/');
     }
   }, [userInfo, navigate]);
   return (

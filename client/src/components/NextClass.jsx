@@ -1,5 +1,5 @@
-import React from "react";
-import { Calendar04Icon } from "hugeicons-react";
+import React from 'react';
+import { Calendar04Icon } from 'hugeicons-react';
 
 function NextClass() {
   return (

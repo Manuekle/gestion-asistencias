@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { getUserDetails } from "../../actions/userActions";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getUserDetails } from '../../actions/userActions';
 
 function ConfigPageDashboard() {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ function ConfigPageDashboard() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate("/");
+      navigate('/');
     } else {
       dispatch(getUserDetails(userInfo.user.user_id));
     }

@@ -1,7 +1,7 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.tsx";
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card.tsx';
 
-function DashboardCard({ title, value, subtitle, onClick, className = "" }) {
+function DashboardCard({ title, value, subtitle, onClick, className = '' }) {
   return (
     <Card
       className={`rounded-xl bg-white border shadow-sm transition-shadow ${className}`}

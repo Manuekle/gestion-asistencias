@@ -1,31 +1,31 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable radix */
 
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Calendar01Icon } from "hugeicons-react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Calendar01Icon } from 'hugeicons-react';
+import { Link } from 'react-router-dom';
 import {
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
   format,
   isSameDay,
-  parseISO,
-} from "date-fns";
-import { es } from "date-fns/locale";
-import { showClassAll } from "../../actions/classActions";
-import { createReport } from "../../actions/reportActions";
+  parseISO
+} from 'date-fns';
+import { es } from 'date-fns/locale';
+import { showClassAll } from '../../actions/classActions';
+import { createReport } from '../../actions/reportActions';
 
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "../../components/ui/select.tsx";
+  SelectValue
+} from '../../components/ui/select.tsx';
 
 function ReportPageDashboard() {
   const [selectedMonth, setSelectedMonth] = useState(() =>
@@ -43,20 +43,20 @@ function ReportPageDashboard() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const commonInputClasses = "bg-white hover:bg-gray-50/90 rounded-2xl text-sm";
+  const commonInputClasses = 'bg-white hover:bg-gray-50/90 rounded-2xl text-sm';
   const months = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre'
   ];
 
   const handleGenerateReport = () => {
@@ -155,11 +155,11 @@ function ReportPageDashboard() {
                   <span
                     className={`text-sm font-light ${
                       isSameDay(day, new Date())
-                        ? "h-8 w-8 rounded-full bg-amber-400 font-bold text-white flex items-center justify-center"
-                        : ""
+                        ? 'h-8 w-8 rounded-full bg-amber-400 font-bold text-white flex items-center justify-center'
+                        : ''
                     }`}
                   >
-                    {format(day, "d", { locale: es })}
+                    {format(day, 'd', { locale: es })}
                   </span>
                 </div>
               </div>

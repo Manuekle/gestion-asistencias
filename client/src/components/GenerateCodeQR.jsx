@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import {
   Modal,
   ModalContent,
@@ -8,13 +8,13 @@ import {
   ModalBody,
   ModalFooter,
   Image,
-  useDisclosure,
-} from "@heroui/react";
+  useDisclosure
+} from '@heroui/react';
 
 // import { Button } from './ui/button.tsx';
 
 function GenerateCodeQR({ value, name, id }) {
-  const [qrImage, setQrImage] = useState("");
+  const [qrImage, setQrImage] = useState('');
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const intervalRef = useRef(null);
 
@@ -26,16 +26,16 @@ function GenerateCodeQR({ value, name, id }) {
 
       try {
         const response = await axios.post(
-          "http://localhost:4000/api/qr/create",
+          'http://localhost:4000/api/qr/create',
           {
             codi_valor: name,
-            codi_clas_id: id,
+            codi_clas_id: id
           }
         );
 
         setQrImage(response.data.qrImage);
       } catch (error) {
-        console.error("Error al actualizar el código QR", error);
+        console.error('Error al actualizar el código QR', error);
       }
 
       // Detener el intervalo después de 20 segundos
@@ -47,15 +47,15 @@ function GenerateCodeQR({ value, name, id }) {
 
   const handleGenerarQR = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/api/qr/create", {
+      const response = await axios.post('http://localhost:4000/api/qr/create', {
         codi_valor: name,
-        codi_clas_id: id,
+        codi_clas_id: id
       });
       setQrImage(response.data.qrImage);
       onOpen(true);
       startInterval();
     } catch (error) {
-      console.error("Error al generar el código QR", error);
+      console.error('Error al generar el código QR', error);
     }
   };
 
@@ -84,8 +84,8 @@ function GenerateCodeQR({ value, name, id }) {
         backdrop="opaque"
         size="md"
         classNames={{
-          backdrop: "bg-black bg-opacity-70",
-          modal: "bg-white rounded-lg shadow-lg w-96 p-6",
+          backdrop: 'bg-black bg-opacity-70',
+          modal: 'bg-white rounded-lg shadow-lg w-96 p-6'
         }}
       >
         <ModalContent>

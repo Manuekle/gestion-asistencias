@@ -1,10 +1,10 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
-import React, { useState, useEffect } from "react";
-import ClassDay from "./ClassDay";
+import React, { useState, useEffect } from 'react';
+import ClassDay from './ClassDay';
 
-const daysOfWeek = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+const daysOfWeek = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 
 function DashboardCalendar({ user }) {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -20,8 +20,8 @@ function DashboardCalendar({ user }) {
   const getDayStyle = (date) => {
     const today = new Date();
     return date.toDateString() === today.toDateString()
-      ? "text-white bg-amber-400 rounded-lg px-3 py-1"
-      : "text-zinc-800 font-bold rounded-lg py-1";
+      ? 'text-white bg-amber-400 rounded-lg px-3 py-1'
+      : 'text-zinc-800 font-bold rounded-lg py-1';
   };
 
   const generateWeekDates = (date) => {
@@ -41,7 +41,7 @@ function DashboardCalendar({ user }) {
   return (
     <div>
       <h1 className="text-md font-normal">
-        {currentDate.toLocaleDateString("es-ES", { month: "long" })}{" "}
+        {currentDate.toLocaleDateString('es-ES', { month: 'long' })}{' '}
         {currentDate.getFullYear()}
       </h1>
       <div className="flex items-center justify-between py-4">

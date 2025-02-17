@@ -4,7 +4,7 @@
 
 :root {
   margin: 0;
-  font-family: "Manrope Variable", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Manrope Variable', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -15,7 +15,7 @@
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 

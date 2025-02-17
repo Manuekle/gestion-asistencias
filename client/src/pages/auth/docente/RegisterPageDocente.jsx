@@ -1,18 +1,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Input, Button, Select, SelectItem } from "@heroui/react";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Input, Button, Select, SelectItem } from '@heroui/react';
 import {
   Mail01Icon,
   Passport01Icon,
   UserSharingIcon,
-  MentoringIcon,
-} from "hugeicons-react";
-import { useToast } from "../../../hooks/use-toast.ts";
+  MentoringIcon
+} from 'hugeicons-react';
+import { useToast } from '../../../hooks/use-toast.ts';
 
-import { docenteRegister } from "../../../actions/docenteActions";
+import { docenteRegister } from '../../../actions/docenteActions';
 
 function RegisterPageDocente() {
   const [formData, setFormData] = useState(false);
@@ -26,10 +26,10 @@ function RegisterPageDocente() {
   const userRegister = useSelector((state) => state.userRegister);
   const { error, userInfo } = userRegister;
 
-  const [user, setUser] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
 
   const [status, setStatus] = useState(false);
 
@@ -41,13 +41,13 @@ function RegisterPageDocente() {
     value.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
   const isInvalidEmail = React.useMemo(() => {
-    if (email === "") return false;
+    if (email === '') return false;
 
     return !validateEmail(email);
   }, [email]);
 
   const isInvalidPassword = React.useMemo(() => {
-    if (password === "") return false;
+    if (password === '') return false;
 
     return !validatePassword(password);
   }, [password]);
@@ -55,9 +55,9 @@ function RegisterPageDocente() {
   const alert = (data) => {
     if (data.status === 404) {
       toast({
-        variant: "destructive",
-        title: "Oh oh! Algo salio mal",
-        description: error.message,
+        variant: 'destructive',
+        title: 'Oh oh! Algo salio mal',
+        description: error.message
       });
     }
   };
@@ -73,9 +73,9 @@ function RegisterPageDocente() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate("/auth/docente/register");
+      navigate('/auth/docente/register');
     } else {
-      navigate("/dashboard/");
+      navigate('/dashboard/');
     }
   }, [userInfo, navigate]);
   return (

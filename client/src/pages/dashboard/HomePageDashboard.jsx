@@ -1,23 +1,23 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { Delete02Icon } from "hugeicons-react";
-import { useSelector } from "react-redux";
-import DashboardCard from "../../components/DashboardCard";
-import DashboardCalendar from "../../components/DashboardCalendar";
-import DashboardAssigments from "../../components/DashboardAssigments";
+import React from 'react';
+import { Delete02Icon } from 'hugeicons-react';
+import { useSelector } from 'react-redux';
+import DashboardCard from '../../components/DashboardCard';
+import DashboardCalendar from '../../components/DashboardCalendar';
+import DashboardAssigments from '../../components/DashboardAssigments';
 
 function HomePageDashboard() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   const fechaActual = new Date();
-  const opciones = { day: "numeric", month: "long" };
-  const fechaFormateada = fechaActual.toLocaleDateString("es-ES", opciones);
+  const opciones = { day: 'numeric', month: 'long' };
+  const fechaFormateada = fechaActual.toLocaleDateString('es-ES', opciones);
   return (
     <div className="flex flex-col gap-6">
       <section className="col-span-3 flex flex-col rounded-xl bg-white border shadow-sm px-6 py-4">
         <h1 className="text-md font-medium">
-          ¡Hola,{" "}
+          ¡Hola,{' '}
           <span className="capitalize">
             {userInfo && userInfo.user.user_nombre}
           </span>

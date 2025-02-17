@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 // no-unused-vars
 /* eslint-disable no-underscore-dangle */
-import axios from "axios";
+import axios from 'axios';
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -19,12 +19,12 @@ import {
   USER_LIST_RESET,
   USER_RECOVER_REQUEST,
   USER_RECOVER_SUCCESS,
-  USER_RECOVER_FAIL,
-} from "../constants/userConstants";
+  USER_RECOVER_FAIL
+} from '../constants/userConstants';
 
-import { ESTUDIANTE_LOGOUT } from "../constants/estudianteConstants";
+import { ESTUDIANTE_LOGOUT } from '../constants/estudianteConstants';
 
-import { DOCENTE_LOGOUT } from "../constants/docenteConstants";
+import { DOCENTE_LOGOUT } from '../constants/docenteConstants';
 
 const dev = import.meta.env.VITE_REACT_APP_API_DEVELOPMENT;
 const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
@@ -32,13 +32,13 @@ const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
 export const userLogin = (usua_correo, usua_password) => async (dispatch) => {
   try {
     dispatch({
-      type: USER_LOGIN_REQUEST,
+      type: USER_LOGIN_REQUEST
     });
 
     const config = {
       headers: {
-        "Content-type": "application/json",
-      },
+        'Content-type': 'application/json'
+      }
     };
 
     const { data } = await axios.post(
@@ -49,20 +49,20 @@ export const userLogin = (usua_correo, usua_password) => async (dispatch) => {
 
     dispatch({
       type: USER_LOGIN_SUCCESS,
-      payload: data,
+      payload: data
     });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
-      payload: error.response.data,
+      payload: error.response.data
     });
   }
 };
 
 export const userLogout = () => (dispatch) => {
-  localStorage.removeItem("userInfo");
+  localStorage.removeItem('userInfo');
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: USER_LIST_RESET });
@@ -73,13 +73,13 @@ export const userRegister =
   async (dispatch) => {
     try {
       dispatch({
-        type: USER_REGISTER_REQUEST,
+        type: USER_REGISTER_REQUEST
       });
 
       const config = {
         headers: {
-          "Content-type": "application/json",
-        },
+          'Content-type': 'application/json'
+        }
       };
 
       const { data } = await axios.post(
@@ -90,19 +90,19 @@ export const userRegister =
 
       dispatch({
         type: USER_REGISTER_SUCCESS,
-        payload: data,
+        payload: data
       });
 
       dispatch({
         type: USER_LOGIN_SUCCESS,
-        payload: data,
+        payload: data
       });
 
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
       dispatch({
         type: USER_REGISTER_FAIL,
-        payload: error.response.data,
+        payload: error.response.data
       });
     }
   };
@@ -110,13 +110,13 @@ export const userRegister =
 export const userRecoverPassword = (usua_correo) => async (dispatch) => {
   try {
     dispatch({
-      type: USER_RECOVER_REQUEST,
+      type: USER_RECOVER_REQUEST
     });
 
     const config = {
       headers: {
-        "Content-type": "application/json",
-      },
+        'Content-type': 'application/json'
+      }
     };
 
     const { data } = await axios.post(
@@ -127,17 +127,17 @@ export const userRecoverPassword = (usua_correo) => async (dispatch) => {
 
     dispatch({
       type: USER_RECOVER_SUCCESS,
-      payload: data,
+      payload: data
     });
 
     dispatch({
       type: USER_RECOVER_SUCCESS,
-      payload: data,
+      payload: data
     });
   } catch (error) {
     dispatch({
       type: USER_RECOVER_FAIL,
-      payload: error.response.data,
+      payload: error.response.data
     });
   }
 };
@@ -145,25 +145,25 @@ export const userRecoverPassword = (usua_correo) => async (dispatch) => {
 export const getUserDetails = (usua_id) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: USER_DETAILS_REQUEST,
+      type: USER_DETAILS_REQUEST
     });
 
     const {
-      userLogin: { userInfo },
+      userLogin: { userInfo }
     } = getState();
 
     const config = {
       headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`
+      }
     };
 
     const { data } = await axios.get(`${dev}/usuario/show/${usua_id}/`, config);
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
-      payload: data,
+      payload: data
     });
   } catch (error) {
     dispatch({
@@ -171,7 +171,7 @@ export const getUserDetails = (usua_id) => async (dispatch, getState) => {
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail
-          : error.message,
+          : error.message
     });
   }
 };

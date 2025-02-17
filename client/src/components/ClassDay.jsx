@@ -1,16 +1,16 @@
 /* eslint-disable radix */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
-  DropdownItem,
-} from "@heroui/react";
-import { useDispatch, useSelector } from "react-redux";
-import { MoreHorizontalIcon, EyeIcon } from "hugeicons-react";
-import { Link } from "react-router-dom";
-import { showClassDay } from "../actions/classActions";
+  DropdownItem
+} from '@heroui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { MoreHorizontalIcon, EyeIcon } from 'hugeicons-react';
+import { Link } from 'react-router-dom';
+import { showClassDay } from '../actions/classActions';
 
 function ClassDay() {
   const classDay = useSelector((state) => state.classDay);
@@ -24,15 +24,15 @@ function ClassDay() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const fecha = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
     .toString()
-    .padStart(2, "0")}-${currentDate.getDate().toString().padStart(2, "0")}`;
+    .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
 
   function determinarTiempo(horaInicio, horaFin) {
     const ahora = currentDate.getHours() * 60 + currentDate.getMinutes(); // Hora actual en minutos
     const inicio =
-      parseInt(horaInicio.split(":")[0]) * 60 +
-      parseInt(horaInicio.split(":")[1]); // Hora de inicio en minutos
+      parseInt(horaInicio.split(':')[0]) * 60 +
+      parseInt(horaInicio.split(':')[1]); // Hora de inicio en minutos
     const fin =
-      parseInt(horaFin.split(":")[0]) * 60 + parseInt(horaFin.split(":")[1]); // Hora de fin en minutos
+      parseInt(horaFin.split(':')[0]) * 60 + parseInt(horaFin.split(':')[1]); // Hora de fin en minutos
 
     if (ahora >= inicio && ahora <= fin) {
       const diferenciaInicio = ahora - inicio;
@@ -42,7 +42,7 @@ function ClassDay() {
       if (diferenciaInicio > 0) {
         return `Hace ${diferenciaInicio} minutos`;
       }
-      return "Es la hora de inicio";
+      return 'Es la hora de inicio';
     }
     if (ahora < inicio) {
       const diferenciaInicio = inicio - ahora;
@@ -58,12 +58,12 @@ function ClassDay() {
     if (diferenciaFin > 0) {
       return `Hace ${diferenciaFin} minutos`;
     }
-    return "Es la hora de fin";
+    return 'Es la hora de fin';
   }
 
   // Ejemplo de uso:
-  const horaInicio = "17:00";
-  const horaFin = "16:00";
+  const horaInicio = '17:00';
+  const horaFin = '16:00';
   const resultado = determinarTiempo(horaInicio, horaFin);
 
   useEffect(() => {
