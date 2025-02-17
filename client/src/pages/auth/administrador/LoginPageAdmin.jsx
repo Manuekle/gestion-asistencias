@@ -59,9 +59,16 @@ function LoginPageAuth() {
     dispatch(loginUser(user, password));
     setTimeout(() => {
       setFormData(false);
-      alert(error);
+      navigate('/dashboard/schedule');
     }, 2000);
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      console.log(userInfo);
+      navigate('/dashboard/schedule');
+    }
+  }, [dispatch, userInfo]);
 
   return (
     <div className="flex justify-center items-center h-svh auth">
