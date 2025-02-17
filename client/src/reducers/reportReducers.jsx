@@ -3,8 +3,8 @@ import {
   REPORT_CREATE_REQUEST,
   REPORT_CREATE_SUCCESS,
   REPORT_CREATE_FAIL,
-  REPORT_CREATE_RESET
-} from '../constants/reportConstants';
+  REPORT_CREATE_RESET,
+} from "../constants/reportConstants";
 
 // CREATE
 export const createReportReducer = (state = {}, action) => {

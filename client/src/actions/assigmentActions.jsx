@@ -1,11 +1,11 @@
 /* eslint-disable import/prefer-default-export */
-import axios from 'axios';
+import axios from "axios";
 
 import {
   ASSIGMENT_DETAILS_REQUEST,
   ASSIGMENT_DETAILS_SUCCESS,
-  ASSIGMENT_DETAILS_FAIL
-} from '../constants/assigmentConstants';
+  ASSIGMENT_DETAILS_FAIL,
+} from "../constants/assigmentConstants";
 
 const dev = import.meta.env.VITE_REACT_APP_API_DEVELOPMENT;
 const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
@@ -19,12 +19,12 @@ export const detailsAssigment = (id) => async (dispatch) => {
 
     dispatch({
       type: ASSIGMENT_DETAILS_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
       type: ASSIGMENT_DETAILS_FAIL,
-      payload: error.response.data
+      payload: error.response.data,
     });
   }
 };

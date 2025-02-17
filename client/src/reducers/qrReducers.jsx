@@ -3,8 +3,8 @@ import {
   QR_CREATE_REQUEST,
   QR_CREATE_SUCCESS,
   QR_CREATE_FAIL,
-  QR_CREATE_RESET
-} from '../constants/qrConstants';
+  QR_CREATE_RESET,
+} from "../constants/qrConstants";
 
 // CREATE
 export const qrCreateReducer = (state = {}, action) => {

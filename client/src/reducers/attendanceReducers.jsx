@@ -3,8 +3,8 @@ import {
   ATTENDANCE_CREATE_REQUEST,
   ATTENDANCE_CREATE_SUCCESS,
   ATTENDANCE_CREATE_FAIL,
-  ATTENDANCE_CREATE_RESET
-} from '../constants/attendanceConstants';
+  ATTENDANCE_CREATE_RESET,
+} from "../constants/attendanceConstants";
 
 // CREATE
 export const attendanceCreateReducer = (state = {}, action) => {

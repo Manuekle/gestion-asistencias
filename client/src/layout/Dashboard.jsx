@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/extensions */
-import React, { useEffect } from 'react';
-import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Routes, Route, useParams, useNavigate } from "react-router-dom";
 import {
   Home07Icon,
   UserGroupIcon,
@@ -9,26 +9,26 @@ import {
   Calendar03Icon,
   Settings03Icon,
   LibrariesIcon,
-  CustomerService01Icon
-} from 'hugeicons-react';
-import { useSelector } from 'react-redux';
+  CustomerService01Icon,
+} from "hugeicons-react";
+import { useSelector } from "react-redux";
 
-import Sidebar, { SidebarItem } from '../components/Sidebar';
+import Sidebar, { SidebarItem } from "../components/Sidebar";
 
-import ProtectedRoute from '../components/ProtectedRoute'; // El componente que creamos
+import ProtectedRoute from "../components/ProtectedRoute"; // El componente que creamos
 // pages
-import HomePageDashboard from '../pages/dashboard/HomePageDashboard';
-import SchedulePageDashboard from '../pages/dashboard/SchedulePageDashboard';
-import ClassPageDashboard from '../pages/dashboard/ClassPageDashboard';
-import ReportPageDashboard from '../pages/dashboard/ReportPageDashboard';
-import ConfigPageDashboard from '../pages/dashboard/ConfigPageDashboard';
-import SignaturePageDashboard from '../pages/dashboard/SignaturePageDashboard';
+import HomePageDashboard from "../pages/dashboard/HomePageDashboard";
+import SchedulePageDashboard from "../pages/dashboard/SchedulePageDashboard";
+import ClassPageDashboard from "../pages/dashboard/ClassPageDashboard";
+import ReportPageDashboard from "../pages/dashboard/ReportPageDashboard";
+import ConfigPageDashboard from "../pages/dashboard/ConfigPageDashboard";
+import SignaturePageDashboard from "../pages/dashboard/SignaturePageDashboard";
 // items
-import Classes from '../pages/dashboardItems/Classes';
+import Classes from "../pages/dashboardItems/Classes";
 
 function Dashboard() {
   const params = useParams();
-  const urlActive = params['*'];
+  const urlActive = params["*"];
   const navigate = useNavigate();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -36,20 +36,20 @@ function Dashboard() {
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/');
+      navigate("/");
     }
   }, [userInfo, navigate]);
 
   return (
     <div className="flex flex-row w-full bg-[#FAFBFD]">
       <Sidebar>
-        {(userInfo && userInfo.user.rol === 'administrador') ||
-        (userInfo && userInfo.user.rol === 'docente') ? (
+        {(userInfo && userInfo.user.rol === "administrador") ||
+        (userInfo && userInfo.user.rol === "docente") ? (
           <>
             <SidebarItem
               icon={<Home07Icon size={20} color="#ffffff" variant="stroke" />}
               text="Inicio"
-              active={!!(urlActive === 'dashboard' || urlActive === '')}
+              active={!!(urlActive === "dashboard" || urlActive === "")}
               to="/dashboard"
               // alert
             />
@@ -58,7 +58,7 @@ function Dashboard() {
                 <UserGroupIcon size={20} color="#ffffff" variant="stroke" />
               }
               text="Clases"
-              active={!!(urlActive === 'class')}
+              active={!!(urlActive === "class")}
               to="/dashboard/class"
             />
             {/* <SidebarItem
@@ -72,16 +72,16 @@ function Dashboard() {
             <SidebarItem
               icon={<NoteIcon size={20} color="#ffffff" variant="stroke" />}
               text="Reportes"
-              active={!!(urlActive === 'report')}
+              active={!!(urlActive === "report")}
               to="/dashboard/report"
             />
           </>
         ) : null}
-        {userInfo && userInfo.user.rol === 'estudiante' ? (
+        {userInfo && userInfo.user.rol === "estudiante" ? (
           <SidebarItem
             icon={<Calendar03Icon size={20} color="#ffffff" variant="stroke" />}
             text="Horarios"
-            active={!!(urlActive === 'schedule')}
+            active={!!(urlActive === "schedule")}
             to="/dashboard/schedule"
           />
         ) : null}
@@ -90,7 +90,7 @@ function Dashboard() {
         <SidebarItem
           icon={<Settings03Icon size={20} color="#ffffff" variant="stroke" />}
           text="Configuración"
-          active={!!(urlActive === 'settings')}
+          active={!!(urlActive === "settings")}
           to="/dashboard/settings"
         />
         <SidebarItem
@@ -107,7 +107,7 @@ function Dashboard() {
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}
-                allowedRoles={['administrador', 'docente', 'estudiante']}
+                allowedRoles={["administrador", "docente", "estudiante"]}
               >
                 <HomePageDashboard />
               </ProtectedRoute>
@@ -118,7 +118,7 @@ function Dashboard() {
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}
-                allowedRoles={['administrador', 'estudiante']}
+                allowedRoles={["administrador", "estudiante"]}
               >
                 <SchedulePageDashboard />
               </ProtectedRoute>
@@ -140,7 +140,7 @@ function Dashboard() {
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}
-                allowedRoles={['administrador', 'docente']}
+                allowedRoles={["administrador", "docente"]}
               >
                 <ClassPageDashboard />
               </ProtectedRoute>
@@ -151,7 +151,7 @@ function Dashboard() {
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}
-                allowedRoles={['administrador', 'docente']}
+                allowedRoles={["administrador", "docente"]}
               >
                 <Classes />
               </ProtectedRoute>
@@ -173,7 +173,7 @@ function Dashboard() {
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}
-                allowedRoles={['administrador', 'docente']}
+                allowedRoles={["administrador", "docente"]}
               >
                 <ReportPageDashboard />
               </ProtectedRoute>
@@ -184,7 +184,7 @@ function Dashboard() {
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}
-                allowedRoles={['administrador', 'docente', 'estudiante']}
+                allowedRoles={["administrador", "docente", "estudiante"]}
               >
                 <ConfigPageDashboard />
               </ProtectedRoute>

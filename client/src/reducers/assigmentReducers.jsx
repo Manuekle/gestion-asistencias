@@ -2,8 +2,8 @@
 import {
   ASSIGMENT_DETAILS_REQUEST,
   ASSIGMENT_DETAILS_SUCCESS,
-  ASSIGMENT_DETAILS_FAIL
-} from '../constants/assigmentConstants';
+  ASSIGMENT_DETAILS_FAIL,
+} from "../constants/assigmentConstants";
 
 // DETAILS
 export const assigmentDetailsReducer = (state = { asignatura: [] }, action) => {

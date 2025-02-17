@@ -4,7 +4,7 @@
 
 :root {
   margin: 0;
-  font-family: 'Manrope Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Manrope Variable", -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -15,7 +15,7 @@
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -47,7 +47,7 @@ code {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
-  
+
   *:focus {
     @apply outline-none ring-0 ring-offset-0;
   }
@@ -91,5 +91,3 @@ code {
     @apply bg-background text-foreground;
   }
 }
-
-

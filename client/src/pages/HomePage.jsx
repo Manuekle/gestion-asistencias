@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import {
   GlassesIcon,
@@ -11,19 +11,19 @@ import {
   Timer02Icon,
   UserGroupIcon,
   GraduationScrollIcon,
-  GithubIcon
-} from 'hugeicons-react';
-import { Button } from '@heroui/react';
-import { Image } from '@heroui/image';
-import FUP from '../../public/fup.jpg';
-import SvgQr from '../components/svg/SvgQr';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+  GithubIcon,
+} from "hugeicons-react";
+import { Button } from "@heroui/react";
+import { Image } from "@heroui/image";
+import FUP from "../../public/fup.jpg";
+import SvgQr from "../components/svg/SvgQr";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 // icons
-import SvgNode from '../components/svg/SvgNode';
-import SvgReact from '../components/svg/SvgReact';
-import SvgTailwind from '../components/svg/SvgTailwind';
-import SvgMySql from '../components/svg/SvgMySql';
+import SvgNode from "../components/svg/SvgNode";
+import SvgReact from "../components/svg/SvgReact";
+import SvgTailwind from "../components/svg/SvgTailwind";
+import SvgMySql from "../components/svg/SvgMySql";
 
 function HomePage() {
   const userLogin = useSelector((state) => state.userLogin);
@@ -33,7 +33,7 @@ function HomePage() {
 
   useEffect(() => {
     if (userInfo) {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   }, [navigate, userInfo]);
 
@@ -118,20 +118,20 @@ function HomePage() {
           <div className="space-y-6 my-4">
             {[
               {
-                title: 'Genera el código QR',
+                title: "Genera el código QR",
                 description:
-                  'El docente genera un código QR único para la clase'
+                  "El docente genera un código QR único para la clase",
               },
               {
-                title: 'Estudiantes escanean',
+                title: "Estudiantes escanean",
                 description:
-                  'Los estudiantes escanean el código con sus dispositivos'
+                  "Los estudiantes escanean el código con sus dispositivos",
               },
               {
-                title: 'Registro automático',
+                title: "Registro automático",
                 description:
-                  'La asistencia se registra instantáneamente en el sistema'
-              }
+                  "La asistencia se registra instantáneamente en el sistema",
+              },
             ].map((step, i) => (
               <div key={i} className="flex gap-4 items-start">
                 <div className="w-8 h-8 rounded-full font-bold bg-amber-400 text-white flex items-center justify-center flex-shrink-0">
@@ -158,7 +158,7 @@ function HomePage() {
                 </h1>
                 <span className="flex items-center justify-center px-6">
                   <p className="text-center text-xs text-zinc-300">
-                    ¿Vas a la clase de{' '}
+                    ¿Vas a la clase de{" "}
                     <strong>Inteligencia Artificial - G1</strong> ¡Confirma tu
                     presencia!
                   </p>
@@ -235,7 +235,7 @@ function HomePage() {
         <span className="flex flex-col items-center gap-2">
           <h1 className="text-6xl font-bold text-white px-5">Nuestro Equipo</h1>
           <p className="text-zinc-300 text-sm tracking-wide text-center py-2 px-8">
-            Conoce a los estudiantes y docentes detrás de{' '}
+            Conoce a los estudiantes y docentes detrás de{" "}
             <strong className="text-gray-300">edu</strong>
             <strong className="text-amber-400">Track</strong>
           </p>

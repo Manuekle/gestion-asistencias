@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import axios from 'axios';
+import axios from "axios";
 
 import {
   CLASS_DETAILS_REQUEST,
@@ -25,8 +25,8 @@ import {
   CLASS_DAY_FAIL,
   CLASS_ALL_SUCCESS,
   CLASS_ALL_REQUEST,
-  CLASS_ALL_FAIL
-} from '../constants/classConstants';
+  CLASS_ALL_FAIL,
+} from "../constants/classConstants";
 
 const dev = import.meta.env.VITE_REACT_APP_API_DEVELOPMENT;
 const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
@@ -40,12 +40,12 @@ export const detailsClass = (id) => async (dispatch) => {
 
     dispatch({
       type: CLASS_DETAILS_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
       type: CLASS_DETAILS_FAIL,
-      payload: error.response.data
+      payload: error.response.data,
     });
   }
 };
@@ -56,13 +56,13 @@ export const createClass =
   async (dispatch) => {
     try {
       dispatch({
-        type: CLASS_CREATE_REQUEST
+        type: CLASS_CREATE_REQUEST,
       });
 
       const config = {
         headers: {
-          'Content-type': 'application/json'
-        }
+          "Content-type": "application/json",
+        },
       };
 
       const { data } = await axios.post(
@@ -71,18 +71,18 @@ export const createClass =
           clas_asig_id,
           clas_fecha,
           clas_hora_inicio,
-          clas_hora_fin
+          clas_hora_fin,
         },
         config
       );
       dispatch({
         type: CLASS_CREATE_SUCCESS,
-        payload: data
+        payload: data,
       });
     } catch (error) {
       dispatch({
         type: CLASS_CREATE_FAIL,
-        payload: error.response.data
+        payload: error.response.data,
       });
     }
   };
@@ -98,12 +98,12 @@ export const showClass = (slug, id) => async (dispatch) => {
 
     dispatch({
       type: CLASS_SHOW_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
       type: CLASS_SHOW_FAIL,
-      payload: error.response.data
+      payload: error.response.data,
     });
   }
 };
@@ -117,12 +117,12 @@ export const showClassSignature = (slug, id) => async (dispatch) => {
 
     dispatch({
       type: CLASS_SIGNATURE_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
       type: CLASS_SIGNATURE_FAIL,
-      payload: error.response.data
+      payload: error.response.data,
     });
   }
 };
@@ -136,12 +136,12 @@ export const showClassQr = (id) => async (dispatch) => {
 
     dispatch({
       type: CLASS_QR_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
       type: CLASS_QR_FAIL,
-      payload: error.response.data
+      payload: error.response.data,
     });
   }
 };
@@ -150,31 +150,31 @@ export const showClassQr = (id) => async (dispatch) => {
 export const cancelClassStatus = (id) => async (dispatch) => {
   try {
     dispatch({
-      type: CLASS_CANCEL_REQUEST
+      type: CLASS_CANCEL_REQUEST,
     });
 
     const config = {
       headers: {
-        'Content-type': 'application/json'
-      }
+        "Content-type": "application/json",
+      },
     };
 
     const { data } = await axios.put(
       `${dev}/clase/cancel/${id}`,
       {
-        clas_estado: 'finalizada'
+        clas_estado: "finalizada",
       },
       config
     );
 
     dispatch({
       type: CLASS_CANCEL_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
       type: CLASS_CANCEL_FAIL,
-      payload: error.response.data
+      payload: error.response.data,
     });
   }
 };
@@ -185,17 +185,19 @@ export const showClassDay = (fecha, userInfo) => async (dispatch) => {
     dispatch({ type: CLASS_DAY_REQUEST });
 
     const { data } = await axios.get(
-      `${dev}/clase/dia-rango?fecha=${fecha}&rangoHoras=6&docenteId=${userInfo && userInfo.user.user_id}`
+      `${dev}/clase/dia-rango?fecha=${fecha}&rangoHoras=6&docenteId=${
+        userInfo && userInfo.user.user_id
+      }`
     );
 
     dispatch({
       type: CLASS_DAY_SUCCESS,
-      payload: data.clases
+      payload: data.clases,
     });
   } catch (error) {
     dispatch({
       type: CLASS_DAY_FAIL,
-      payload: error.response.data
+      payload: error.response.data,
     });
   }
 };
@@ -211,12 +213,12 @@ export const showClassAll = (userInfo) => async (dispatch) => {
 
     dispatch({
       type: CLASS_ALL_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
       type: CLASS_ALL_FAIL,
-      payload: error.response.data
+      payload: error.response.data,
     });
   }
 };

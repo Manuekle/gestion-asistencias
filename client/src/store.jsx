@@ -1,13 +1,13 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from '@redux-devtools/extension';
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { composeWithDevTools } from "@redux-devtools/extension";
 
 import {
   userLoginReducer,
   userRegisterReducer,
   userDetailsReducer,
-  userRecoverReducer
-} from './reducers/userReducers';
+  userRecoverReducer,
+} from "./reducers/userReducers";
 
 import {
   classDetailsReducer,
@@ -17,16 +17,16 @@ import {
   classQrReducer,
   cancelClassStatusReducer,
   classDayReducer,
-  classAllReducer
-} from './reducers/classReducers';
+  classAllReducer,
+} from "./reducers/classReducers";
 
-import { qrCreateReducer } from './reducers/qrReducers';
+import { qrCreateReducer } from "./reducers/qrReducers";
 
-import { createReportReducer } from './reducers/reportReducers';
+import { createReportReducer } from "./reducers/reportReducers";
 
-import { attendanceCreateReducer } from './reducers/attendanceReducers';
+import { attendanceCreateReducer } from "./reducers/attendanceReducers";
 
-import { assigmentDetailsReducer } from './reducers/assigmentReducers';
+import { assigmentDetailsReducer } from "./reducers/assigmentReducers";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -50,15 +50,15 @@ const reducer = combineReducers({
 
   attendanceCreate: attendanceCreateReducer,
 
-  assigmentDetails: assigmentDetailsReducer
+  assigmentDetails: assigmentDetailsReducer,
 });
 
-const userInfoFromStorage = localStorage.getItem('userInfo')
-  ? JSON.parse(localStorage.getItem('userInfo'))
+const userInfoFromStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 
 const initialState = {
-  userLogin: { userInfo: userInfoFromStorage }
+  userLogin: { userInfo: userInfoFromStorage },
 };
 
 const middleware = [thunk];

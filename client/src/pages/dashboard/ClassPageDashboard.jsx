@@ -1,20 +1,20 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Input, Skeleton, Button } from '@heroui/react';
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Input, Skeleton, Button } from "@heroui/react";
 import {
   Search01Icon,
   GitbookIcon,
   Clock04Icon,
-  Calendar01Icon
-} from 'hugeicons-react';
-import { Link } from 'react-router';
-import { format } from 'date-fns';
+  Calendar01Icon,
+} from "hugeicons-react";
+import { Link } from "react-router";
+import { format } from "date-fns";
 
 // actions
-import { detailsClass, createClass } from '../../actions/classActions';
-import { detailsAssigment } from '../../actions/assigmentActions';
+import { detailsClass, createClass } from "../../actions/classActions";
+import { detailsAssigment } from "../../actions/assigmentActions";
 
 // componentes
 import {
@@ -23,25 +23,25 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
-} from '../../components/ui/dialog.tsx';
-import { Label } from '../../components/ui/label.tsx';
+  DialogTrigger,
+} from "../../components/ui/dialog.tsx";
+import { Label } from "../../components/ui/label.tsx";
 
-import { cn } from '../../lib/utils.ts';
-import { Calendar } from '../../components/ui/calendar.tsx';
-import { Button as ButtonS } from '../../components/ui/button.tsx';
+import { cn } from "../../lib/utils.ts";
+import { Calendar } from "../../components/ui/calendar.tsx";
+import { Button as ButtonS } from "../../components/ui/button.tsx";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
-} from '../../components/ui/popover.tsx';
+  PopoverTrigger,
+} from "../../components/ui/popover.tsx";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
-} from '../../components/ui/select.tsx';
+  SelectValue,
+} from "../../components/ui/select.tsx";
 
 function ClassPageDashboard() {
   const dispatch = useDispatch();
@@ -77,7 +77,7 @@ function ClassPageDashboard() {
     return false;
   }, []);
 
-  const [subject, setSubject] = useState('');
+  const [subject, setSubject] = useState("");
   const [date, setDate] = useState(new Date());
   const [startTime, setStartTime] = useState();
   const [endTime, setEndTime] = useState();
@@ -95,7 +95,7 @@ function ClassPageDashboard() {
   const generateTimeOptions = () => {
     const options = [];
     for (let i = 7; i <= 22; i++) {
-      options.push(`${i.toString().padStart(2, '0')}:00`);
+      options.push(`${i.toString().padStart(2, "0")}:00`);
     }
     return options;
   };
@@ -103,19 +103,19 @@ function ClassPageDashboard() {
   const timeOptions = generateTimeOptions();
 
   // Clase común para los triggers de Select y Button
-  const commonInputClasses = 'bg-white hover:bg-gray-50/90 rounded-2xl text-sm';
+  const commonInputClasses = "bg-white hover:bg-gray-50/90 rounded-2xl text-sm";
 
   const diasSemana = [
-    { nombre: 'Lunes', valor: 1 },
-    { nombre: 'Martes', valor: 2 },
-    { nombre: 'Miércoles', valor: 3 },
-    { nombre: 'Jueves', valor: 4 },
-    { nombre: 'Viernes', valor: 5 },
-    { nombre: 'Sábado', valor: 6 }
+    { nombre: "Lunes", valor: 1 },
+    { nombre: "Martes", valor: 2 },
+    { nombre: "Miércoles", valor: 3 },
+    { nombre: "Jueves", valor: 4 },
+    { nombre: "Viernes", valor: 5 },
+    { nombre: "Sábado", valor: 6 },
   ];
 
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
-  const [busqueda, setBusqueda] = useState('');
+  const [busqueda, setBusqueda] = useState("");
 
   const clasesFiltradas = clases.filter((clase) => {
     const fechaClase = new Date(clase.clas_fecha);
@@ -163,8 +163,8 @@ function ClassPageDashboard() {
                 type="button"
                 className={`border rounded-md px-4 py-2 text-xs font-bold text-black ${
                   diaSeleccionado === dia.valor
-                    ? 'shadow-md text-black'
-                    : 'bg-white'
+                    ? "shadow-md text-black"
+                    : "bg-white"
                 }`}
                 onClick={() => setDiaSeleccionado(dia.valor)}
               >
@@ -174,7 +174,7 @@ function ClassPageDashboard() {
             <button
               type="button"
               className={`border rounded-md px-4 py-2 text-xs font-bold text-black ${
-                diaSeleccionado === null ? 'shadow-md text-black' : 'bg-white'
+                diaSeleccionado === null ? "shadow-md text-black" : "bg-white"
               }`}
               onClick={() => setDiaSeleccionado(null)}
             >
@@ -228,8 +228,8 @@ function ClassPageDashboard() {
                     <ButtonS
                       variant="outline"
                       className={cn(
-                        'w-full border justify-start gap-4 text-left text-sm font-normal bg-white hover:bg-gray-50/90 rounded-2xl',
-                        !date && 'text-black'
+                        "w-full border justify-start gap-4 text-left text-sm font-normal bg-white hover:bg-gray-50/90 rounded-2xl",
+                        !date && "text-black"
                       )}
                     >
                       <Calendar01Icon
@@ -238,7 +238,7 @@ function ClassPageDashboard() {
                         variant="stroke"
                       />
                       {date ? (
-                        format(date, 'PPP')
+                        format(date, "PPP")
                       ) : (
                         <span>Seleccionar fecha</span>
                       )}

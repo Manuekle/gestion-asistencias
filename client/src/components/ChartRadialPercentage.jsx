@@ -2,53 +2,53 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable consistent-return */
 
-import React from 'react';
+import React from "react";
 
 import {
   Label,
   PolarGrid,
   PolarRadiusAxis,
   RadialBar,
-  RadialBarChart
-} from 'recharts';
+  RadialBarChart,
+} from "recharts";
 
-import { ChartContainer } from './ui/chart.tsx';
+import { ChartContainer } from "./ui/chart.tsx";
 
 const chartConfig = {
   percentage: {
-    label: 'Percentage',
-    color: 'black'
-  }
+    label: "Percentage",
+    color: "black",
+  },
 };
 
 const sizes = {
   small: {
-    containerSize: 'h-[100px] w-[100px]',
+    containerSize: "h-[100px] w-[100px]",
     innerRadius: 30,
     outerRadius: 45,
-    fontSize: 'text-base',
-    labelSize: 'text-[10px]'
+    fontSize: "text-base",
+    labelSize: "text-[10px]",
   },
   medium: {
-    containerSize: 'h-[150px] w-[150px]',
+    containerSize: "h-[150px] w-[150px]",
     innerRadius: 50,
     outerRadius: 70,
-    fontSize: 'text-2xl',
-    labelSize: 'text-xs'
+    fontSize: "text-2xl",
+    labelSize: "text-xs",
   },
   large: {
-    containerSize: 'h-[200px] w-[200px]',
+    containerSize: "h-[200px] w-[200px]",
     innerRadius: 70,
     outerRadius: 95,
-    fontSize: 'text-3xl',
-    labelSize: 'text-sm'
-  }
+    fontSize: "text-3xl",
+    labelSize: "text-sm",
+  },
 };
 
 function ChartRadialPercentage({
-  size = 'small',
+  size = "small",
   percentage = 0,
-  className = ''
+  className = "",
 }) {
   const { containerSize, innerRadius, outerRadius, fontSize, labelSize } =
     sizes[size];
@@ -58,10 +58,10 @@ function ChartRadialPercentage({
 
   const chartData = [
     {
-      name: 'Percentage',
+      name: "Percentage",
       percentage: safePercentage,
-      fill: 'var(--color-percentage)'
-    }
+      fill: "var(--color-percentage)",
+    },
   ];
 
   return (
@@ -92,7 +92,7 @@ function ChartRadialPercentage({
         <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
           <Label
             content={({ viewBox }) => {
-              if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
+              if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                 return (
                   <text
                     x={viewBox.cx}
@@ -109,7 +109,7 @@ function ChartRadialPercentage({
                     </tspan>
                     <tspan
                       x={viewBox.cx}
-                      y={(viewBox.cy || 0) + (size === 'small' ? 12 : 16)}
+                      y={(viewBox.cy || 0) + (size === "small" ? 12 : 16)}
                       className={`fill-muted-foreground ${labelSize}`}
                     >
                       Complete

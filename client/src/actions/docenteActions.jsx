@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import axios from 'axios';
+import axios from "axios";
 import {
   DOCENTE_LOGOUT,
   DOCENTE_LOGIN_REQUEST,
@@ -15,8 +15,8 @@ import {
   DOCENTE_LIST_RESET,
   DOCENTE_RECOVER_REQUEST,
   DOCENTE_RECOVER_SUCCESS,
-  DOCENTE_RECOVER_FAIL
-} from '../constants/docenteConstants';
+  DOCENTE_RECOVER_FAIL,
+} from "../constants/docenteConstants";
 
 import {
   USER_LOGOUT,
@@ -25,8 +25,8 @@ import {
   USER_LOGIN_FAIL,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_REQUEST,
-  USER_REGISTER_FAIL
-} from '../constants/userConstants';
+  USER_REGISTER_FAIL,
+} from "../constants/userConstants";
 
 const dev = import.meta.env.VITE_REACT_APP_API_DEVELOPMENT;
 const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
@@ -34,13 +34,13 @@ const pro = import.meta.env.VITE_REACT_APP_API_PRODUCTION;
 export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
   try {
     dispatch({
-      type: USER_LOGIN_REQUEST
+      type: USER_LOGIN_REQUEST,
     });
 
     const config = {
       headers: {
-        'Content-type': 'application/json'
-      }
+        "Content-type": "application/json",
+      },
     };
 
     const { data } = await axios.post(
@@ -51,20 +51,20 @@ export const docenteLogin = (doc_correo, doc_password) => async (dispatch) => {
 
     dispatch({
       type: USER_LOGIN_SUCCESS,
-      payload: data
+      payload: data,
     });
 
-    localStorage.setItem('userInfo', JSON.stringify(data));
+    localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
-      payload: error.response.data
+      payload: error.response.data,
     });
   }
 };
 
 export const docenteLogout = () => (dispatch) => {
-  localStorage.removeItem('userInfo');
+  localStorage.removeItem("userInfo");
   dispatch({ type: DOCENTE_LOGOUT });
   dispatch({ type: DOCENTE_DETAILS_RESET });
   dispatch({ type: DOCENTE_LIST_RESET });
@@ -75,13 +75,13 @@ export const docenteRegister =
   async (dispatch) => {
     try {
       dispatch({
-        type: USER_REGISTER_REQUEST
+        type: USER_REGISTER_REQUEST,
       });
 
       const config = {
         headers: {
-          'Content-type': 'application/json'
-        }
+          "Content-type": "application/json",
+        },
       };
 
       const { data } = await axios.post(
@@ -92,19 +92,19 @@ export const docenteRegister =
 
       dispatch({
         type: USER_REGISTER_SUCCESS,
-        payload: data
+        payload: data,
       });
 
       dispatch({
         type: USER_LOGIN_SUCCESS,
-        payload: data
+        payload: data,
       });
 
-      localStorage.setItem('userInfo', JSON.stringify(data));
+      localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
       dispatch({
         type: USER_REGISTER_FAIL,
-        payload: error.response.data
+        payload: error.response.data,
       });
     }
   };
@@ -112,13 +112,13 @@ export const docenteRegister =
 export const docenteRecoverPassword = (doc_correo) => async (dispatch) => {
   try {
     dispatch({
-      type: DOCENTE_RECOVER_REQUEST
+      type: DOCENTE_RECOVER_REQUEST,
     });
 
     const config = {
       headers: {
-        'Content-type': 'application/json'
-      }
+        "Content-type": "application/json",
+      },
     };
 
     const { data } = await axios.post(
@@ -129,17 +129,17 @@ export const docenteRecoverPassword = (doc_correo) => async (dispatch) => {
 
     dispatch({
       type: DOCENTE_RECOVER_SUCCESS,
-      payload: data
+      payload: data,
     });
 
     dispatch({
       type: DOCENTE_RECOVER_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
       type: DOCENTE_RECOVER_FAIL,
-      payload: error.response.data
+      payload: error.response.data,
     });
   }
 };
@@ -147,25 +147,25 @@ export const docenteRecoverPassword = (doc_correo) => async (dispatch) => {
 export const getDocenteDetails = (doc_id) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: DOCENTE_DETAILS_REQUEST
+      type: DOCENTE_DETAILS_REQUEST,
     });
 
     const {
-      DOCENTELogin: { userInfo }
+      DOCENTELogin: { userInfo },
     } = getState();
 
     const config = {
       headers: {
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`
-      }
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
     };
 
     const { data } = await axios.get(`${dev}/docente/show/${doc_id}/`, config);
 
     dispatch({
       type: DOCENTE_DETAILS_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
@@ -173,7 +173,7 @@ export const getDocenteDetails = (doc_id) => async (dispatch, getState) => {
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail
-          : error.message
+          : error.message,
     });
   }
 };

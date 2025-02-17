@@ -1,23 +1,23 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import CardsDate from '../../components/CardsDate';
-import { Calendar } from '../../components/ui/calendar';
-import NextClass from '../../components/NextClass';
-import Clases from '../../services/clases.json';
+import CardsDate from "../../components/CardsDate";
+import { Calendar } from "../../components/ui/calendar";
+import NextClass from "../../components/NextClass";
+import Clases from "../../services/clases.json";
 
 function SchedulePageDashboard() {
   const [date, setDate] = useState(new Date());
   // fecha de hoy espa:ol
   const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   };
   const today = new Date();
-  const dateToday = today.toLocaleDateString('es-ES', options);
+  const dateToday = today.toLocaleDateString("es-ES", options);
 
   return (
     <div className="grid grid-cols-4 gap-6">

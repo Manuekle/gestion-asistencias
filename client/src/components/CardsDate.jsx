@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   MoreHorizontalIcon,
   EyeIcon,
   QrCodeIcon,
-  Delete02Icon
-} from 'hugeicons-react';
+  Delete02Icon,
+} from "hugeicons-react";
 
 import {
   Dropdown,
@@ -20,21 +20,21 @@ import {
   ModalBody,
   ModalFooter,
   Image,
-  useDisclosure
-} from '@heroui/react';
+  useDisclosure,
+} from "@heroui/react";
 
 function CardsDate({
   hora_inicio,
   hora_fin,
   nombre_clase,
   nombre_profesor,
-  descripcion
+  descripcion,
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const {
     isOpen: isOpenQr,
     onOpen: onOpenQr,
-    onOpenChange: onOpenChangeQr
+    onOpenChange: onOpenChangeQr,
   } = useDisclosure();
 
   return (
@@ -100,8 +100,8 @@ function CardsDate({
         onOpenChange={onOpenChange}
         backdrop="opaque"
         classNames={{
-          backdrop: 'bg-black bg-opacity-70',
-          modal: 'bg-white rounded-lg shadow-lg w-96 p-6'
+          backdrop: "bg-black bg-opacity-70",
+          modal: "bg-white rounded-lg shadow-lg w-96 p-6",
         }}
       >
         <ModalContent>
@@ -138,8 +138,8 @@ function CardsDate({
         backdrop="opaque"
         size="md"
         classNames={{
-          backdrop: 'bg-black bg-opacity-70',
-          modal: 'bg-white rounded-lg shadow-lg w-96 p-6'
+          backdrop: "bg-black bg-opacity-70",
+          modal: "bg-white rounded-lg shadow-lg w-96 p-6",
         }}
       >
         <ModalContent>

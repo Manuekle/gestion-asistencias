@@ -1,18 +1,18 @@
 /* eslint-disable import/extensions */
 /* eslint-disable react/jsx-no-constructed-context-values */
-import { ArrowRight01Icon, ArrowLeft01Icon, Door01Icon } from 'hugeicons-react';
-import { useContext, createContext, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { ArrowRight01Icon, ArrowLeft01Icon, Door01Icon } from "hugeicons-react";
+import { useContext, createContext, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger
-} from './ui/tooltip.tsx';
+  TooltipTrigger,
+} from "./ui/tooltip.tsx";
 
-import { userLogout } from '../actions/userActions';
+import { userLogout } from "../actions/userActions";
 
 const SidebarContext = createContext();
 
@@ -27,11 +27,10 @@ export default function Sidebar({ children }) {
   const { userInfo } = userLogin;
 
   const logoutHandler = () => {
-    dispatch(userLogout());    
+    dispatch(userLogout());
   };
 
-  useEffect(() => {
-  }, [dispatch, userInfo]);
+  useEffect(() => {}, [dispatch, userInfo]);
 
   return (
     <aside className="h-screen">
@@ -65,7 +64,7 @@ export default function Sidebar({ children }) {
           <div
             className={`
               flex justify-between items-center
-              overflow-hidden transition-all ${expanded ? 'w-52 ml-3' : 'w-0'}
+              overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
           `}
           >
             <div className="leading-4">
@@ -111,15 +110,15 @@ export function SidebarItem({ icon, text, active, alert, to }) {
         transition-colors group z-40
         ${
           active
-            ? 'bg-[#323332] text-zinc-100 border border-zinc-700'
-            : 'hover:bg-[#323332] text-zinc-400'
+            ? "bg-[#323332] text-zinc-100 border border-zinc-700"
+            : "hover:bg-[#323332] text-zinc-400"
         }
     `}
     >
       {icon}
       <span
         className={`overflow-hidden transition-all ${
-          expanded ? 'w-52 ml-3' : 'w-0'
+          expanded ? "w-52 ml-3" : "w-0"
         }`}
       >
         {text}
@@ -127,7 +126,7 @@ export function SidebarItem({ icon, text, active, alert, to }) {
       {alert && (
         <div
           className={`absolute right-2 w-2 h-2 rounded bg-amber-400 ${
-            expanded ? '' : 'top-2'
+            expanded ? "" : "top-2"
           }`}
         />
       )}

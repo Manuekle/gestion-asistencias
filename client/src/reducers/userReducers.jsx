@@ -12,8 +12,8 @@ import {
   USER_DETAILS_RESET,
   USER_RECOVER_REQUEST,
   USER_RECOVER_SUCCESS,
-  USER_RECOVER_FAIL
-} from '../constants/userConstants';
+  USER_RECOVER_FAIL,
+} from "../constants/userConstants";
 
 import {
   DOCENTE_LOGIN_REQUEST,
@@ -22,8 +22,8 @@ import {
   DOCENTE_LOGOUT,
   DOCENTE_REGISTER_REQUEST,
   DOCENTE_REGISTER_SUCCESS,
-  DOCENTE_REGISTER_FAIL
-} from '../constants/docenteConstants';
+  DOCENTE_REGISTER_FAIL,
+} from "../constants/docenteConstants";
 
 import {
   ESTUDIANTE_LOGIN_REQUEST,
@@ -32,8 +32,8 @@ import {
   ESTUDIANTE_LOGOUT,
   ESTUDIANTE_REGISTER_REQUEST,
   ESTUDIANTE_REGISTER_SUCCESS,
-  ESTUDIANTE_REGISTER_FAIL
-} from '../constants/estudianteConstants';
+  ESTUDIANTE_REGISTER_FAIL,
+} from "../constants/estudianteConstants";
 
 // GLOBAL
 export const userLoginReducer = (state = {}, action) => {

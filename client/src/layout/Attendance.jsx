@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
-import { Button } from '@heroui/react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useToast } from '../hooks/use-toast.ts';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
+import { Button } from "@heroui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "../hooks/use-toast.ts";
 
-import { showClassQr } from '../actions/classActions';
-import { createAttendance } from '../actions/attendanceActions';
+import { showClassQr } from "../actions/classActions";
+import { createAttendance } from "../actions/attendanceActions";
 
 function Attendance() {
   const [formData, setFormData] = useState(false);
@@ -25,8 +25,8 @@ function Attendance() {
   const { success, asistencia } = attendanceCreate;
 
   const [searchParams] = useSearchParams();
-  const id = searchParams.get('id') || 'ID no encontrado';
-  const token = searchParams.get('token') || 'Token no encontrado';
+  const id = searchParams.get("id") || "ID no encontrado";
+  const token = searchParams.get("token") || "Token no encontrado";
 
   const { toast } = useToast();
 
@@ -35,16 +35,16 @@ function Attendance() {
   const alertSuccess = () => {
     if (success) {
       toast({
-        variant: 'default',
-        title: 'Exito!',
-        description: `Has entrado a tu clase de ${codigo.asig_nombre}`
+        variant: "default",
+        title: "Exito!",
+        description: `Has entrado a tu clase de ${codigo.asig_nombre}`,
       });
       // navigate('/auth/administrador/login');
     } else {
       toast({
-        variant: 'destructive',
-        title: 'Oh oh! Algo salio mal',
-        description: error
+        variant: "destructive",
+        title: "Oh oh! Algo salio mal",
+        description: error,
       });
     }
   };
@@ -55,7 +55,7 @@ function Attendance() {
       createAttendance(
         userInfo.user.user_id,
         codigo.clas_id,
-        window.location.href        
+        window.location.href
       )
     );
     setTimeout(() => {
@@ -66,11 +66,11 @@ function Attendance() {
 
   useEffect(() => {
     if (!userInfo) {
-      //navigate('/dashboard/');
+      // navigate('/dashboard/');
     }
 
     if (!error) {
-      //navigate('/dashboard/');
+      // navigate('/dashboard/');
     }
 
     if (id && token) {
@@ -87,7 +87,7 @@ function Attendance() {
         <span className="flex items-center justify-center px-6 py-4">
           <p className="text-wrap text-xs text-zinc-300">
             ¿Hola <strong>{userInfo && userInfo.user.user_nombre}</strong> vas a
-            la clase de{' '}
+            la clase de{" "}
             <strong>
               {codigo.asig_nombre}-{codigo.asig_grupo}
             </strong>

@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Input, Button } from '@heroui/react';
-import { Mail01Icon } from 'hugeicons-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useToast } from '../../hooks/use-toast.ts';
-import { userRecoverPassword } from '../../actions/userActions';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Input, Button } from "@heroui/react";
+import { Mail01Icon } from "hugeicons-react";
+import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "../../hooks/use-toast.ts";
+import { userRecoverPassword } from "../../actions/userActions";
 
 function RestorePasswordPageAuth() {
   const [formData, setFormData] = useState(false);
@@ -16,7 +16,7 @@ function RestorePasswordPageAuth() {
 
   const navigate = useNavigate();
 
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState("");
 
   const userRecover = useSelector((state) => state.userRecover);
   const { error } = userRecover;
@@ -25,7 +25,7 @@ function RestorePasswordPageAuth() {
     value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 
   const isInvalidEmail = React.useMemo(() => {
-    if (user === '') return false;
+    if (user === "") return false;
 
     return !validateEmail(user);
   }, [user]);
@@ -33,17 +33,17 @@ function RestorePasswordPageAuth() {
   const alertSuccess = () => {
     if (!error) {
       toast({
-        variant: 'default',
-        title: 'Exito!',
+        variant: "default",
+        title: "Exito!",
         description:
-          'Se ha enviado un correo electronico con tu contraseña nueva'
+          "Se ha enviado un correo electronico con tu contraseña nueva",
       });
       // navigate('/auth/administrador/login');
     } else {
       toast({
-        variant: 'destructive',
-        title: 'Oh oh! Algo salio mal',
-        description: error
+        variant: "destructive",
+        title: "Oh oh! Algo salio mal",
+        description: error,
       });
     }
   };

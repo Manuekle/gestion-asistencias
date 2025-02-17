@@ -7,47 +7,47 @@ import {
   PolarGrid,
   PolarRadiusAxis,
   RadialBar,
-  RadialBarChart
-} from 'recharts';
+  RadialBarChart,
+} from "recharts";
 
-import { ChartContainer } from './ui/chart.tsx';
+import { ChartContainer } from "./ui/chart.tsx";
 
-const chartData = [{ browser: 'safari', visitors: 9, fill: 'rgb(251 191 36)' }];
+const chartData = [{ browser: "safari", visitors: 9, fill: "rgb(251 191 36)" }];
 
 const chartConfig = {
   visitors: {
-    label: 'Visitors'
+    label: "Visitors",
   },
   safari: {
-    label: 'Safari'
-  }
+    label: "Safari",
+  },
 };
 
 const sizes = {
   small: {
-    containerSize: 'h-[100px] w-[100px]',
+    containerSize: "h-[100px] w-[100px]",
     innerRadius: 30,
     outerRadius: 45,
-    fontSize: 'text-base',
-    labelSize: 'text-[10px]'
+    fontSize: "text-base",
+    labelSize: "text-[10px]",
   },
   medium: {
-    containerSize: 'h-[150px] w-[150px]',
+    containerSize: "h-[150px] w-[150px]",
     innerRadius: 50,
     outerRadius: 70,
-    fontSize: 'text-2xl',
-    labelSize: 'text-xs'
+    fontSize: "text-2xl",
+    labelSize: "text-xs",
   },
   large: {
-    containerSize: 'h-[200px] w-[200px]',
+    containerSize: "h-[200px] w-[200px]",
     innerRadius: 70,
     outerRadius: 95,
-    fontSize: 'text-3xl',
-    labelSize: 'text-sm'
-  }
+    fontSize: "text-3xl",
+    labelSize: "text-sm",
+  },
 };
 
-function ChartRadialText({ size = 'small', className = '' }) {
+function ChartRadialText({ size = "small", className = "" }) {
   const { containerSize, innerRadius, outerRadius, fontSize, labelSize } =
     sizes[size];
 
@@ -74,7 +74,7 @@ function ChartRadialText({ size = 'small', className = '' }) {
         <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
           <Label
             content={({ viewBox }) => {
-              if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
+              if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                 return (
                   <text
                     x={viewBox.cx}
