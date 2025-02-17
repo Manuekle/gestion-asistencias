@@ -80,3 +80,15 @@ CREATE TABLE codigo_qr (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (codi_clas_id) REFERENCES clase(clas_id)
 );
+
+CREATE TABLE horario_estudiante (
+    hor_id INT PRIMARY KEY AUTO_INCREMENT,
+    hor_estu_id INT NOT NULL,
+    hor_clas_id INT NOT NULL,
+    hor_dia ENUM('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado') NOT NULL,
+    hor_hora_inicio TIME NOT NULL,
+    hor_hora_fin TIME NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (hor_estu_id) REFERENCES estudiante(estu_id),
+    FOREIGN KEY (hor_clas_id) REFERENCES clase(clas_id)
+);

@@ -66,7 +66,7 @@ function LoginPageEstudiante() {
   useEffect(() => {
     if (userInfo) {
       console.log(userInfo);
-      navigate('/dashboard/schedule');
+      navigate('/student');
     } else {
       null;
     }

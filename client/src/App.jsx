@@ -17,6 +17,7 @@ import RegisterPageAdmin from './pages/auth/administrador/RegisterPageAdmin.jsx'
 // estudiante
 import LoginPageEstudiante from './pages/auth/estudiante/LoginPageEstudiante.jsx';
 import RegisterPageEstudiante from './pages/auth/estudiante/RegisterPageEstudiante.jsx';
+import EstudiantePage from './pages/EstudiantePage.jsx';
 // docente
 import LoginPageDocente from './pages/auth/docente/LoginPageDocente.jsx';
 import RegisterPageDocente from './pages/auth/docente/RegisterPageDocente.jsx';
@@ -31,6 +32,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/student" element={<EstudiantePage />} />
           <Route path="/attendance" element={<Attendance />} />
           <Route path="/dashboard/*" element={<Dashboard />} />
           {/* admin */}

@@ -18,11 +18,9 @@ import Sidebar, { SidebarItem } from '../components/Sidebar';
 import ProtectedRoute from '../components/ProtectedRoute'; // El componente que creamos
 // pages
 import HomePageDashboard from '../pages/dashboard/HomePageDashboard';
-import SchedulePageDashboard from '../pages/dashboard/SchedulePageDashboard';
 import ClassPageDashboard from '../pages/dashboard/ClassPageDashboard';
 import ReportPageDashboard from '../pages/dashboard/ReportPageDashboard';
 import ConfigPageDashboard from '../pages/dashboard/ConfigPageDashboard';
-import SignaturePageDashboard from '../pages/dashboard/SignaturePageDashboard';
 // items
 import Classes from '../pages/dashboardItems/Classes';
 
@@ -36,7 +34,7 @@ function Dashboard() {
 
   useEffect(() => {
     if (userInfo.user.rol === 'estudiante') {
-      navigate('/dashboard/schedule');
+      navigate('/');
     }
   }, [userInfo, navigate]);
 
@@ -127,7 +125,7 @@ function Dashboard() {
               </ProtectedRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/schedule"
             element={
               <ProtectedRoute
@@ -137,7 +135,7 @@ function Dashboard() {
                 <SchedulePageDashboard />
               </ProtectedRoute>
             }
-          />
+          /> */}
           <Route
             path="/class"
             element={
