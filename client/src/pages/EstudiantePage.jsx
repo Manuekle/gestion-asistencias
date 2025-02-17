@@ -9,7 +9,7 @@ function EstudiantePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userInfo.user.rol === 'estudiante') {
+    if (!userInfo) {
       navigate('/');
     }
   }, [userInfo, navigate]);
