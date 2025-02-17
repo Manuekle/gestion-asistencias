@@ -26,11 +26,14 @@ export default function Sidebar({ children }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const logoutHandler = () => {
-    dispatch(userLogout());
+  const logoutHandler = async () => {
+    navigate('/');
+    await setTimeout(() => {
+      dispatch(userLogout());
+    }, 2000);
   };
 
-  useEffect(() => {}, [dispatch, userInfo]);
+  useEffect(() => {}, [dispatch, navigate, userInfo]);
 
   return (
     <aside className="h-screen">

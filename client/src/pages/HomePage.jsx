@@ -31,11 +31,7 @@ function HomePage() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!userInfo) {
-      navigate('/');
-    }
-  }, [navigate, userInfo]);
+  useEffect(() => {}, [navigate, userInfo]);
 
   return (
     <div className="w-full bg-[#FAFBFD] auth">

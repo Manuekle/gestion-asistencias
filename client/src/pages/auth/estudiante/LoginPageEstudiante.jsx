@@ -67,7 +67,7 @@ function LoginPageEstudiante() {
     if (!userInfo) {
       navigate('/auth/estudiante/login');
     } else {
-      navigate('/dashboard/');
+      navigate('/dashboard/schedule');
     }
   }, [userInfo, navigate]);
   return (

@@ -75,7 +75,7 @@ function RegisterPageAuth() {
     if (!userInfo) {
       navigate('/auth/estudiante/register');
     } else {
-      navigate('/dashboard/');
+      navigate('/dashboard/schedule');
     }
   }, [userInfo, navigate]);
   return (

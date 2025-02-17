@@ -35,8 +35,8 @@ function Dashboard() {
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (!userInfo) {
-      navigate('/');
+    if (userInfo.user.rol === 'estudiante') {
+      navigate('/dashboard/schedule');
     }
   }, [userInfo, navigate]);
 
