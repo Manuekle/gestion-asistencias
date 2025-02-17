@@ -11,7 +11,8 @@ import {
   Timer02Icon,
   UserGroupIcon,
   GraduationScrollIcon,
-  GithubIcon
+  GithubIcon,
+  Knowledge01Icon
 } from 'hugeicons-react';
 import { Button } from '@heroui/react';
 import { Image } from '@heroui/image';
@@ -52,7 +53,7 @@ function HomePage() {
             to="/auth/docente/login"
             className="bg-zinc-800 flex flex-row items-center justify-center gap-2 text-white text-sm rounded-lg hover:shadow-lg shadow-md px-6 py-2"
           >
-            <GlassesIcon size={18} color="#eee" variant="stroke" />
+            <Knowledge01Icon size={18} color="#eee" variant="stroke" />
             <h1 className="text-white text-sm">Iniciar sesion como docente</h1>
           </Link>
           <Link
