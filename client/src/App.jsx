@@ -1,28 +1,28 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-plusplus */
-import React from 'react';
+import React from "react";
 // Supports weights 100-900
-import '@fontsource-variable/manrope';
+import "@fontsource-variable/manrope";
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // pages
-import HomePage from './pages/HomePage';
-import Dashboard from './layout/Dashboard';
-import Attendance from './layout/Attendance';
+import HomePage from "./pages/HomePage";
+import Dashboard from "./layout/Dashboard";
+import Attendance from "./layout/Attendance";
 // admin
-import LoginPageAdmin from './pages/auth/administrador/LoginPageAdmin';
-import RegisterPageAdmin from './pages/auth/administrador/RegisterPageAdmin.jsx';
+import LoginPageAdmin from "./pages/auth/administrador/LoginPageAdmin";
+import RegisterPageAdmin from "./pages/auth/administrador/RegisterPageAdmin.jsx";
 // estudiante
-import LoginPageEstudiante from './pages/auth/estudiante/LoginPageEstudiante.jsx';
-import RegisterPageEstudiante from './pages/auth/estudiante/RegisterPageEstudiante.jsx';
+import LoginPageEstudiante from "./pages/auth/estudiante/LoginPageEstudiante.jsx";
+import RegisterPageEstudiante from "./pages/auth/estudiante/RegisterPageEstudiante.jsx";
 // docente
-import LoginPageDocente from './pages/auth/docente/LoginPageDocente.jsx';
-import RegisterPageDocente from './pages/auth/docente/RegisterPageDocente.jsx';
-import RestorePasswordPageAuth from './pages/auth/RestorePasswordPageAuth';
-import NotFoundPage from './pages/NotFoundPage';
-import { Toaster } from './components/ui/toaster.tsx';
+import LoginPageDocente from "./pages/auth/docente/LoginPageDocente.jsx";
+import RegisterPageDocente from "./pages/auth/docente/RegisterPageDocente.jsx";
+import RestorePasswordPageAuth from "./pages/auth/RestorePasswordPageAuth";
+import NotFoundPage from "./pages/NotFoundPage";
+import { Toaster } from "./components/ui/toaster.tsx";
 
 function App() {
   return (
