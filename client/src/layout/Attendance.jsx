@@ -55,7 +55,7 @@ function Attendance() {
       createAttendance(
         userInfo.user.user_id,
         codigo.clas_id,
-        window.location.href
+        window.location.href        
       )
     );
     setTimeout(() => {
