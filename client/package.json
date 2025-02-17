@@ -52,26 +52,20 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.26.8",
-    "@eslint/js": "^9.20.0",
     "@types/node": "^22.10.7",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.13",
-    "eslint": "^9.20.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsx-a11y": "^6.6.1",
-    "eslint-plugin-react": "^7.37.4",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.4",
     "globals": "^15.15.0",
     "nth-check": "^2.1.1",
     "postcss": "^8.4.20",
     "prettier": "^2.8.1",
+    "standard": "^17.1.2",
     "tailwindcss": "^3.3.1",
     "vite": "^5.0.0"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/standard/eslintrc.json"
   }
 }

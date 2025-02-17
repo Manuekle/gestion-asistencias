@@ -5,8 +5,6 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "lint": "eslint .",
-    "format": "prettier --write \"**/*.js\"",
     "dev": "nodemon server/index.js",
     "start": "node server/index.js",
     "test": "jest"
