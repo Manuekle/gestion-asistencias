@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '../hooks/use-toast.ts';
+import { Mail01Icon, Passport01Icon } from 'hugeicons-react';
 
 import {
   Modal,
@@ -11,8 +12,11 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Button
+  Button,
+  Input
 } from '@heroui/react';
+
+import { estudianteLogin } from '../actions/estudianteActions';
 
 import { showClassQr } from '../actions/classActions';
 import { createAttendance } from '../actions/attendanceActions';
@@ -24,7 +28,7 @@ function Attendance() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  console.log(userInfo);
+  // console.log(userInfo);
 
   const dispatch = useDispatch();
 
@@ -34,9 +38,9 @@ function Attendance() {
   const { codigo } = classQr;
 
   const attendanceCreate = useSelector((state) => state.attendanceCreate);
-  const { error, success } = attendanceCreate;
+  const { error, success, asistencia } = attendanceCreate;
 
-  console.log(error);
+  console.log(success);
 
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
@@ -75,7 +79,7 @@ function Attendance() {
         title: 'Exito!',
         description: `Has entrado a tu clase de ${codigo.asig_nombre}`
       });
-      navigate('/dashboard/schedule');
+      navigate('/student');
     } else {
       toast({
         variant: 'destructive',
@@ -86,29 +90,60 @@ function Attendance() {
   };
 
   const handleSubmit = () => {
+    if (!userInfo) {
+      onOpen(true);
+    } else {
+      setFormData(true);
+      dispatch(
+        createAttendance(
+          userInfo.user.user_id,
+          codigo.clas_id,
+          window.location.href
+        )
+      );
+      setTimeout(() => {
+        setFormData(false);
+      }, 2000);
+      // alertSuccess();
+    }
+  };
+
+  const handleLogin = () => {
     setFormData(true);
-    dispatch(
-      createAttendance(
-        userInfo.user.user_id,
-        codigo.clas_id,
-        window.location.href
-      )
-    );
+    dispatch(estudianteLogin(user, password));
     setTimeout(() => {
       setFormData(false);
+      onOpen(false);
     }, 2000);
-    alertSuccess();
   };
 
   useEffect(() => {
     if (codigo) {
-      navigate('/student');
+      // navigate('/student');
+    }
+
+    if (!userInfo) {
+      console.log('no hay user');
+      onOpen(true);
     }
 
     if (userInfo) {
-      onOpen(true);
-    } else {
-      onOpen(false);
+      console.log('si hay userInfo');
+
+      // if (success) {
+      //   navigate('/student');
+      // }
+      if (success) {
+        toast({
+          variant: 'default',
+          title: 'Exito!',
+          description: `Has entrado a tu clase de ${codigo.asig_nombre}`
+        });
+        navigate('/student');
+      }
+      if (userInfo.user.rol === 'docente') {
+        navigate('/');
+      }
     }
 
     if (id && token) {
@@ -228,7 +263,8 @@ function Attendance() {
               <ModalFooter>
                 {!formData ? (
                   <Button
-                    onPress={handleCancel}
+                    size="sm"
+                    onPress={handleLogin}
                     className="bg-amber-400 text-white text-xs rounded-lg font-bold px-4 py-2"
                   >
                     Iniciar Sesion
@@ -236,6 +272,7 @@ function Attendance() {
                 ) : (
                   <Button
                     isLoading
+                    size="sm"
                     className="bg-amber-400 text-white text-xs rounded-lg font-bold px-4 py-2"
                     spinner={
                       <svg
