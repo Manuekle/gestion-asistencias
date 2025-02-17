@@ -110,8 +110,8 @@ function ClassPageDashboard() {
     { nombre: 'Martes', valor: 2 },
     { nombre: 'Miércoles', valor: 3 },
     { nombre: 'Jueves', valor: 4 },
-    { nombre: 'Viernes', valor: 5 },
-    { nombre: 'Sábado', valor: 6 }
+    { nombre: 'Viernes', valor: 5 }
+    // { nombre: 'Sábado', valor: 6 }
   ];
 
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
