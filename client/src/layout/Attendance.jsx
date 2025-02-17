@@ -19,10 +19,12 @@ function Attendance() {
   const location = useLocation();
 
   const classQr = useSelector((state) => state.classQr);
-  const { error, codigo } = classQr;
+  const { codigo } = classQr;
 
   const attendanceCreate = useSelector((state) => state.attendanceCreate);
-  const { success, asistencia } = attendanceCreate;
+  const { error, success } = attendanceCreate;
+
+  console.log(error);
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id') || 'ID no encontrado';
@@ -39,12 +41,12 @@ function Attendance() {
         title: 'Exito!',
         description: `Has entrado a tu clase de ${codigo.asig_nombre}`
       });
-      // navigate('/auth/administrador/login');
+      navigate('/dashboard/schedule');
     } else {
       toast({
         variant: 'destructive',
         title: 'Oh oh! Algo salio mal',
-        description: error
+        description: error.message
       });
     }
   };
@@ -65,18 +67,14 @@ function Attendance() {
   };
 
   useEffect(() => {
-    if (!userInfo) {
-      // navigate('/dashboard/');
-    }
-
-    if (!error) {
-      // navigate('/dashboard/');
+    if (codigo) {
+      navigate('/dashboard/schedule');
     }
 
     if (id && token) {
       dispatch(showClassQr(id));
     }
-  }, [userInfo, navigate, error]);
+  }, [userInfo, navigate]);
 
   return (
     <div className="flex justify-center items-center h-svh auth">

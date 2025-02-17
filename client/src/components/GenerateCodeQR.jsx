@@ -35,7 +35,7 @@ function GenerateCodeQR({ value, name, id }) {
     }
     intervalRef.current = setInterval(() => {
       dispatch(createQR(name, id));
-    }, 30000); // Intervalo de 30 segundos
+    }, 60000); // Intervalo de 60 segundos
   };
 
   const handleGenerarQR = () => {
@@ -96,6 +96,7 @@ function GenerateCodeQR({ value, name, id }) {
                 {qrImage && (
                   <Image
                     radius="none"
+                    isBlurred
                     loading="lazy"
                     alt={`QR de la clase de ${value}`}
                     fallbackSrc="https://via.placeholder.com/300x200"
