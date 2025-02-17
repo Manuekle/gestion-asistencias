@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Input, Button } from '@heroui/react';
 import { Mail01Icon } from 'hugeicons-react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +14,11 @@ function RestorePasswordPageAuth() {
 
   const { toast } = useToast();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const userType = location.pathname.split('/')[2];
 
   const [user, setUser] = useState('');
 
@@ -62,13 +66,7 @@ function RestorePasswordPageAuth() {
         <div className="self-center mb-2 text-xl font-light text-zinc-100 sm:text-2xl">
           Restablecer Contraseña
         </div>
-        {/* <span className="justify-center text-xs text-center text-zinc-300 flex items-center ">
-          No tienes una cuenta?
-          <Link to="/auth/administrador/register" className="ml-2 text-amber-400 underline">
-            Registrate
-          </Link>
-        </span> */}
-        <p className="px-6 py-4 text-pretty flex items-center justify-center text-xs text-zinc-300">
+        <p className="px-6 py-4 text-center flex items-center justify-center text-xs text-zinc-300">
           Olvidaste tu contraseña? No te preocupes, ingresa tu correo
           electronico. Te enviaremos una nueva contraseña.
         </p>
@@ -129,7 +127,7 @@ function RestorePasswordPageAuth() {
             <div className="flex text-xs w-full justify-center items-center">
               <h1 className="text-zinc-300">No tienes una cuenta?</h1>
               <Link
-                to="/auth/administrador/register"
+                to={`/auth/${userType}/register`}
                 className="underline ml-2 text-amber-400"
               >
                 Registrate
