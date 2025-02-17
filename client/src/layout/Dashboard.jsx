@@ -43,6 +43,7 @@ function Dashboard() {
   return (
     <div className="flex flex-row w-full bg-[#FAFBFD]">
       <Sidebar>
+        {/* admin & docente */}
         {(userInfo && userInfo.user.rol === 'administrador') ||
         (userInfo && userInfo.user.rol === 'docente') ? (
           <>
@@ -50,8 +51,7 @@ function Dashboard() {
               icon={<Home07Icon size={20} color="#ffffff" variant="stroke" />}
               text="Inicio"
               active={!!(urlActive === 'dashboard' || urlActive === '')}
-              to="/dashboard"
-              // alert
+              to="/dashboard/"
             />
             <SidebarItem
               icon={
@@ -77,6 +77,8 @@ function Dashboard() {
             />
           </>
         ) : null}
+
+        {/* estudiante */}
         {userInfo && userInfo.user.rol === 'estudiante' ? (
           <SidebarItem
             icon={<Calendar03Icon size={20} color="#ffffff" variant="stroke" />}
@@ -86,6 +88,7 @@ function Dashboard() {
           />
         ) : null}
 
+        {/* all */}
         <hr className="my-3 border-1 border-zinc-800" />
         <SidebarItem
           icon={<Settings03Icon size={20} color="#ffffff" variant="stroke" />}
@@ -103,18 +106,18 @@ function Dashboard() {
       <section className="p-8 w-full bg-[#FAFBFD]">
         <Routes>
           <Route
-            path="/"
+            path="/dashboard"
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}
-                allowedRoles={['administrador', 'docente', 'estudiante']}
+                allowedRoles={['administrador', 'docente']}
               >
                 <HomePageDashboard />
               </ProtectedRoute>
             }
           />
           <Route
-            path="schedule"
+            path="/schedule"
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}
@@ -124,19 +127,8 @@ function Dashboard() {
               </ProtectedRoute>
             }
           />
-          {/* <Route
-            path="schedule/:id"
-            element={
-              <ProtectedRoute
-                role={userInfo && userInfo.user.rol}
-                allowedRoles={['administrador', 'docente', 'estudiante']}
-              >
-                <Classes />
-              </ProtectedRoute>
-            }
-          /> */}
           <Route
-            path="class"
+            path="/class"
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}
@@ -147,7 +139,7 @@ function Dashboard() {
             }
           />
           <Route
-            path="class/:name/:id"
+            path="/class/:name/:id"
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}
@@ -157,19 +149,8 @@ function Dashboard() {
               </ProtectedRoute>
             }
           />
-          {/* <Route
-            path="signature"
-            element={
-              <ProtectedRoute
-                role={userInfo && userInfo.user.rol}
-                allowedRoles={['administrador', 'docente']}
-              >
-                <SignaturePageDashboard />
-              </ProtectedRoute>
-            }
-          /> */}
           <Route
-            path="report"
+            path="/report"
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}
@@ -180,7 +161,7 @@ function Dashboard() {
             }
           />
           <Route
-            path="settings"
+            path="/settings"
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}

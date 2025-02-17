@@ -32,8 +32,8 @@ function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userInfo) {
-      navigate('/dashboard');
+    if (!userInfo) {
+      navigate('/');
     }
   }, [navigate, userInfo]);
 
