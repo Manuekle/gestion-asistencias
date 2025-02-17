@@ -13,8 +13,8 @@ Este es un prototipo de software para la **gestión de asistencias** en la FUP, 
 
 ## ⚙️ Tecnologías Utilizadas
 
-- **Frontend:** React, Tailwind CSS, shadcn/ui  
-- **Backend:** .NET  
+- **Frontend:** React, Tailwind CSS, shadcn/ui, heroUI  
+- **Backend:** Node.js  
 - **Base de Datos:** MySQL  
 - **Seguridad:** Autenticación basada en tokens, validación de QR  
 - **Herramientas de Desarrollo:** Visual Studio, Postman, Docker (opcional)
