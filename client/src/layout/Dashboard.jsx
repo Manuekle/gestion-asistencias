@@ -51,7 +51,7 @@ function Dashboard() {
               icon={<Home07Icon size={20} color="#ffffff" variant="stroke" />}
               text="Inicio"
               active={!!(urlActive === 'dashboard' || urlActive === '')}
-              to="/dashboard/"
+              to="/dashboard/home"
             />
             <SidebarItem
               icon={
@@ -106,7 +106,18 @@ function Dashboard() {
       <section className="p-8 w-full bg-[#FAFBFD]">
         <Routes>
           <Route
-            path="/dashboard"
+            path="/"
+            element={
+              <ProtectedRoute
+                role={userInfo && userInfo.user.rol}
+                allowedRoles={['administrador', 'docente']}
+              >
+                <HomePageDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/home"
             element={
               <ProtectedRoute
                 role={userInfo && userInfo.user.rol}

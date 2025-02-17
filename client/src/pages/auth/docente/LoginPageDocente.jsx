@@ -66,7 +66,7 @@ function LoginPageDocente() {
   useEffect(() => {
     if (userInfo) {
       console.log(userInfo);
-      navigate('/dashboard/');
+      navigate('/dashboard/home');
     } else {
       null;
     }
