@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import {
   Modal,
   ModalContent,
@@ -10,63 +8,61 @@ import {
   Image,
   useDisclosure
 } from '@heroui/react';
-
-// import { Button } from './ui/button.tsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { createQR } from '../actions/qrActions';
 
 function GenerateCodeQR({ value, name, id }) {
   const [qrImage, setQrImage] = useState('');
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const intervalRef = useRef(null);
 
-  const startInterval = () => {
-    let elapsed = 0; // Tiempo transcurrido en segundos
+  const qrGenerate = useSelector((state) => state.qrGenerate);
+  const { error, codigo } = qrGenerate;
 
-    intervalRef.current = setInterval(async () => {
-      elapsed += 30; // Incrementar el tiempo en cada ejecución
+  const dispatch = useDispatch();
 
-      try {
-        const response = await axios.post(
-          'http://localhost:4000/api/qr/create',
-          {
-            codi_valor: name,
-            codi_clas_id: id
-          }
-        );
-
-        setQrImage(response.data.qrImage);
-      } catch (error) {
-        console.error('Error al actualizar el código QR', error);
-      }
-
-      // Detener el intervalo después de 20 segundos
-      if (elapsed >= 20) {
-        clearInterval(intervalRef.current);
-      }
-    }, 5000); // Intervalo de 5 segundos
-  };
-
-  const handleGenerarQR = async () => {
-    try {
-      const response = await axios.post('http://localhost:4000/api/qr/create', {
-        codi_valor: name,
-        codi_clas_id: id
-      });
-      setQrImage(response.data.qrImage);
-      onOpen(true);
-      startInterval();
-    } catch (error) {
-      console.error('Error al generar el código QR', error);
+  // Actualizar la imagen QR cada vez que `codigo` cambie
+  useEffect(() => {
+    if (codigo?.qrImage) {
+      setQrImage(codigo.qrImage);
     }
+  }, [codigo]);
+
+  // Iniciar la actualización automática del QR cada 30 segundos
+  const startInterval = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current); // Evitar múltiples intervalos
+    }
+    intervalRef.current = setInterval(() => {
+      dispatch(createQR(name, id));
+    }, 30000); // Intervalo de 30 segundos
   };
 
-  useEffect(
-    () => () => {
+  const handleGenerarQR = () => {
+    dispatch(createQR(name, id)); // Primera generación de QR
+    onOpen(true); // Abrir el modal
+    console.log('open');
+    startInterval(); // Iniciar intervalo de actualizaciones
+  };
+
+  // Detener el intervalo cuando el modal se cierra
+  const handleModalClose = (isOpen) => {
+    if (!isOpen && intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null; // Limpieza del intervalo
+    }
+    onOpenChange(isOpen);
+  };
+
+  // Asegurar que el intervalo se detenga al desmontar el componente
+  useEffect(() => {
+    return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        console.log('close');
       }
-    },
-    []
-  );
+    };
+  }, []);
 
   return (
     <>
@@ -80,7 +76,7 @@ function GenerateCodeQR({ value, name, id }) {
 
       <Modal
         isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        onOpenChange={handleModalClose}
         backdrop="opaque"
         size="md"
         classNames={{
@@ -113,6 +109,11 @@ function GenerateCodeQR({ value, name, id }) {
                   Escanea este código QR para unirte a la clase
                 </span>
               </ModalFooter>
+              {error && (
+                <p className="text-red-600 text-sm mt-2">
+                  Error al generar el QR: {error}
+                </p>
+              )}
             </>
           )}
         </ModalContent>
