@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import {
   Modal,
@@ -7,8 +8,9 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Button
+  Button  
 } from '@heroui/react';
+
 import { useDispatch } from 'react-redux';
 import { Delete02Icon } from 'hugeicons-react';
 import { cancelClassStatus } from '../actions/classActions';
@@ -32,7 +34,7 @@ function CancelClass({ value, id }) {
   };
 
   return (
-    <>
+    <>      
       <button
         type="button"
         className="bg-[#FEF2F2] hover:bg-[#FEF2F2]/90 text-xs shadow-sm font-bold text-[#C25269] px-4 py-2 rounded-md w-full"
