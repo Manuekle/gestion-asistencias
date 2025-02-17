@@ -69,13 +69,6 @@ function RegisterPageAuth() {
     }, 2000);
   };
 
-  useEffect(() => {
-    if (!userInfo) {
-      navigate('/auth/administrador/register');
-    } else {
-      navigate('/dashboard/');
-    }
-  }, [userInfo, navigate]);
   return (
     <div className="flex justify-center items-center h-svh auth">
       <div className="flex flex-col w-full max-w-xl mx-auto px-4 py-16 bg-[#1E201E] rounded-xl shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
