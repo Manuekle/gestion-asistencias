@@ -24,7 +24,7 @@ import Footer from '../components/Footer';
 import SvgNode from '../components/svg/SvgNode';
 import SvgReact from '../components/svg/SvgReact';
 import SvgTailwind from '../components/svg/SvgTailwind';
-import SvgMySql from '../components/svg/SvgMySql';
+import SvgTurso from '../components/svg/SvgTurso';
 
 function HomePage() {
   const userLogin = useSelector((state) => state.userLogin);
@@ -383,10 +383,10 @@ function HomePage() {
               type="button"
               className="border bg-white shadow-md p-3 rounded-full"
             >
-              <SvgMySql className="w-6 h-6" />
+              <SvgTurso className="w-6 h-6" />
             </button>
             <h1 className="text-zinc-800 font-bold text-sm bg-[#FAFBFD]">
-              mysql
+              turso
             </h1>
           </div>
         </div>
