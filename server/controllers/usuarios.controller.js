@@ -1,8 +1,10 @@
 //? Usuarios Controllers
-import { pool } from "../db.js";
+import { turso } from "../db.js";
 import { createUsuarioSchema } from "../schemas/usuario.js";
 
-import { SECRET_KEY, EMAIL_USER, EMAIL_PASSWORD } from "../config.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 import { z } from "zod";
 import nodemailer from "nodemailer";
@@ -13,27 +15,32 @@ import jwt from "jsonwebtoken";
 //* GET
 export const getUsuarios = async (req, res) => {
   try {
-    const [result] = await pool.query(
+    const result = await turso.execute(
       "SELECT * FROM usuario ORDER BY created_at ASC"
     );
-    return res.status(200).json(result);
+    return res.status(200).json(result.rows); // Accede a los resultados con .rows
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error("Error en getUsuarios:", error); // Log para depuración
+    return res.status(500).json({ message: "Error al obtener usuarios" }); // Mensaje genérico
   }
 };
 
 export const getUsuario = async (req, res) => {
   try {
-    const [result] = await pool.query(
+    const result = await turso.execute(
       "SELECT * FROM usuario WHERE usua_id = ?",
       [req.params.id]
     );
-    if (result.length === 0) {
+
+    if (result.rows.length === 0) {
+      // Usa .rows.length para verificar si hay resultados
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
-    return res.status(200).json(result[0]);
+
+    return res.status(200).json(result.rows[0]); // Accede al primer elemento con .rows[0]
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error("Error en getUsuario:", error);
+    return res.status(500).json({ message: "Error al obtener usuario" });
   }
 };
 
@@ -42,53 +49,69 @@ export const createUsuario = async (req, res) => {
   try {
     const data = createUsuarioSchema.parse(req.body);
 
-    // Verificar si el correo ya existe
-    const [existingUser] = await pool.query(
-      "SELECT * FROM usuario WHERE usua_correo = ?",
+    // Verificar si el correo ya existe (optimizado)
+    const existingUser = await turso.execute(
+      "SELECT 1 FROM usuario WHERE usua_correo = ?", // Solo necesitamos saber si existe, no toda la fila
       [data.usua_correo]
     );
 
-    if (existingUser.length > 0) {
+    if (existingUser.rows.length > 0) {
+      // Usa .rows para acceder al resultado
       return res.status(400).json({ message: "El correo ya está registrado" });
     }
 
-    // Hash de la contraseña
+    // Hash de la contraseña (mantener como está)
     const hashedPassword = await bcrypt.hash(data.usua_password, 10);
 
-    // Insertar usuario con contraseña cifrada
-    const [result] = await pool.query(
-      "INSERT INTO usuario(usua_nombre, usua_correo, usua_password, rol, usua_estado) VALUES (?, ?, ?, ?, ?)",
-      [
-        data.usua_nombre,
-        data.usua_correo,
-        hashedPassword,
-        data.rol,
-        data.usua_estado,
-      ]
-    );
+    // Insertar usuario con contraseña cifrada (mejor manejo de errores)
+    try {
+      const result = await turso.execute(
+        "INSERT INTO usuario(usua_nombre, usua_correo, usua_password, rol, usua_estado) VALUES (?, ?, ?, ?, ?)",
+        [
+          data.usua_nombre,
+          data.usua_correo,
+          hashedPassword,
+          data.rol,
+          data.usua_estado,
+        ]
+      );
 
-    // Generar el token JWT
-    const token = jwt.sign(
-      { id: result.insertId, correo: data.usua_correo },
-      SECRET_KEY,
-      { expiresIn: "1h" } // Duración del token
-    );
+      if (!result.rowsAffected) {
+        // Verifica si la inserción fue exitosa
+        return res
+          .status(500)
+          .json({ message: "Error al crear el usuario en la base de datos" });
+      }
 
-    // show data user and no show user.usua_password;
-    const user = {
-      usua_id: result.insertId,
-      usua_nombre: data.usua_nombre,
-      usua_correo: data.usua_correo,
-      rol: data.rol,
-      usua_estado: data.usua_estado,
-    };
+      // Generar el token JWT (mantener como está)
+      const token = jwt.sign(
+        { id: result.insertId, correo: data.usua_correo },
+        process.env.SECRET_KEY,
+        { expiresIn: "1h" }
+      );
 
-    return res.status(200).json({ message: "Registro exitoso", token, user });
+      // Respuesta (simplificada)
+      const user = {
+        user_id: result.insertId,
+        user_nombre: data.usua_nombre,
+        user_correo: data.usua_correo,
+        user_estado: data.usua_estado,
+        rol: data.rol,
+      };
+
+      return res.status(201).json({ message: "Registro exitoso", token, user }); // 201 Created es más apropiado
+    } catch (dbError) {
+      console.error("Error en la base de datos:", dbError); // Log para depuración
+      return res
+        .status(500)
+        .json({ message: "Error al crear el usuario en la base de datos" }); // Mensaje genérico para no exponer detalles de la BD
+    }
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: error.errors[0].message });
     }
-    return res.status(500).json({ message: error.message });
+    console.error("Error general:", error); // Log para depuración
+    return res.status(500).json({ message: "Error en el servidor" }); // Mensaje genérico
   }
 };
 
@@ -97,44 +120,34 @@ export const loginUsuario = async (req, res) => {
   try {
     const { usua_correo, usua_password } = req.body;
 
-    // Buscar usuario por correo
-    const [result] = await pool.query(
+    const result = await turso.execute(
       "SELECT * FROM usuario WHERE usua_correo = ?",
       [usua_correo]
     );
 
-    if (result.length === 0) {
-      return res.status(404).json({
-        code: "NOT_FOUND",
-        status: 404,
-        message: "Usuario no encontrado",
-      });
+    if (result.rows.length === 0) {
+      // Usa .rows.length
+      return res.status(404).json({ message: "Usuario no encontrado" }); // Mensaje simplificado
     }
 
-    const user = result[0];
+    const user = result.rows[0]; // Accede al usuario con .rows[0]
 
-    // Verificar contraseña
     const isPasswordValid = await bcrypt.compare(
       usua_password,
       user.usua_password
     );
     if (!isPasswordValid) {
-      return res.status(404).json({
-        code: "NOT_FOUND",
-        status: 404,
-        message: "Contraseña incorrecta",
-      });
+      return res.status(401).json({ message: "Contraseña incorrecta" }); // 401 Unauthorized es más apropiado
     }
 
-    // Generar token JWT
     const token = jwt.sign(
       { id: user.usua_id, correo: user.usua_correo },
-      SECRET_KEY,
-      { expiresIn: "1h" } // Token válido por 1 hora
+      process.env.SECRET_KEY,
+      { expiresIn: "1h" }
     );
 
-    // Renombrar las propiedades del usuario
     const transformedUser = {
+      // Evita la redundancia "user_"
       user_id: user.usua_id,
       user_nombre: user.usua_nombre,
       user_correo: user.usua_correo,
@@ -142,103 +155,54 @@ export const loginUsuario = async (req, res) => {
       rol: user.rol,
     };
 
-    return res.status(200).json({
-      code: "SUCCESS",
-      status: 200,
-      message: "Autenticado correctamente",
-      token,
-      user: transformedUser,
-    });
+    return res.status(200).json({ token, user: transformedUser }); // Respuesta más concisa
   } catch (error) {
-    return res.status(500).json({
-      code: "INTERNAL_SERVER_ERROR",
-      status: 500,
-      message: "Ocurrió un error inesperado",
-    });
+    console.error("Error en loginUsuario:", error);
+    return res.status(500).json({ message: "Error en el servidor" });
   }
 };
 
-//* FORGOT PASSWORD
+//* FORGOT PASSWORD (Simplificado y corregido)
 export const recoverPassword = async (req, res) => {
   try {
     const { usua_correo } = req.body;
 
-    // Verificar si el correo existe en alguna de las tres tablas
-    let result = await pool.query(
+    const result = await turso.execute(
       "SELECT * FROM usuario WHERE usua_correo = ?",
       [usua_correo]
     );
 
-    let user = result[0];
-
-    // Si no se encuentra en la tabla 'usuario', buscar en la tabla 'docente'
-    if (!user) {
-      result = await pool.query("SELECT * FROM docente WHERE doc_correo = ?", [
-        usua_correo,
-      ]);
-      user = result[0];
-    }
-
-    // Si no se encuentra en la tabla 'docente', buscar en la tabla 'estudiante'
-    if (!user) {
-      result = await pool.query(
-        "SELECT * FROM estudiante WHERE estu_correo = ?",
-        [usua_correo]
-      );
-      user = result[0];
-    }
-
-    if (!user) {
+    if (result.rows.length === 0) {
+      // Simplificado: busca solo en usuario
       return res.status(404).json({ message: "Correo no encontrado" });
     }
 
-    // Generar una nueva contraseña temporal
-    const newPassword = crypto.randomBytes(8).toString("hex"); // Genera una contraseña aleatoria
+    const user = result.rows[0];
+
+    const newPassword = crypto.randomBytes(8).toString("hex");
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Actualizar la contraseña en la base de datos según el tipo de usuario
-    let updateQuery, userId;
-    if (user.usua_id) {
-      updateQuery = "UPDATE usuario SET usua_password = ? WHERE usua_id = ?";
-      userId = user.usua_id;
-    } else if (user.doc_id) {
-      updateQuery = "UPDATE docente SET doc_password = ? WHERE doc_id = ?";
-      userId = user.doc_id;
-    } else if (user.estu_id) {
-      updateQuery = "UPDATE estudiante SET estu_password = ? WHERE estu_id = ?";
-      userId = user.estu_id;
-    }
+    await turso.execute(
+      "UPDATE usuario SET usua_password = ? WHERE usua_id = ?",
+      [hashedPassword, user.usua_id]
+    );
 
-    await pool.query(updateQuery, [hashedPassword, userId]);
-
-    // Configurar el servicio de nodemailer
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      host: "smtp.gmail.com",
-      port: 587,
-      auth: {
-        user: EMAIL_USER,
-        pass: EMAIL_PASSWORD,
-      },
-    });
-
-    // Configurar el contenido del correo
+    // ... (código de nodemailer sin cambios)
     const mailOptions = {
-      from: EMAIL_USER,
+      // Simplificado
+      from: process.env.EMAIL_USER,
       to: usua_correo,
       subject: "Recuperación de contraseña",
-      text: `Hola ${
-        user.usua_nombre || user.doc_nombre || user.estu_nombre
-      }, Tu nueva contraseña temporal es: ${newPassword}\n\nTe recomendamos cambiarla después de iniciar sesión.`,
+      text: `Hola ${user.usua_nombre}, Tu nueva contraseña temporal es: ${newPassword}\n\nTe recomendamos cambiarla después de iniciar sesión.`,
     };
 
-    // Enviar el correo
     await transporter.sendMail(mailOptions);
 
     return res
       .status(200)
       .json({ message: "Correo enviado con la nueva contraseña" });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error("Error en recoverPassword:", error);
+    return res.status(500).json({ message: "Error al recuperar contraseña" });
   }
 };

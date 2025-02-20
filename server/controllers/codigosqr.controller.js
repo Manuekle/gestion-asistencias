@@ -1,44 +1,44 @@
 //? CodigosQr Controllers
-import { pool } from "../db.js";
+import { turso } from "../db.js";
 import QRCode from "qrcode";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 //* GET
 export const getCodigoQr = async (req, res) => {
   try {
-    const [result] = await pool.query(
+    const result = await turso.execute(
       "SELECT * FROM codigo_qr WHERE codi_id = ?",
       [req.params.id]
     );
-    if (result.length === 0) {
-      return res.status(404).json({
-        code: "NOT_FOUND",
-        status: 404,
-        message: "Codigo no encontrado",
-      });
+    if (result.rows.length === 0) {
+      // Usa .rows.length
+      return res.status(404).json({ message: "Codigo no encontrado" }); // Mensaje simplificado
     }
-    return res.status(200).json(result[0]);
+    return res.status(200).json(result.rows[0]); // Usa .rows[0]
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error("Error en getCodigoQr:", error);
+    return res.status(500).json({ message: "Error al obtener código QR" }); // Mensaje genérico
   }
 };
 
-// Función para generar un token único
+// Función para generar un token único (sin cambios)
 function generateUniqueToken() {
   return Math.random().toString(36).substr(2, 9);
 }
 
-//TODO: CHECK URL
+//TODO: CHECK URL (sin cambios)
 export const checkUrlExistence = async (url) => {
   try {
-    const [result] = await pool.query(
-      "SELECT * FROM codigo_qr WHERE codi_qr_image = ?",
+    const result = await turso.execute(
+      "SELECT 1 FROM codigo_qr WHERE codi_qr_image = ?", // Optimizado: solo verifica existencia
       [url]
     );
-    return result.length > 0; // Devuelve true si existe, false si no
+    return result.rows.length > 0;
   } catch (error) {
-    throw new Error(
-      "Error al verificar la existencia de la URL: " + error.message
-    );
+    console.error("Error en checkUrlExistence:", error); // Log error
+    throw new Error("Error al verificar la existencia de la URL"); // Mensaje genérico
   }
 };
 
@@ -47,61 +47,50 @@ export const createCodigoQr = async (req, res) => {
   try {
     const { codi_valor, codi_clas_id } = req.body;
 
-    // Verificar el estado de la clase
-    const [clase] = await pool.query(
+    const clase = await turso.execute(
       "SELECT clas_estado FROM clase WHERE clas_id = ?",
       [codi_clas_id]
     );
 
-    if (clase[0].clas_estado === "finalizada") {
+    if (clase.rows.length === 0 || clase.rows[0].clas_estado === "finalizada") {
+      // Verifica si existe la clase y si está finalizada
       return res.status(400).json({
-        code: "NOT_FOUND",
-        status: 404,
         message:
-          "No se puede generar un código QR para una clase ya finalizada.",
+          "No se puede generar un código QR para una clase ya finalizada o inexistente.",
       });
     }
 
-    // Generar un token único para el QR
     const token = generateUniqueToken();
-    const qrData = `http://localhost:5173/attendance?id=${codi_clas_id}&token=${token}`;
+    const qrData = `${process.env.VITE_REACT_APP_URL_DEVELOPMENT}/attendance?id=${codi_clas_id}&token=${token}`; // Usar variable de entorno para la URL del frontend
 
-    // Verificar si la URL ya existe en la base de datos
     const urlExistente = await checkUrlExistence(qrData);
 
     if (urlExistente) {
-      // Si la URL ya existe, devolver el QR correspondiente
-      const [existingQr] = await pool.query(
+      const existingQr = await turso.execute(
         "SELECT codi_id, codi_qr_image, codi_url FROM codigo_qr WHERE codi_url = ?",
         [qrData]
       );
       return res.status(200).json({
-        code: "SUCCESS",
-        status: 200,
         message: "Código QR ya existe para esta URL",
-        codi_id: existingQr[0].codi_id,
-        codi_qr_image: existingQr[0].codi_qr_image,
-        codi_url: existingQr[0].codi_url,
+        codi_id: existingQr.rows[0].codi_id,
+        codi_qr_image: existingQr.rows[0].codi_qr_image,
+        codi_url: existingQr.rows[0].codi_url,
       });
     }
 
-    // Generar el QR en formato Base64
     const qrImage = await QRCode.toDataURL(qrData);
 
-    // Eliminar códigos QR anteriores para la misma clase
-    await pool.query("DELETE FROM codigo_qr WHERE codi_clas_id = ?", [
+    await turso.execute("DELETE FROM codigo_qr WHERE codi_clas_id = ?", [
       codi_clas_id,
     ]);
 
-    // Insertar el nuevo código QR con la URL
-    const [result] = await pool.query(
+    const result = await turso.execute(
       "INSERT INTO codigo_qr (codi_valor, codi_clas_id, codi_qr_image, codi_url) VALUES (?, ?, ?, ?)",
       [codi_valor, codi_clas_id, qrImage, qrData]
     );
 
-    return res.status(200).json({
-      code: "SUCCESS",
-      status: 200,
+    return res.status(201).json({
+      // 201 Created
       message: "Código QR generado con éxito",
       codi_id: result.insertId,
       qrData,
@@ -109,6 +98,7 @@ export const createCodigoQr = async (req, res) => {
       codi_url: qrData,
     });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error("Error en createCodigoQr:", error);
+    return res.status(500).json({ message: "Error al crear código QR" });
   }
 };

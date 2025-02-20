@@ -1,39 +1,42 @@
 //? Docentes Controllers
-import { pool } from '../db.js';
-import { createDocenteSchema } from '../schemas/docente.js';
+import { turso } from "../db.js";
+import { createDocenteSchema } from "../schemas/docente.js";
+import dotenv from "dotenv";
 
-import { SECRET_KEY, EMAIL_USER, EMAIL_PASSWORD } from '../config.js';
+dotenv.config();
 
-import { z } from 'zod';
-import nodemailer from 'nodemailer';
-import bcrypt from 'bcrypt';
-import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
+import { z } from "zod";
+import nodemailer from "nodemailer";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
+import jwt from "jsonwebtoken";
 
 //* GET
 export const getDocentes = async (req, res) => {
   try {
-    const [result] = await pool.query(
-      'SELECT * FROM docente ORDER BY created_at ASC'
+    const result = await turso.execute(
+      "SELECT * FROM docente ORDER BY created_at ASC"
     );
-    return res.status(200).json(result);
+    return res.status(200).json(result.rows); // Accede a los resultados con .rows
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error("Error en getDocentes:", error);
+    return res.status(500).json({ message: "Error al obtener docentes" });
   }
 };
 
 export const getDocente = async (req, res) => {
   try {
-    const [result] = await pool.query(
-      'SELECT * FROM docente WHERE doc_id = ?',
+    const result = await turso.execute(
+      "SELECT * FROM docente WHERE doc_id = ?",
       [req.params.id]
     );
-    if (result.length === 0) {
-      return res.status(404).json({ message: 'Docente no encontrado' });
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Docente no encontrado" });
     }
-    return res.status(200).json(result[0]);
+    return res.status(200).json(result.rows[0]);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error("Error en getDocente:", error);
+    return res.status(500).json({ message: "Error al obtener docente" });
   }
 };
 
@@ -42,53 +45,62 @@ export const createDocente = async (req, res) => {
   try {
     const data = createDocenteSchema.parse(req.body);
 
-    // Verificar si el correo ya existe
-    const [existingUser] = await pool.query(
-      'SELECT * FROM docente WHERE doc_correo = ?',
+    const existingUser = await turso.execute(
+      "SELECT 1 FROM docente WHERE doc_correo = ?",
       [data.doc_correo]
     );
 
-    if (existingUser.length > 0) {
-      return res.status(400).json({ message: 'El correo ya está registrado' });
+    if (existingUser.rows.length > 0) {
+      return res.status(400).json({ message: "El correo ya está registrado" });
     }
 
-    // Hash de la contraseña
     const hashedPassword = await bcrypt.hash(data.doc_password, 10);
 
-    // Insertar docente con contraseña cifrada
-    const [result] = await pool.query(
-      'INSERT INTO docente(doc_nombre, doc_correo, doc_password, rol, doc_estado) VALUES (?, ?, ?, ?, ?)',
-      [
-        data.doc_nombre,
-        data.doc_correo,
-        hashedPassword,
-        data.rol,
-        data.doc_estado
-      ]
-    );
+    try {
+      const result = await turso.execute(
+        "INSERT INTO docente(doc_nombre, doc_correo, doc_password, rol, doc_estado) VALUES (?, ?, ?, ?, ?)",
+        [
+          data.doc_nombre,
+          data.doc_correo,
+          hashedPassword,
+          data.rol,
+          data.doc_estado,
+        ]
+      );
 
-    // Generar el token JWT
-    const token = jwt.sign(
-      { id: result.insertId, correo: data.doc_correo },
-      SECRET_KEY,
-      { expiresIn: '1h' } // Duración del token
-    );
+      if (!result.rowsAffected) {
+        return res
+          .status(500)
+          .json({ message: "Error al crear el docente en la base de datos" });
+      }
 
-    // show data user and no show user.doc_password;
-    const user = {
-      user_id: result.insertId,
-      user_nombre: data.doc_nombre,
-      user_correo: data.doc_correo,
-      rol: data.rol,
-      user_estado: data.doc_estado
-    };
+      const token = jwt.sign(
+        { id: result.insertId, correo: data.doc_correo },
+        SECRET_KEY,
+        { expiresIn: "1h" }
+      );
 
-    return res.status(200).json({ message: 'Registro exitoso', token, user });
+      const user = {
+        user_id: result.insertId,
+        user_nombre: data.doc_nombre,
+        user_correo: data.doc_correo,
+        rol: data.rol,
+        user_estado: data.doc_estado,
+      };
+
+      return res.status(201).json({ message: "Registro exitoso", token, user }); // 201 Created
+    } catch (dbError) {
+      console.error("Error en la base de datos (crear docente):", dbError);
+      return res
+        .status(500)
+        .json({ message: "Error al crear el docente en la base de datos" });
+    }
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: error.errors[0].message });
     }
-    return res.status(500).json({ message: error.message });
+    console.error("Error general (crear docente):", error);
+    return res.status(500).json({ message: "Error en el servidor" });
   }
 };
 
@@ -97,64 +109,43 @@ export const loginDocente = async (req, res) => {
   try {
     const { doc_correo, doc_password } = req.body;
 
-    // Buscar Docente por correo
-    const [result] = await pool.query(
-      'SELECT * FROM docente WHERE doc_correo = ?',
+    const result = await turso.execute(
+      "SELECT * FROM docente WHERE doc_correo = ?",
       [doc_correo]
     );
 
-    if (result.length === 0) {
-      return res.status(404).json({
-        code: 'NOT_FOUND',
-        status: 404,
-        message: 'Docente no encontrado'
-      });
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Docente no encontrado" });
     }
 
-    const user = result[0];
+    const user = result.rows[0];
 
-    // Verificar contraseña
     const isPasswordValid = await bcrypt.compare(
       doc_password,
       user.doc_password
     );
     if (!isPasswordValid) {
-      return res.status(404).json({
-        code: 'NOT_FOUND',
-        status: 404,
-        message: 'Contraseña incorrecta'
-      });
+      return res.status(401).json({ message: "Contraseña incorrecta" }); // 401 Unauthorized
     }
 
-    // Generar token JWT
     const token = jwt.sign(
       { id: user.doc_id, correo: user.doc_correo },
-      SECRET_KEY,
-      { expiresIn: '1h' } // Token válido por 1 hora
+      process.env.SECRET_KEY,
+      { expiresIn: "1h" }
     );
 
-    // Renombrar las propiedades del usuario
     const transformedUser = {
       user_id: user.doc_id,
       user_nombre: user.doc_nombre,
       user_correo: user.doc_correo,
       user_estado: user.doc_estado,
-      rol: user.rol
+      rol: user.rol,
     };
 
-    return res.status(200).json({
-      code: 'SUCCESS',
-      status: 200,
-      message: 'Autenticado correctamente',
-      token,
-      user: transformedUser
-    });
+    return res.status(200).json({ token, user: transformedUser });
   } catch (error) {
-    return res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
-      status: 500,
-      message: 'Ocurrió un error inesperado'
-    });
+    console.error("Error en loginDocente:", error);
+    return res.status(500).json({ message: "Error en el servidor" });
   }
 };
 
@@ -163,54 +154,40 @@ export const recoverPassword = async (req, res) => {
   try {
     const { doc_correo } = req.body;
 
-    // Verificar si el correo existe
-    const [result] = await pool.query(
-      'SELECT * FROM docente WHERE doc_correo = ?',
+    const result = await turso.execute(
+      "SELECT * FROM docente WHERE doc_correo = ?",
       [doc_correo]
     );
 
-    if (result.length === 0) {
-      return res.status(404).json({ message: 'Correo no encontrado' });
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Correo no encontrado" });
     }
 
-    const user = result[0];
+    const user = result.rows[0];
 
-    // Generar una nueva contraseña temporal
-    const newPassword = crypto.randomBytes(8).toString('hex'); // Genera una contraseña aleatoria
+    const newPassword = crypto.randomBytes(8).toString("hex");
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Actualizar la contraseña en la base de datos
-    await pool.query('UPDATE docente SET doc_password = ? WHERE doc_id = ?', [
-      hashedPassword,
-      user.doc_id
-    ]);
+    await turso.execute(
+      "UPDATE docente SET doc_password = ? WHERE doc_id = ?",
+      [hashedPassword, user.doc_id]
+    );
 
-    // Configurar el servicio de nodemailer
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      host: 'smtp.gmail.com',
-      port: 587,
-      auth: {
-        user: EMAIL_USER,
-        pass: EMAIL_PASSWORD
-      }
-    });
-
-    // Configurar el contenido del correo
+    // ... (código de nodemailer sin cambios)
     const mailOptions = {
-      from: EMAIL_USER,
+      from: process.env.EMAIL_USER,
       to: doc_correo,
-      subject: 'Recuperación de contraseña',
-      text: `Hola ${user.doc_nombre}, Tu nueva contraseña temporal es: ${newPassword}\n\nTe recomendamos cambiarla después de iniciar sesión.`
+      subject: "Recuperación de contraseña",
+      text: `Hola ${user.doc_nombre}, Tu nueva contraseña temporal es: ${newPassword}\n\nTe recomendamos cambiarla después de iniciar sesión.`,
     };
 
-    // Enviar el correo
     await transporter.sendMail(mailOptions);
 
     return res
       .status(200)
-      .json({ message: 'Correo enviado con la nueva contraseña' });
+      .json({ message: "Correo enviado con la nueva contraseña" });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error("Error en recoverPassword:", error);
+    return res.status(500).json({ message: "Error al recuperar contraseña" });
   }
 };

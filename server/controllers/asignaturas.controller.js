@@ -1,18 +1,27 @@
 //? Asignaturas Controllers
-import { pool } from '../db.js';
+import { turso } from "../db.js";
 
 //* GET
 export const getAsignaturasByDocente = async (req, res) => {
   try {
-    const docenteId = req.params.docenteId; // Obtén el ID del docente de los parámetros de la URL
+    const docenteId = req.params.docenteId;
 
-    const [result] = await pool.query(
-      'SELECT * FROM asignatura WHERE asig_docente_id = ?', // Ajusta la consulta para buscar por ID de docente
+    const result = await turso.execute(
+      "SELECT * FROM asignatura WHERE asig_docente_id = ?",
       [docenteId]
     );
 
-    return res.status(200).json(result); // Devuelve un array con todas las asignaturas
+    // if (result.rows.length === 0) {
+    //   // Verifica si hay resultados
+    //   return res.status(404).json({
+    //     message: "No se encontraron asignaturas para este docente.",
+    //     result: result.rows,
+    //   });
+    // }
+
+    return res.status(200).json(result.rows); // Devuelve result.rows
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error("Error en getAsignaturasByDocente:", error); // Log para depuración
+    return res.status(500).json({ message: "Error al obtener asignaturas" }); // Mensaje genérico
   }
 };

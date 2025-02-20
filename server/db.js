@@ -1,17 +1,9 @@
-import dotenv from 'dotenv';
-import { createPool } from 'mysql2/promise';
+import dotenv from "dotenv";
+import { createClient } from "@libsql/client";
 
 dotenv.config();
 
-const pool = createPool({
-  host: process.env.BD_HOSTNAME,
-  port: process.env.BD_PORT,
-  user: process.env.BD_USER,
-  database: process.env.BD_NAME,
-  password: process.env.BD_PASSWORD,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+export const turso = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
 });
-
-export { pool };

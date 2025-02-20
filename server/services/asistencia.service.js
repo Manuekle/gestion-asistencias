@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import { pool } from '../db.js';
-import { fileURLToPath } from 'url';
+import fs from "fs";
+import path from "path";
+import { turso } from "../db.js";
+import { fileURLToPath } from "url";
 
 // Simular __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 export const generarReporteCSV = async (mes, anio, docenteId) => {
   try {
-    const [rows] = await pool.query(
+    const [rows] = await turso.execute(
       `SELECT 
         c.clas_fecha AS fecha,
         a.asig_nombre AS asignatura,
@@ -29,14 +29,14 @@ export const generarReporteCSV = async (mes, anio, docenteId) => {
 
     // Construir contenido CSV
     let csvContent =
-      'Fecha,Asignatura,Hora Inicio,Hora Fin,Estado,Estudiante,Asistencia\n';
+      "Fecha,Asignatura,Hora Inicio,Hora Fin,Estado,Estudiante,Asistencia\n";
     rows.forEach((row) => {
       csvContent += `${row.fecha},${row.asignatura},${row.hora_inicio},${row.hora_fin},${row.estado},${row.estudiante},${row.asistencia}\n`;
     });
 
     // Crear una carpeta con la fecha de envío
-    const fechaActual = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
-    const carpetaReportes = path.resolve('../mails', fechaActual); // Carpeta en ../mails/<fecha>
+    const fechaActual = new Date().toISOString().split("T")[0]; // Formato YYYY-MM-DD
+    const carpetaReportes = path.resolve("../mails", fechaActual); // Carpeta en ../mails/<fecha>
 
     // Crear la carpeta si no existe
     if (!fs.existsSync(carpetaReportes)) {
@@ -54,7 +54,7 @@ export const generarReporteCSV = async (mes, anio, docenteId) => {
 
     return rutaArchivo;
   } catch (error) {
-    console.error('Error al generar el reporte CSV:', error);
+    console.error("Error al generar el reporte CSV:", error);
     throw error;
   }
 };
