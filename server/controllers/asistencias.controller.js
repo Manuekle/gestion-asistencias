@@ -4,33 +4,38 @@ import { turso } from "../db.js";
 //? POST
 export const createAsistencia = async (req, res) => {
   try {
-    const { estu_id, clas_id, qr_url } = req.body;
+    const { estu_id, clas_id, qr_url } = req.body; // Recibimos los IDs del estudiante, la clase y la URL del QR // 1. Verificar si la URL proporcionada es válida
 
-    // 1. Verificar si la URL proporcionada es válida
     const qrUrlExistente = await turso.execute(
-      "SELECT 1 FROM codigo_qr WHERE codi_url = ?", // Optimizado: solo verifica si existe
+      "SELECT * FROM codigo_qr WHERE codi_url = ?",
       [qr_url]
     );
 
     if (qrUrlExistente.rows.length === 0) {
       return res.status(400).json({
-        message: "La URL del código QR no es válida o no existe.", // Mensaje simplificado
+        code: "NOT_FOUND",
+        status: 400,
+        message: "La URL del código QR no es válida o no existe.",
       });
     }
 
     // 2. Verificar si el usuario es un estudiante
+
     const estudiante = await turso.execute(
-      "SELECT 1 FROM estudiante WHERE estu_id = ?", // Optimizado: solo verifica si existe
+      "SELECT estu_id FROM estudiante WHERE estu_id = ?",
       [estu_id]
     );
 
     if (estudiante.rows.length === 0) {
       return res.status(403).json({
+        code: "NOT_FOUND",
+        status: 403,
         message: "El usuario no es un estudiante.",
       });
     }
 
     // 3. Obtener la fecha y horario de la clase
+
     const clase = await turso.execute(
       "SELECT clas_fecha, clas_hora_inicio, clas_hora_fin FROM clase WHERE clas_id = ?",
       [clas_id]
@@ -38,64 +43,82 @@ export const createAsistencia = async (req, res) => {
 
     if (clase.rows.length === 0) {
       return res.status(404).json({
+        code: "NOT_FOUND",
+        status: 404,
         message: "La clase no existe.",
       });
     }
 
-    const { clas_fecha, clas_hora_inicio, clas_hora_fin } = clase.rows[0]; // Accede con .rows[0]
-
-    const now = new Date();
-    const fechaActual = now.toISOString().split("T")[0];
-    const horaActual = now.toTimeString().split(" ")[0].substring(0, 5);
+    const { clas_fecha, clas_hora_inicio, clas_hora_fin } = clase.rows[0]; // Obtener la fecha y hora actual
 
     // 4. Verificar si hoy es el día de la clase
-    if (fechaActual !== clas_fecha.toISOString().split("T")[0]) {
+    const now = new Date();
+
+    // Ajustar la fecha a la zona horaria local y extraer solo la parte de la fecha
+    const fechaActual = new Date(
+      now.getTime() - now.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
+
+    const horaActual = now.toTimeString().split(" ")[0].substring(0, 5); // HH:MM //
+
+    console.log("Fecha actual:", fechaActual);
+
+    // Eliminar la parte después de la "T" en `clas_fecha`
+    const fechaClase = clas_fecha.split("T")[0]; // Extraer solo la fecha
+    console.log("Fecha de la clase:", fechaClase);
+
+    // Comparar la fecha actual con la fecha de la clase
+    if (fechaActual !== fechaClase) {
       return res.status(400).json({
+        code: "NOT_FOUND",
+        status: 400,
         message: "No es el día de la clase.",
       });
     }
 
     // 5. Verificar si la asistencia se registra dentro del horario permitido
+
     if (horaActual < clas_hora_inicio || horaActual > clas_hora_fin) {
       return res.status(400).json({
+        code: "NOT_FOUND",
+        status: 400,
         message: "No es la hora de la clase.",
       });
     }
 
     // 6. Verificar si ya existe una asistencia para este estudiante en esta clase en la fecha actual
+
     const asistenciaExistente = await turso.execute(
-      "SELECT 1 FROM asistencia WHERE asis_estu_id = ? AND asis_clas_id = ? AND asis_fecha = CURDATE()", // Optimizado
-      [estu_id, clas_id]
+      "SELECT * FROM asistencia WHERE asis_estu_id = ? AND asis_clas_id = ? AND asis_fecha = ?",
+      [estu_id, clas_id, fechaActual]
     );
 
     if (asistenciaExistente.rows.length > 0) {
       return res.status(400).json({
+        code: "NOT_FOUND",
+        status: 400,
         message:
           "La asistencia para este estudiante en esta clase ya ha sido registrada hoy.",
       });
     }
 
     // 7. Insertar la nueva asistencia
+
     const result = await turso.execute(
-      "INSERT INTO asistencia (asis_estu_id, asis_clas_id, asis_fecha, asis_estado) VALUES (?, ?, CURDATE(), 'presente')",
-      [estu_id, clas_id]
+      "INSERT INTO asistencia (asis_estu_id, asis_clas_id, asis_fecha, asis_estado) VALUES (?, ?, ?, 'presente')",
+      [estu_id, clas_id, fechaActual]
     );
 
-    if (!result.rowsAffected) {
-      // Verifica si la inserción fue exitosa
-      return res.status(500).json({
-        message: "Error al registrar la asistencia en la base de datos",
-      });
-    }
-
-    return res.status(201).json({
-      // 201 Created
+    return res.status(200).json({
+      code: "SUCCESS",
+      status: 200,
       message: "Asistencia registrada exitosamente.",
       id: result.insertId,
     });
   } catch (error) {
-    console.error("Error en createAsistencia:", error); // Log para depuración
-    return res.status(500).json({ message: "Error al registrar asistencia" }); // Mensaje genérico
+    return res.status(500).json({ message: error.message });
   }
 };
 

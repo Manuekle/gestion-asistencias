@@ -1,10 +1,14 @@
-import { Router } from 'express';
+import { Router } from "express";
 
-import { enviarReporteCorreo } from '../controllers/reportes.controller.js';
+import {
+  enviarReporteMes,
+  enviarReporteClase,
+} from "../controllers/reportes.controller.js";
 
 const router = Router();
 
 //* GET
-router.post('/send', enviarReporteCorreo);
+router.post("/docente/send", enviarReporteMes);
+router.post("/clase/send", enviarReporteClase);
 
 export default router;

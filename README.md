@@ -13,51 +13,46 @@ Este es un prototipo de software para la **gestión de asistencias** en la FUP, 
 
 ## ⚙️ Tecnologías Utilizadas
 
-- **Frontend:** React, Tailwind CSS, shadcn/ui, heroUI  
-- **Backend:** Node.js  
-- **Base de Datos:** MySQL  
-- **Seguridad:** Autenticación basada en tokens, validación de QR  
+- **Frontend:** React, Tailwind CSS, shadcn/ui, heroUI
+- **Backend:** Node.js
+- **Base de Datos:** MySQL
+- **Seguridad:** Autenticación basada en tokens, validación de QR
 - **Herramientas de Desarrollo:** Visual Studio, Postman, Docker (opcional)
 
 ## 🗒️ Checklist de Módulos
 
 ### 🗂️ **Módulos Principales**
 
-- [X] **Gestión de Usuarios**
-  - [X] Registro de usuarios
-  - [X] Inicio de sesión con autenticación
-  - [X] Gestión de roles (administrador, docente, estudiante)
-  
-- [X] **Gestión de Clases**
-  - [X] Creación y edición de clases
-  - [X] Asignación de docentes y asignaturas
+- [x] **Gestión de Usuarios**
+  - [x] Registro de usuarios
+  - [x] Inicio de sesión con autenticación
+  - [x] Gestión de roles (administrador, docente, estudiante)
+- [x] **Gestión de Clases**
+  - [x] Creación y edición de clases
+  - [x] Asignación de docentes y asignaturas
   - [ ] Visualización del horario
-  
-- [X] **Generación de Códigos QR**
-  - [X] Botón para generar QR en la vista del docente
-  - [X] Mostrar QR con tiempo de validez limitado
-  - [X] Integración con el backend para tokens únicos
-  
-- [X] **Registro de Asistencias**
-  - [X] Escaneo de QR por parte de los estudiantes
-  - [X] Registro automático de la asistencia en la base de datos
+- [x] **Generación de Códigos QR**
+  - [x] Botón para generar QR en la vista del docente
+  - [x] Mostrar QR con tiempo de validez limitado
+  - [x] Integración con el backend para tokens únicos
+- [x] **Registro de Asistencias**
+  - [x] Escaneo de QR por parte de los estudiantes
+  - [x] Registro automático de la asistencia en la base de datos
   - [ ] Validación de la ubicación y hora
-  
-- [X] **Visualización de Asistencias**
-  - [X] Tabla de estudiantes por clase (vista del docente)
+- [x] **Visualización de Asistencias**
+  - [x] Tabla de estudiantes por clase (vista del docente)
   - [ ] Modificación manual del estado de asistencia
   - [ ] Filtros por fecha, estado, y asignatura
-  
 - [ ] **Reportes**
-  - [ ] Generación de reportes de asistencia
-  - [ ] Exportación a PDF/Excel
+  - [x] Generación de reportes de asistencia
+  - [x] Exportación a PDF/Excel
   - [ ] Gráficos de estadísticas de asistencia
 
 ## 🗓️ Cronograma de Desarrollo
 
-- **Enero:** Documentación del proyecto, estado del arte, marco teórico. ✅  
-- **Febrero - Marzo:** Desarrollo del backend (API, base de datos, lógica de negocio).  
-- **Abril - Mayo:** Desarrollo del frontend (interfaces, conexión con la API, pruebas).  
+- **Enero:** Documentación del proyecto, estado del arte, marco teórico. ✅
+- **Febrero - Marzo:** Desarrollo del backend (API, base de datos, lógica de negocio).
+- **Abril - Mayo:** Desarrollo del frontend (interfaces, conexión con la API, pruebas).
 - **Junio:** Pruebas finales, optimización, entrega del proyecto.
 
 ## 🤝 Contribuciones
