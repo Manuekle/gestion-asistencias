@@ -15,7 +15,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api", apiRoutes);
-
 app.use(express.static(join(__dirname, "../client/dist")));
 
 app.listen(process.env.PORT, process.env.HOSTNAME);
