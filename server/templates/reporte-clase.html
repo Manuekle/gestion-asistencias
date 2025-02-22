@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Asistencia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="p-8">
+    <h1 class="text-2xl font-bold text-center">Reporte de Asistencia</h1>
+    <p class="mt-4"><strong>Fecha:</strong> {{fecha}}</p>
+    <p><strong>Hora Inicio:</strong> {{horaInicio}}</p>
+    <p><strong>Hora Fin:</strong> {{horaFin}}</p>
+    <p><strong>Asignatura:</strong> {{asignatura}}</p>
+
+    <h2 class="text-lg font-semibold mt-6">Lista de Estudiantes</h2>
+    <table class="w-full border-collapse border border-gray-300 mt-2">
+        <thead>
+            <tr class="bg-gray-200">
+                <th class="border border-gray-300 px-4 py-2">#</th>
+                <th class="border border-gray-300 px-4 py-2">Nombre</th>
+                <th class="border border-gray-300 px-4 py-2">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{tablaEstudiantes}}
+        </tbody>
+    </table>
+</body>
+
+</html>

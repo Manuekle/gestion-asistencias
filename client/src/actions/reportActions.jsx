@@ -26,7 +26,7 @@ export const createReport =
       };
 
       const { data } = await axios.post(
-        `${dev}/reporte/send`,
+        `${dev}/reporte/docente/send`,
         {
           mes,
           anio,
