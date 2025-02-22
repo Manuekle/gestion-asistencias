@@ -39,16 +39,16 @@ function HomePage() {
       <Navbar />
       <section className="w-full flex flex-col gap-10 justify-center items-center pt-10 pb-32">
         <span className="flex flex-col items-center gap-2">
-          <h1 className="text-6xl font-bold text-zinc-600 bg-[#FAFBFD] px-5">
+          <h1 className="text-5xl md:text-6xl text-center font-bold text-zinc-600 bg-[#FAFBFD] px-5">
             <strong className="text-zinc-800">Bienvenido a</strong> edu
             <strong className="text-amber-400">Track</strong>
           </h1>
-          <p className="text-zinc-800 text-sm tracking-wide text-center py-2 bg-[#FAFBFD] px-8">
+          <p className="text-zinc-800 text-xs md:text-sm tracking-wide text-center py-2 bg-[#FAFBFD] px-8">
             Simplifica el registro de asistencia con tecnología QR.
             <br /> Diseñado para instituciones educativas modernas.
           </p>
         </span>
-        <span className="flex flex-row gap-8 items-center justify-center">
+        <span className="flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-center">
           <Link
             to="/auth/docente/login"
             className="bg-zinc-800 flex flex-row items-center justify-center gap-2 text-white text-sm rounded-lg hover:shadow-lg shadow-md px-6 py-2"
@@ -67,17 +67,17 @@ function HomePage() {
           </Link>
         </span>
       </section>
-      <section className="w-full flex flex-col gap-10 justify-center items-center pt-10 pb-32">
+      <section className="w-full flex flex-col gap-10 justify-center items-center pt-2 md:pt-10 pb-12 md:pb-32">
         <span className="flex flex-col items-center gap-2">
-          <h1 className="text-6xl font-bold text-zinc-800 bg-[#FAFBFD] px-5">
+          <h1 className="text-4xl md:text-6xl text-center font-bold text-zinc-800 bg-[#FAFBFD] px-5">
             Características Principales
           </h1>
           <p className="text-zinc-800 text-sm tracking-wide text-center py-2 bg-[#FAFBFD] px-8">
             Todo lo que necesitas para una gestión de asistencia eficiente
           </p>
         </span>
-        <span className="flex flex-row gap-8 items-center justify-center">
-          <div className="w-80 h-48 border bg-zinc-50 flex flex-col items-center justify-center gap-2 text-zinc-800 text-sm rounded-lg shadow-md px-6 py-6">
+        <span className="px-2 md:px-20 xl:px-48 2xl:px-64 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 place-items-center w-full">
+          <div className="col-span-1 w-80 h-48 border bg-zinc-50 flex flex-col items-center justify-center gap-2 text-zinc-800 text-sm rounded-lg shadow-md px-6 py-6">
             <span className="border p-2 rounded-full">
               <QrCodeIcon size={18} color="#000" variant="stroke" />
             </span>
@@ -86,7 +86,7 @@ function HomePage() {
               Escanea y registra asistencia en segundos con códigos QR dinámicos
             </text>
           </div>
-          <div className="w-80 h-48 border bg-zinc-50 flex flex-col items-center justify-center gap-2 text-zinc-800 text-sm rounded-lg shadow-md px-6 py-6">
+          <div className="col-span-1 w-80 h-48 border bg-zinc-50 flex flex-col items-center justify-center gap-2 text-zinc-800 text-sm rounded-lg shadow-md px-6 py-6">
             <span className="border p-2 rounded-full">
               <Timer02Icon size={18} color="#000" variant="stroke" />
             </span>
@@ -95,7 +95,7 @@ function HomePage() {
               Visualiza y analiza los datos de asistencia al instante
             </text>
           </div>
-          <div className="w-80 h-48 border bg-zinc-50 flex flex-col items-center justify-center gap-2 text-zinc-800 text-sm rounded-lg shadow-md px-6 py-6">
+          <div className="md:col-span-2 md:justify-self-center xl:col-span-1 xl:justify-self-auto w-80 h-48 border bg-zinc-50 flex flex-col items-center justify-center gap-2 text-zinc-800 text-sm rounded-lg shadow-md px-6 py-6">
             <span className="border p-2 rounded-full">
               <UserGroupIcon size={18} color="#000" variant="stroke" />
             </span>
@@ -106,13 +106,15 @@ function HomePage() {
           </div>
         </span>
       </section>
-      <section className="bg-zinc-900 px-48 flex flex-row items-center py-32">
+      <section className="bg-zinc-900 px-8 md:px-20 lg:px-40 xl:px-48 flex flex-col lg:flex-row justify-center items-center gap-16 xl:gap-0 py-20 md:py-32">
         <span className="w-full">
-          <h1 className="text-white font-bold text-4xl">Cómo Funciona</h1>
-          <p className="text-zinc-300 text-sm">
+          <h1 className="text-white font-bold text-2xl md:text-4xl">
+            Cómo Funciona
+          </h1>
+          <p className="text-zinc-300 text-xs md:text-sm">
             Un proceso simple y eficiente para el registro de asistencia
           </p>
-          <div className="space-y-6 my-4">
+          <div className="space-y-6 my-8 md:my-4">
             {[
               {
                 title: 'Genera el código QR',
@@ -131,12 +133,16 @@ function HomePage() {
               }
             ].map((step, i) => (
               <div key={i} className="flex gap-4 items-start">
-                <div className="w-8 h-8 rounded-full font-bold bg-amber-400 text-white flex items-center justify-center flex-shrink-0">
+                <div className="md:w-8 w-6 md:h-8 h-6 text-xs md:text-sm rounded-full font-bold bg-amber-400 text-white flex items-center justify-center flex-shrink-0">
                   {i + 1}
                 </div>
                 <div className="space-y-1">
-                  <h3 className="font-bold text-white text-sm">{step.title}</h3>
-                  <p className="text-zinc-400 text-sm">{step.description}</p>
+                  <h3 className="font-bold text-white text-xs md:text-sm">
+                    {step.title}
+                  </h3>
+                  <p className="text-zinc-400 text-xs md:text-sm">
+                    {step.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -145,8 +151,8 @@ function HomePage() {
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-amber-100 to-zinc-100 rounded-2xl transform rotate-6" />
           <div className="relative bg-white p-6 rounded-2xl shadow-lg">
-            <div className="w-full flex justify-center">
-              <SvgQr />
+            <div className="w-full flex justify-center py-8">
+              <SvgQr className="w-32 h-32 md:w-56 md:h-56" />
             </div>
             <div className="p-4 w-full flex flex-col gap-2 bg-zinc-900 rounded-lg">
               <div className="w-full flex flex-col py-4">
@@ -171,12 +177,14 @@ function HomePage() {
           </div>
         </div>
       </section>
-      <section className="px-48 py-32">
+      <section className="px-8 md:px-20 xl:px-48 py-32">
         <div className="grid gap-12 lg:grid-cols-2 items-center">
-          <div className="space-y-8">
-            <h1 className="text-zinc-900 font-bold text-6xl">El Proyecto</h1>
+          <div className="space-y-2 md:space-y-2 xl:space-y-8">
+            <h1 className="text-zinc-900 font-bold text-4xl md:text-5xl xl:text-6xl">
+              El Proyecto
+            </h1>
             <span className="flex flex-col gap-2 py-4 bg-[#FAFBFD]">
-              <p className="text-md text-wrap">
+              <p className="text-sm md:text-md text-wrap">
                 <strong className="text-gray-500">edu</strong>
                 <strong className="text-amber-400">Track</strong> nació como un
                 proyecto universitario en la Fundacion Universitaria de Popayan
@@ -185,7 +193,7 @@ function HomePage() {
                 transformar la manera en que se gestiona la asistencia,
                 haciéndola más eficiente y confiable.
               </p>
-              <p className="text-md text-wrap">
+              <p className="text-sm md:text-md text-wrap">
                 Este proyecto fue desarrollado como parte de nuestro trabajo de
                 grado, buscando resolver problemas reales en la educación
                 mediante el uso de tecnologías modernas. La implementación de
@@ -193,8 +201,8 @@ function HomePage() {
                 proporciona datos precisos para el seguimiento académico.
               </p>
             </span>
-            <div className="flex flex-col sm:flex-row gap-12">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row gap-8 md:gap-12">
+              <div className="flex items-center gap-2 md:gap-4">
                 <div className="w-12 h-12 rounded-full border flex items-center justify-center">
                   <GraduationScrollIcon
                     size={18}
@@ -228,23 +236,26 @@ function HomePage() {
           </div>
         </div>
       </section>
-      <section className="bg-zinc-900 w-full flex flex-col gap-10 justify-center items-center py-32">
+      {/* responsive 👌 */}
+      <section className="bg-zinc-900 w-full flex flex-col gap-10 justify-center items-center py-20 xl:py-32">
         <span className="flex flex-col items-center gap-2">
-          <h1 className="text-6xl font-bold text-white px-5">Nuestro Equipo</h1>
-          <p className="text-zinc-300 text-sm tracking-wide text-center py-2 px-8">
+          <h1 className="text-4xl md:text-6xl font-bold text-white text-center px-5">
+            Nuestro Equipo
+          </h1>
+          <p className="text-zinc-300 text-xs md:text-sm tracking-wide text-center py-2 px-8">
             Conoce a los estudiantes y docentes detrás de{' '}
             <strong className="text-gray-300">edu</strong>
             <strong className="text-amber-400">Track</strong>
           </p>
         </span>
-        <span className="flex flex-row gap-32 items-center justify-center py-10">
+        <span className="flex flex-col md:flex-row gap-12 md:gap-32 items-center justify-center py-10 xl:px-0">
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-white text-lg pb-12 text-left w-full font-bold">
+            <h1 className="text-white text-lg pb-6 md:pb-12 text-left w-full font-bold">
               Estudiantes
             </h1>
             <span className="flex flex-col gap-8">
-              <div className="flex items-center space-x-4">
-                <div className="w-20 h-20 overflow-hidden rounded-full bg-gray-800">
+              <div className="flex items-center space-x-2 md:space-x-4">
+                <div className="md:w-20 w-10 h-10 md:h-20 overflow-hidden rounded-full bg-gray-800">
                   <Image
                     isBlurred
                     alt="Sede San Jose"
@@ -252,10 +263,10 @@ function HomePage() {
                   />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-white">
+                  <h4 className="text-md md:text-lg font-semibold text-white">
                     Manuel Esteban Erazo Medina
                   </h4>
-                  <p className="text-zinc-300 font-bold text-sm">
+                  <p className="text-zinc-300 font-bold text-xs md:text-sm">
                     Desarrollador Principal
                   </p>
                   <p className="text-xs text-zinc-300">
@@ -263,8 +274,8 @@ function HomePage() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-20 h-20 overflow-hidden rounded-full bg-zinc-900">
+              <div className="flex items-center space-x-2 md:space-x-4">
+                <div className="md:w-20 w-10 h-10 md:h-20 overflow-hidden rounded-full bg-gray-800">
                   <Image
                     isBlurred
                     alt="Sede San Jose"
@@ -272,11 +283,11 @@ function HomePage() {
                   />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-white">
+                  <h4 className="text-md md:text-lg font-semibold text-white">
                     Manuel Esteban Erazo Medina
                   </h4>
-                  <p className="text-zinc-300 font-bold text-sm">
-                    Director del Proyecto
+                  <p className="text-zinc-300 font-bold text-xs md:text-sm">
+                    Desarrollador Principal
                   </p>
                   <p className="text-xs text-zinc-300">
                     Ingenieria de Sistemas
@@ -286,23 +297,23 @@ function HomePage() {
             </span>
           </div>
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-white text-lg pb-12 text-right w-full font-bold">
+            <h1 className="text-white text-lg pb-6 md:pb-12 text-right w-full font-bold">
               Docentes
             </h1>
             <span className="flex flex-col gap-8">
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 md:space-x-4">
                 <div>
-                  <h4 className="text-lg text-right font-semibold text-white">
+                  <h4 className="text-md md:text-lg text-right font-semibold text-white">
                     Manuel Esteban Erazo Medina
                   </h4>
-                  <p className="text-zinc-300 text-right font-bold text-sm">
+                  <p className="text-zinc-300 text-right font-bold text-xs md:text-sm">
                     Director del Proyecto
                   </p>
                   <p className="text-xs text-right text-zinc-300">
                     Ingenieria de Sistemas
                   </p>
                 </div>
-                <div className="w-20 h-20 overflow-hidden rounded-full bg-gray-800">
+                <div className="md:w-20 w-10 h-10 md:h-20 overflow-hidden rounded-full bg-gray-800">
                   <Image
                     isBlurred
                     alt="Sede San Jose"
@@ -310,19 +321,19 @@ function HomePage() {
                   />
                 </div>
               </div>
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 md:space-x-4">
                 <div>
-                  <h4 className="text-lg text-right font-semibold text-white">
+                  <h4 className="text-md md:text-lg text-right font-semibold text-white">
                     Manuel Esteban Erazo Medina
                   </h4>
-                  <p className="text-zinc-300 text-right font-bold text-sm">
+                  <p className="text-zinc-300 text-right font-bold text-xs md:text-sm">
                     Director del Proyecto
                   </p>
                   <p className="text-xs text-right text-zinc-300">
                     Ingenieria de Sistemas
                   </p>
                 </div>
-                <div className="w-20 h-20 overflow-hidden rounded-full bg-gray-800">
+                <div className="md:w-20 w-10 h-10 md:h-20 overflow-hidden rounded-full bg-gray-800">
                   <Image
                     isBlurred
                     alt="Sede San Jose"
@@ -334,17 +345,17 @@ function HomePage() {
           </div>
         </span>
       </section>
-      <section className="px-48 py-32">
+      <section className="px-20 md:px-48 py-32">
         <div className="flex flex-col items-center gap-4">
-          <h1 className="text-6xl font-bold text-zinc-800 bg-[#FAFBFD] px-5">
+          <h1 className="text-4xl md:text-6xl font-bold text-center text-zinc-800 bg-[#FAFBFD] px-5">
             Stack Tecnologico
           </h1>
-          <p className="text-zinc-800 text-sm tracking-wide text-center py-2 bg-[#FAFBFD] px-8">
+          <p className="text-zinc-800 text-xs md:text-sm tracking-wide text-center py-2 bg-[#FAFBFD]">
             Un stack pensado para eficiencia, seguridad y una mejor experiencia
             de usuario
           </p>
         </div>
-        <div className="flex justify-center flex-row gap-12 py-6">
+        <div className="flex justify-center flex-row gap-6 md:gap-12 py-6">
           <div className="flex flex-col gap-1 justify-center items-center">
             <button
               type="button"
