@@ -2,12 +2,24 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ClassDay from './ClassDay';
+import { getClasesPorDiaYRango } from '../actions/classActions';
 
 const daysOfWeek = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 
-function DashboardCalendar({ user }) {
+function DashboardCalendar() {
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    if (userInfo) {
+      const fecha = currentDate.toISOString().split('T')[0];
+      dispatch(getClasesPorDiaYRango(fecha, 3, userInfo.user.user_id));
+    }
+  }, [dispatch, userInfo, currentDate]);
 
   useEffect(() => {
     const timer = setInterval(() => {

@@ -18,6 +18,7 @@ import {
 import { es } from 'date-fns/locale';
 import { showClassAll } from '../../actions/classActions';
 import { createReport } from '../../actions/reportActions';
+import { useToast } from '../../hooks/use-toast';
 
 import {
   Select,
@@ -28,17 +29,20 @@ import {
 } from '../../components/ui/select.tsx';
 
 function ReportPageDashboard() {
+  const { toast } = useToast();
   const [selectedMonth, setSelectedMonth] = useState(() =>
     new Date().getMonth().toString()
   );
   const [selectedYear, setSelectedYear] = useState(() =>
     new Date().getFullYear().toString()
   );
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
 
   const classAll = useSelector((state) => state.classAll);
-  const { all } = classAll;
+  const { all = [], loading: classesLoading, error: classesError } = classAll;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -60,6 +64,15 @@ function ReportPageDashboard() {
   ];
 
   const handleGenerateReport = () => {
+    if (!userInfo?.user?.user_id || !userInfo?.user?.user_correo) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Información de usuario no disponible'
+      });
+      return;
+    }
+
     dispatch(
       createReport(
         (parseInt(selectedMonth) + 1).toString(),
@@ -67,11 +80,46 @@ function ReportPageDashboard() {
         userInfo.user.user_id,
         userInfo.user.user_correo
       )
-    );
+    ).then((result) => {
+      if (result?.error || !result) {
+        toast({
+          variant: 'destructive',
+          title: 'Error al generar y enviar el reporte',
+          description: 'No hay registros para este mes y docente.'
+        });
+      } else if (result.success) {
+        toast({
+          variant: 'default',
+          title: 'Reporte enviado exitosamente',
+          description: 'El reporte se ha enviado a tu correo electrónico'
+        });
+      }
+    });
   };
 
   useEffect(() => {
-    dispatch(showClassAll(userInfo));
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        if (!userInfo?.user?.user_id) {
+          throw new Error('ID de usuario no disponible');
+        }
+
+        const result = await dispatch(showClassAll(userInfo));
+        if (result?.error) {
+          throw new Error(result.error.message || 'Error al cargar las clases');
+        }
+      } catch (err) {
+        setError(err.message || 'Error al cargar las clases');
+        console.error('Error en fetchData:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, [dispatch, userInfo]);
 
   const getDaysInMonth = (month, year) => {
@@ -87,8 +135,55 @@ function ReportPageDashboard() {
     Number.parseInt(selectedYear)
   );
 
-  const getClassesForDay = (day) =>
-    all.find((d) => isSameDay(parseISO(d.fecha), day))?.clases || [];
+  const getClassesForDay = (day) => {
+    if (!Array.isArray(all)) return [];
+    const dayData = all.find((d) => {
+      try {
+        return isSameDay(parseISO(d.fecha), day);
+      } catch (err) {
+        console.error('Error al parsear fecha:', err);
+        return false;
+      }
+    });
+    return dayData?.clases || [];
+  };
+
+  if (isLoading || classesLoading) {
+    return (
+      <div className="flex items-center justify-center w-full h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (error || classesError) {
+    const errorMessage =
+      typeof error === 'string'
+        ? error
+        : typeof classesError === 'string'
+        ? classesError
+        : 'Error al cargar los datos';
+
+    return (
+      <div className="flex items-center justify-center w-full h-64">
+        <div className="text-red-500 text-center">
+          <p className="font-bold">Error al cargar los datos</p>
+          <p className="text-sm">{errorMessage}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!userInfo?.user?.user_id) {
+    return (
+      <div className="flex items-center justify-center w-full h-64">
+        <div className="text-red-500 text-center">
+          <p className="font-bold">Error de autenticación</p>
+          <p className="text-sm">No se encontró la información del usuario</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto px-6 py-4">
@@ -164,20 +259,26 @@ function ReportPageDashboard() {
                 </div>
               </div>
               <div className="p-3 pt-0 grid grid-cols-2 gap-3">
-                {classes.map((cls, clsIndex) => (
-                  <button
-                    type="button"
-                    key={clsIndex}
-                    className="flex flex-col gap-1 bg-[#FAFBFD] rounded-lg p-2 border"
-                  >
-                    <h1 className="font-bold text-xs text-zinc-800">
-                      {cls.asignatura}
-                    </h1>
-                    <h1 className="font-bold text-xs text-zinc-400">
-                      {cls.fecha_inicio} - {cls.fecha_fin}
-                    </h1>
-                  </button>
-                ))}
+                {classes.length > 0 ? (
+                  classes.map((cls, clsIndex) => (
+                    <button
+                      type="button"
+                      key={clsIndex}
+                      className="flex flex-col gap-1 bg-[#FAFBFD] rounded-lg p-2 border"
+                    >
+                      <h1 className="font-bold text-xs text-zinc-800">
+                        {cls.asignatura}
+                      </h1>
+                      <h1 className="font-bold text-xs text-zinc-400">
+                        {cls.fecha_inicio} - {cls.fecha_fin}
+                      </h1>
+                    </button>
+                  ))
+                ) : (
+                  <div className="col-span-2 text-center text-gray-400 text-sm py-2">
+                    Sin clases
+                  </div>
+                )}
               </div>
             </div>
           );

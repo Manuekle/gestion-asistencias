@@ -28,6 +28,8 @@ import { attendanceCreateReducer } from './reducers/attendanceReducers';
 
 import { assigmentDetailsReducer } from './reducers/assigmentReducers';
 
+import { dashboardResumenReducer } from './reducers/dashboardReducer';
+
 const reducer = combineReducers({
   userLogin: userLoginReducer,
 
@@ -50,7 +52,9 @@ const reducer = combineReducers({
 
   attendanceCreate: attendanceCreateReducer,
 
-  assigmentDetails: assigmentDetailsReducer
+  assigmentDetails: assigmentDetailsReducer,
+
+  dashboardResumen: dashboardResumenReducer
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

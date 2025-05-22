@@ -19,10 +19,12 @@ function SchedulePageDashboard() {
   const dateToday = today.toLocaleDateString('es-ES', options);
 
   return (
-    <div className="grid grid-cols-4 gap-6">
-      <section className="col-span-3 rounded-xl bg-white border shadow-sm px-6 py-4">
-        <h1 className="font-bold text-zinc-800 text-xl">{dateToday}</h1>
-        <article className="py-8 flex flex-col gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <section className="col-span-1 lg:col-span-3 rounded-xl bg-white border shadow-sm px-4 sm:px-6 py-4">
+        <h1 className="font-bold text-zinc-800 text-lg sm:text-xl">
+          {dateToday}
+        </h1>
+        <article className="py-4 sm:py-8 flex flex-col gap-4 sm:gap-8">
           {/* {Clases.map((clase) => (
             <CardsDate {...clase} />
           ))} */}
@@ -33,10 +35,10 @@ function SchedulePageDashboard() {
           mode="single"
           selected={date}
           onSelect={setDate}
-          className="rounded-md pt-8"
+          className="rounded-md p-4 sm:pt-8"
         />
         {/* <hr className="border border-zinc-100" /> */}
-        <div className="flex flex-col gap-4 w-full px-6 py-8">
+        <div className="flex flex-col gap-4 w-full px-4 sm:px-6 py-4 sm:py-8">
           <NextClass />
           <NextClass />
           <NextClass />

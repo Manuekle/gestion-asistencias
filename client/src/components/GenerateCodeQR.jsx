@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Modal,
   ModalContent,
@@ -13,53 +13,60 @@ import { createQR } from '../actions/qrActions';
 
 function GenerateCodeQR({ value, name, id }) {
   const [qrImage, setQrImage] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const intervalRef = useRef(null);
 
   const qrGenerate = useSelector((state) => state.qrGenerate);
-  const { error, codigo } = qrGenerate;
+  const { error, codigo, loading } = qrGenerate;
 
   const dispatch = useDispatch();
 
-  // Actualizar la imagen QR cada vez que `codigo` cambie
+  const generateQR = useCallback(async () => {
+    try {
+      setIsGenerating(true);
+      await dispatch(createQR(name, id));
+    } catch (err) {
+      console.error('Error al generar QR:', err);
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [dispatch, name, id]);
+
   useEffect(() => {
     if (codigo?.qrImage) {
       setQrImage(codigo.qrImage);
     }
   }, [codigo]);
 
-  // Iniciar la actualización automática del QR cada 30 segundos
-  const startInterval = () => {
+  const startInterval = useCallback(() => {
     if (intervalRef.current) {
-      clearInterval(intervalRef.current); // Evitar múltiples intervalos
-    }
-    intervalRef.current = setInterval(() => {
-      dispatch(createQR(name, id));
-    }, 60000); // Intervalo de 60 segundos
-  };
-
-  const handleGenerarQR = () => {
-    dispatch(createQR(name, id)); // Primera generación de QR
-    onOpen(true); // Abrir el modal
-    console.log('open');
-    startInterval(); // Iniciar intervalo de actualizaciones
-  };
-
-  // Detener el intervalo cuando el modal se cierra
-  const handleModalClose = (isOpen) => {
-    if (!isOpen && intervalRef.current) {
       clearInterval(intervalRef.current);
-      intervalRef.current = null; // Limpieza del intervalo
     }
-    onOpenChange(isOpen);
+    intervalRef.current = setInterval(generateQR, 60000);
+  }, [generateQR]);
+
+  const handleGenerarQR = async () => {
+    await generateQR();
+    onOpen(true);
+    startInterval();
   };
 
-  // Asegurar que el intervalo se detenga al desmontar el componente
+  const handleModalClose = useCallback(
+    (isOpen) => {
+      if (!isOpen && intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      onOpenChange(isOpen);
+    },
+    [onOpenChange]
+  );
+
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
-        console.log('close');
       }
     };
   }, []);
@@ -68,10 +75,13 @@ function GenerateCodeQR({ value, name, id }) {
     <>
       <button
         type="button"
-        className="bg-white text-xs border shadow-sm font-bold text-zinc-800 px-4 py-2 rounded-md w-full"
+        disabled={isGenerating || loading}
+        className={`bg-white text-xs border shadow-sm font-bold text-zinc-800 px-4 py-2 rounded-md w-full ${
+          isGenerating || loading ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
         onClick={handleGenerarQR}
       >
-        Generar QR
+        {isGenerating || loading ? 'Generando...' : 'Generar QR'}
       </button>
 
       <Modal
@@ -93,7 +103,9 @@ function GenerateCodeQR({ value, name, id }) {
                 </h1>
               </ModalHeader>
               <ModalBody className="flex justify-center items-center p-8">
-                {qrImage && (
+                {loading ? (
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                ) : qrImage ? (
                   <Image
                     radius="none"
                     isBlurred
@@ -103,6 +115,10 @@ function GenerateCodeQR({ value, name, id }) {
                     className="h-full object-cover w-full"
                     src={qrImage}
                   />
+                ) : (
+                  <div className="text-gray-500">
+                    No hay código QR disponible
+                  </div>
                 )}
               </ModalBody>
               <ModalFooter className="flex flex-col justify-center items-center">
@@ -111,9 +127,10 @@ function GenerateCodeQR({ value, name, id }) {
                 </span>
               </ModalFooter>
               {error && (
-                <p className="text-red-600 text-sm mt-2">
-                  Error al generar el QR: {error}
-                </p>
+                <div className="text-red-600 text-sm mt-2 p-2 bg-red-50 rounded">
+                  <p className="font-bold">Error:</p>
+                  <p>{error}</p>
+                </div>
               )}
             </>
           )}

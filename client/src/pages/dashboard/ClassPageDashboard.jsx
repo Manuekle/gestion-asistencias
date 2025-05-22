@@ -138,12 +138,11 @@ function ClassPageDashboard() {
 
   return (
     <div className="grid gap-6">
-      <section className="col-span-3 flex flex-col gap-6 rounded-xl bg-white border shadow-sm px-6 py-4">
-        <div className="flex flex-row items-center justify-between">
-          <span className="flex flex-row gap-4">
+      <section className="col-span-3 flex flex-col gap-6 rounded-xl bg-white border shadow-sm px-4 sm:px-6 py-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto">
             <Input
-              className="w-64"
-              // isClearable
+              className="w-full sm:w-64"
               placeholder="Buscar clase"
               size="md"
               onChange={(e) => setBusqueda(e.target.value)}
@@ -151,41 +150,37 @@ function ClassPageDashboard() {
                 <Search01Icon size={18} color="#7a7a70" variant="stroke" />
               }
             />
-            {/* <button
-              type="button"
-              className="border rounded-md px-4 text-xs font-bold shadow-md"
-            >
-              Lunes
-            </button> */}
-            {diasSemana.map((dia) => (
+            <div className="flex flex-wrap gap-2">
+              {diasSemana.map((dia) => (
+                <button
+                  key={dia.valor}
+                  type="button"
+                  className={`border rounded-md px-3 sm:px-4 py-2 text-xs font-bold text-black ${
+                    diaSeleccionado === dia.valor
+                      ? 'shadow-md text-black'
+                      : 'bg-white'
+                  }`}
+                  onClick={() => setDiaSeleccionado(dia.valor)}
+                >
+                  {dia.nombre}
+                </button>
+              ))}
               <button
-                key={dia.valor}
                 type="button"
-                className={`border rounded-md px-4 py-2 text-xs font-bold text-black ${
-                  diaSeleccionado === dia.valor
-                    ? 'shadow-md text-black'
-                    : 'bg-white'
+                className={`border rounded-md px-3 sm:px-4 py-2 text-xs font-bold text-black ${
+                  diaSeleccionado === null ? 'shadow-md text-black' : 'bg-white'
                 }`}
-                onClick={() => setDiaSeleccionado(dia.valor)}
+                onClick={() => setDiaSeleccionado(null)}
               >
-                {dia.nombre}
+                Todos
               </button>
-            ))}
-            <button
-              type="button"
-              className={`border rounded-md px-4 py-2 text-xs font-bold text-black ${
-                diaSeleccionado === null ? 'shadow-md text-black' : 'bg-white'
-              }`}
-              onClick={() => setDiaSeleccionado(null)}
-            >
-              Todos
-            </button>
-          </span>
+            </div>
+          </div>
           <Dialog>
-            <DialogTrigger className="bg-zinc-800 py-2 px-4 gap-1 rounded-lg flex flex-row items-center hover:shadow-md">
+            <DialogTrigger className="bg-zinc-800 py-2 px-4 gap-1 rounded-lg flex flex-row items-center hover:shadow-md w-full sm:w-auto justify-center">
               <h1 className="font-bold text-xs text-white">Crear Clase</h1>
             </DialogTrigger>
-            <DialogContent className="space-y-0 w-full">
+            <DialogContent className="space-y-0 w-[90vw] sm:w-full max-w-md">
               <DialogHeader>
                 <DialogTitle>Nueva Clase</DialogTitle>
                 <DialogDescription className="text-xs text-zinc-500">
@@ -330,7 +325,7 @@ function ClassPageDashboard() {
             </DialogContent>
           </Dialog>
         </div>
-        <div className="grid grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
           {clasesFiltradas.length > 0 ? (
             clasesFiltradas.map((clase) => (
               <Link
@@ -355,7 +350,7 @@ function ClassPageDashboard() {
               </Link>
             ))
           ) : (
-            <p className="font-bold text-gray-500 w-full h-56 col-span-4 flex items-center justify-center">
+            <p className="font-bold text-gray-500 w-full h-56 col-span-1 sm:col-span-2 lg:col-span-4 flex items-center justify-center">
               No hay clases que coincidan con la búsqueda.
             </p>
           )}

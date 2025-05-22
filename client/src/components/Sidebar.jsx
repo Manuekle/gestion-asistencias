@@ -80,14 +80,13 @@ export default function Sidebar({ children }) {
             </div>
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger>
-                  <button
-                    type="button"
+                <TooltipTrigger asChild>
+                  <div
                     onClick={logoutHandler}
-                    className="p-1.5 rounded-lg bg-[#323332] border border-zinc-700"
+                    className="p-1.5 rounded-lg bg-[#323332] border border-zinc-700 cursor-pointer"
                   >
                     <Door01Icon size={20} color="#ffffff" variant="stroke" />
-                  </button>
+                  </div>
                 </TooltipTrigger>
                 <TooltipContent className="px-3 py-1 bg-[#323332] text-zinc-100 border-none">
                   <p className="text-xs">Cerrar sesion</p>

@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable radix */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { StudentCardIcon } from 'hugeicons-react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -22,14 +22,20 @@ import CodeQR from '../../components/GenerateCodeQR';
 import Cancel from '../../components/CancelClass';
 
 function Classes() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const classShow = useSelector((state) => state.classShow);
-  const { show } = classShow;
+  const { show, loading: showLoading, error: showError } = classShow;
 
   const classSignature = useSelector((state) => state.classSignature);
-  const { signature } = classSignature;
+  const {
+    signature,
+    loading: signatureLoading,
+    error: signatureError
+  } = classSignature;
 
-  const { name, id } = useParams(); // Obtiene los parámetros de la URL
-
+  const { name, id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -76,14 +82,63 @@ function Classes() {
   }
 
   useEffect(() => {
-    if (signature.clas_estado === 'finalizada') {
-      navigate(-1);
-    }
-    if (name && id) {
-      dispatch(showClass(name, id));
-      dispatch(showClassSignature(name, id));
-    }
-  }, [dispatch, navigate]);
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        if (signature.clas_estado === 'finalizada') {
+          navigate(-1);
+          return;
+        }
+
+        if (name && id) {
+          await Promise.all([
+            dispatch(showClass(name, id)),
+            dispatch(showClassSignature(name, id))
+          ]);
+        }
+      } catch (err) {
+        setError('Error al cargar los datos de la clase');
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [dispatch, navigate, name, id, signature.clas_estado]);
+
+  if (isLoading || showLoading || signatureLoading) {
+    return (
+      <div className="flex items-center justify-center w-full h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (error || showError || signatureError) {
+    return (
+      <div className="flex items-center justify-center w-full h-64">
+        <div className="text-red-500 text-center">
+          <p className="font-bold">Error al cargar los datos</p>
+          <p className="text-sm">{error || showError || signatureError}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!signature || !show) {
+    return (
+      <div className="flex items-center justify-center w-full h-64">
+        <div className="text-gray-500 text-center">
+          <p className="font-bold">No se encontraron datos</p>
+          <p className="text-sm">La clase o la firma no están disponibles</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <section className="flex flex-col gap-6">
       <div className="flex flex-col gap-6 rounded-xl bg-white border shadow-sm px-6 py-4">

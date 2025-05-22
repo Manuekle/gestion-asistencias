@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/extensions */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import {
   Home07Icon,
@@ -28,15 +28,32 @@ function Dashboard() {
   const params = useParams();
   const urlActive = params['*'];
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
+    if (!userInfo) {
+      navigate('/login');
+      return;
+    }
+
     if (userInfo.user.rol === 'estudiante') {
       navigate('/');
+      return;
     }
+
+    setIsLoading(false);
   }, [userInfo, navigate]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center w-full h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-row w-full bg-[#FAFBFD]">

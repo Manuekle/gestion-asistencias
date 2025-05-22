@@ -207,8 +207,68 @@ export const showClassAll = (userInfo) => async (dispatch) => {
   try {
     dispatch({ type: CLASS_ALL_REQUEST });
 
+    if (!userInfo?.user?.user_id) {
+      throw new Error('ID de usuario no disponible');
+    }
+
     const { data } = await axios.get(
-      `${dev}/clase/show-all-docente/${userInfo && userInfo.user.user_id}`
+      `${dev}/clase/show-all-docente/${userInfo.user.user_id}`
+    );
+
+    if (!data) {
+      throw new Error('No se recibieron datos del servidor');
+    }
+
+    dispatch({
+      type: CLASS_ALL_SUCCESS,
+      payload: data
+    });
+
+    return { success: true, data };
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message ||
+      error.message ||
+      'Error al cargar las clases';
+
+    dispatch({
+      type: CLASS_ALL_FAIL,
+      payload: errorMessage
+    });
+
+    return { error: { message: errorMessage } };
+  }
+};
+
+// GET CLASES POR DIA Y RANGO
+export const getClasesPorDiaYRango =
+  (fecha, rangoHoras, docenteId) => async (dispatch) => {
+    try {
+      dispatch({ type: CLASS_DAY_REQUEST });
+
+      const { data } = await axios.get(
+        `${dev}/clase/dia-rango?fecha=${fecha}&rangoHoras=${rangoHoras}&docenteId=${docenteId}`
+      );
+
+      dispatch({
+        type: CLASS_DAY_SUCCESS,
+        payload: data.clases
+      });
+    } catch (error) {
+      dispatch({
+        type: CLASS_DAY_FAIL,
+        payload: error.response.data
+      });
+    }
+  };
+
+// GET CLASES POR DOCENTE
+export const getClasesPorDocente = (docenteId) => async (dispatch) => {
+  try {
+    dispatch({ type: CLASS_ALL_REQUEST });
+
+    const { data } = await axios.get(
+      `${dev}/clase/show-all-docente/${docenteId}`
     );
 
     dispatch({

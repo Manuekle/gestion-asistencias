@@ -100,11 +100,26 @@ function Attendance() {
           codigo.clas_id,
           window.location.href
         )
-      );
-      setTimeout(() => {
+      ).then((result) => {
+        if (result?.payload?.code === 'SUCCESS') {
+          toast({
+            variant: 'default',
+            title: '¡Éxito!',
+            description: 'Asistencia registrada exitosamente.'
+          });
+          setTimeout(() => {
+            navigate('/student');
+          }, 2000);
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Error',
+            description:
+              result?.payload?.message || 'Error al registrar la asistencia'
+          });
+        }
         setFormData(false);
-      }, 2000);
-      // alertSuccess();
+      });
     }
   };
 

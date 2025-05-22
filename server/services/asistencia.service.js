@@ -2,7 +2,6 @@ import fs from "fs";
 import path from "path";
 import { turso } from "../db.js";
 import { fileURLToPath } from "url";
-
 import puppeteer from "puppeteer";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -34,10 +33,133 @@ export const generarReporteMes = async (mes, anio, docenteId) => {
       [docenteId, anio.toString(), mes.toString().padStart(2, "0")]
     );
 
+    if (result.rows.length === 0) {
+      throw new Error("No hay registros para este mes y docente.");
+    }
+
+    // Leer la plantilla HTML
+    const templatePath = path.resolve("server/templates/reporte-mes.html");
+    let html = fs.readFileSync(templatePath, "utf8");
+
+    // Agrupar asistencias por fecha
+    const asistenciasPorFecha = result.rows.reduce((acc, row) => {
+      const fecha = row.clas_fecha;
+      if (!acc[fecha]) {
+        acc[fecha] = {
+          fecha,
+          hora_inicio: row.clas_hora_inicio,
+          hora_fin: row.clas_hora_fin,
+          asignatura: row.asig_nombre,
+          estudiantes: [],
+        };
+      }
+      acc[fecha].estudiantes.push({
+        nombre: row.estu_nombre,
+        estado: row.asis_estado,
+      });
+      return acc;
+    }, {});
+
+    // Generar el HTML de las tablas
+    let tablasHTML = "";
+    Object.values(asistenciasPorFecha).forEach((clase, index) => {
+      const tablaEstudiantes = clase.estudiantes
+        .map(
+          (estudiante, i) => `
+          <tr>
+            <td class="border border-gray-300 px-4 py-2 text-center">${
+              i + 1
+            }</td>
+            <td class="border border-gray-300 px-4 py-2">${
+              estudiante.nombre
+            }</td>
+            <td class="border border-gray-300 px-4 py-2 text-center">${
+              estudiante.estado
+            }</td>
+          </tr>
+        `
+        )
+        .join("");
+
+      tablasHTML += `
+        <div class="mb-8 page-break-inside-avoid">
+          <h2 class="text-xl font-bold mb-4">Clase ${index + 1}</h2>
+          <div class="mb-4">
+            <p class="mb-2"><strong>Fecha:</strong> ${clase.fecha}</p>
+            <p class="mb-2"><strong>Hora Inicio:</strong> ${
+              clase.hora_inicio
+            }</p>
+            <p class="mb-2"><strong>Hora Fin:</strong> ${clase.hora_fin}</p>
+            <p class="mb-4"><strong>Asignatura:</strong> ${clase.asignatura}</p>
+          </div>
+          <table class="w-full border-collapse mb-4">
+            <thead>
+              <tr>
+                <th class="border border-gray-300 px-4 py-2 bg-gray-100 text-center">#</th>
+                <th class="border border-gray-300 px-4 py-2 bg-gray-100">Estudiante</th>
+                <th class="border border-gray-300 px-4 py-2 bg-gray-100 text-center">Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tablaEstudiantes}
+            </tbody>
+          </table>
+        </div>
+      `;
+    });
+
+    // Reemplazar el contenido en la plantilla
+    html = html.replace("{{contenido}}", tablasHTML);
+
+    // Crear la carpeta para los reportes si no existe
+    const fechaActual = new Date().toISOString().split("T")[0];
+    const carpetaReportes = path.resolve("./mails", fechaActual);
+    if (!fs.existsSync(carpetaReportes)) {
+      fs.mkdirSync(carpetaReportes, { recursive: true });
+    }
+
+    // Generar el PDF
     const rutaArchivo = path.join(
-      __dirname,
+      carpetaReportes,
       `reporte_mes_${mes}_${anio}_docente_${docenteId}.pdf`
     );
+
+    const browser = await puppeteer.launch({
+      headless: "new",
+      args: ["--no-sandbox"],
+    });
+    const page = await browser.newPage();
+
+    // Configurar el viewport para mejor renderizado
+    await page.setViewport({
+      width: 1200,
+      height: 1600,
+      deviceScaleFactor: 1,
+    });
+
+    // Establecer el contenido HTML y esperar a que se carguen los estilos
+    await page.setContent(html, {
+      waitUntil: ["networkidle0", "domcontentloaded"],
+    });
+
+    // Esperar a que Tailwind CSS se cargue usando una promesa
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Generar el PDF con mejores opciones
+    await page.pdf({
+      path: rutaArchivo,
+      format: "A4",
+      printBackground: true,
+      margin: {
+        top: "20mm",
+        right: "20mm",
+        bottom: "20mm",
+        left: "20mm",
+      },
+    });
+
+    await browser.close();
+
     return rutaArchivo;
   } catch (error) {
     console.error("Error al generar el reporte", error);
@@ -48,8 +170,6 @@ export const generarReporteMes = async (mes, anio, docenteId) => {
 // Función para generar reporte de una clase específica
 export const generarReporteClase = async (claseId) => {
   try {
-    const fechaActual = new Date().toISOString().split("T")[0];
-
     const result = await turso.execute(
       `SELECT
         clase.clas_fecha,
@@ -71,7 +191,6 @@ export const generarReporteClase = async (claseId) => {
       throw new Error("No hay registros para esta clase.");
     }
 
-    // console.log(result.rows[0]);
     const templatePath = path.resolve("server/templates/reporte-clase.html");
     let html = fs.readFileSync(templatePath, "utf8");
 
@@ -96,8 +215,8 @@ export const generarReporteClase = async (claseId) => {
       .replace("{{asignatura}}", asig_nombre)
       .replace("{{tablaEstudiantes}}", tablaEstudiantes);
 
-    // const fechaActual = new Date().toISOString().split("T")[0]; // Formato YYYY-MM-DD
-    const carpetaReportes = path.resolve("./mails", fechaActual); // Carpeta en ../mails/<fecha>
+    const fechaActual = new Date().toISOString().split("T")[0];
+    const carpetaReportes = path.resolve("./mails", fechaActual);
 
     if (!fs.existsSync(carpetaReportes)) {
       fs.mkdirSync(carpetaReportes, { recursive: true });
@@ -108,35 +227,19 @@ export const generarReporteClase = async (claseId) => {
       `reporte_clase_${claseId}.pdf`
     );
 
-    // const doc = new PDFDocument();
-    // doc.pipe(fs.createWriteStream(rutaArchivo));
-
-    // Encabezado del reporte
-    // doc.fontSize(16).text("Reporte de Asistencia", { align: "center" });
-    // doc.moveDown();
-    // doc.fontSize(12).text(`Fecha: ${result.rows[0].clas_fecha}`);
-    // doc.text(`Hora Inicio: ${result.rows[0].clas_hora_inicio}`);
-    // doc.text(`Hora Fin: ${result.rows[0].clas_hora_fin}`);
-    // doc.text(`Asignatura: ${result.rows[0].asig_nombre}`);
-    // doc.moveDown();
-
-    // // Tabla de asistentes
-    // doc.fontSize(14).text("Lista de Estudiantes", { underline: true });
-    // doc.moveDown();
-
-    // result.rows.forEach((row, index) => {
-    //   doc
-    //     .fontSize(12)
-    //     .text(`${index + 1}. ${row.estu_nombre} - Estado: ${row.asis_estado}`);
-    // });
-
-    // doc.end();
-
-    // Iniciar puppeteer y generar el PDF
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: "load" });
-    await page.pdf({ path: rutaArchivo, format: "A4" });
+    await page.setContent(html, { waitUntil: "networkidle0" });
+    await page.pdf({
+      path: rutaArchivo,
+      format: "A4",
+      margin: {
+        top: "20px",
+        right: "20px",
+        bottom: "20px",
+        left: "20px",
+      },
+    });
 
     await browser.close();
 
