@@ -1,25 +1,39 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 // Supports weights 100-900
 import '@fontsource-variable/manrope';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // pages
-import HomePage from './pages/HomePage';
-import Dashboard from './layout/Dashboard';
-import StudentLayout from './layout/StudentLayout';
-import Attendance from './layout/Attendance';
+const HomePage = lazy(() => import('./pages/HomePage'));
+const Dashboard = lazy(() => import('./layout/Dashboard'));
+const StudentLayout = lazy(() => import('./layout/StudentLayout'));
+const Attendance = lazy(() => import('./layout/Attendance'));
 // admin
-import LoginPageAdmin from './pages/auth/administrador/LoginPageAdmin';
-import RegisterPageAdmin from './pages/auth/administrador/RegisterPageAdmin.jsx';
+const LoginPageAdmin = lazy(() =>
+  import('./pages/auth/administrador/LoginPageAdmin')
+);
+const RegisterPageAdmin = lazy(() =>
+  import('./pages/auth/administrador/RegisterPageAdmin.jsx')
+);
 // estudiante
-import LoginPageEstudiante from './pages/auth/estudiante/LoginPageEstudiante.jsx';
-import RegisterPageEstudiante from './pages/auth/estudiante/RegisterPageEstudiante.jsx';
-import EstudiantePage from './pages/EstudiantePage.jsx';
+const LoginPageEstudiante = lazy(() =>
+  import('./pages/auth/estudiante/LoginPageEstudiante.jsx')
+);
+const RegisterPageEstudiante = lazy(() =>
+  import('./pages/auth/estudiante/RegisterPageEstudiante.jsx')
+);
+const EstudiantePage = lazy(() => import('./pages/EstudiantePage.jsx'));
 // docente
-import LoginPageDocente from './pages/auth/docente/LoginPageDocente.jsx';
-import RegisterPageDocente from './pages/auth/docente/RegisterPageDocente.jsx';
-import RestorePasswordPageAuth from './pages/auth/RestorePasswordPageAuth';
-import NotFoundPage from './pages/NotFoundPage';
+const LoginPageDocente = lazy(() =>
+  import('./pages/auth/docente/LoginPageDocente.jsx')
+);
+const RegisterPageDocente = lazy(() =>
+  import('./pages/auth/docente/RegisterPageDocente.jsx')
+);
+const RestorePasswordPageAuth = lazy(() =>
+  import('./pages/auth/RestorePasswordPageAuth')
+);
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 import { Toaster } from './components/ui/toaster.tsx';
 
@@ -28,62 +42,64 @@ function App() {
     <div className="">
       <Toaster />
       <Router>
-        <Routes>
-          {/* Ruta pública */}
-          <Route path="/" element={<HomePage />} />
+        <Suspense fallback={<div>Cargando...</div>}>
+          <Routes>
+            {/* Ruta pública */}
+            <Route path="/" element={<HomePage />} />
 
-          {/* Rutas de dashboard */}
-          <Route path="/dashboard/*" element={<Dashboard />} />
+            {/* Rutas de dashboard */}
+            <Route path="/dashboard/*" element={<Dashboard />} />
 
-          {/* Rutas de estudiante */}
-          <Route path="/student/*" element={<StudentLayout />} />
+            {/* Rutas de estudiante */}
+            <Route path="/student/*" element={<StudentLayout />} />
 
-          {/* Rutas de autenticación */}
-          {/* admin */}
-          <Route
-            path="/auth/administrador/login"
-            element={<LoginPageAdmin />}
-          />
-          <Route
-            path="/auth/administrador/register"
-            element={<RegisterPageAdmin />}
-          />
-          <Route
-            path="/auth/administrador/forgot-password"
-            element={<RestorePasswordPageAuth />}
-          />
+            {/* Rutas de autenticación */}
+            {/* admin */}
+            <Route
+              path="/auth/administrador/login"
+              element={<LoginPageAdmin />}
+            />
+            <Route
+              path="/auth/administrador/register"
+              element={<RegisterPageAdmin />}
+            />
+            <Route
+              path="/auth/administrador/forgot-password"
+              element={<RestorePasswordPageAuth />}
+            />
 
-          {/* estudiante */}
-          <Route
-            path="/auth/estudiante/login"
-            element={<LoginPageEstudiante />}
-          />
-          <Route
-            path="/auth/estudiante/register"
-            element={<RegisterPageEstudiante />}
-          />
-          <Route
-            path="/auth/estudiante/forgot-password"
-            element={<RestorePasswordPageAuth />}
-          />
+            {/* estudiante */}
+            <Route
+              path="/auth/estudiante/login"
+              element={<LoginPageEstudiante />}
+            />
+            <Route
+              path="/auth/estudiante/register"
+              element={<RegisterPageEstudiante />}
+            />
+            <Route
+              path="/auth/estudiante/forgot-password"
+              element={<RestorePasswordPageAuth />}
+            />
 
-          {/* docente */}
-          <Route path="/auth/docente/login" element={<LoginPageDocente />} />
-          <Route
-            path="/auth/docente/register"
-            element={<RegisterPageDocente />}
-          />
-          <Route
-            path="/auth/docente/forgot-password"
-            element={<RestorePasswordPageAuth />}
-          />
+            {/* docente */}
+            <Route path="/auth/docente/login" element={<LoginPageDocente />} />
+            <Route
+              path="/auth/docente/register"
+              element={<RegisterPageDocente />}
+            />
+            <Route
+              path="/auth/docente/forgot-password"
+              element={<RestorePasswordPageAuth />}
+            />
 
-          {/* Ruta para asistencia */}
-          <Route path="/attendance" element={<Attendance />} />
+            {/* Ruta para asistencia */}
+            <Route path="/attendance" element={<Attendance />} />
 
-          {/* Ruta 404 */}
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+            {/* Ruta 404 */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
       </Router>
     </div>
   );

@@ -42,7 +42,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '../../components/ui/select.tsx';
-import CrearRecordatorio from '../../components/CrearRecordatorio';
 
 function ClassPageDashboard() {
   const dispatch = useDispatch();
@@ -56,8 +55,6 @@ function ClassPageDashboard() {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  // const [fecha, setFecha] = useState(new Date());
 
   // Función para deshabilitar días específicos
   const disabledDays = useCallback((day) => {
@@ -90,7 +87,6 @@ function ClassPageDashboard() {
       setFormData(false);
       window.location.reload();
     }, 2000);
-    // alert();
   };
 
   const generateTimeOptions = () => {
@@ -112,7 +108,6 @@ function ClassPageDashboard() {
     { nombre: 'Miércoles', valor: 3 },
     { nombre: 'Jueves', valor: 4 },
     { nombre: 'Viernes', valor: 5 }
-    // { nombre: 'Sábado', valor: 6 }
   ];
 
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
@@ -136,14 +131,6 @@ function ClassPageDashboard() {
       dispatch(detailsAssigment(userInfo.user.user_id));
     }
   }, [dispatch, userInfo]);
-
-  const [showRecordatorioForm, setShowRecordatorioForm] = useState(false);
-  const [selectedClase, setSelectedClase] = useState(null);
-
-  const handleCreateRecordatorio = (recordatorio) => {
-    // Aquí puedes actualizar la lista de recordatorios si es necesario
-    setShowRecordatorioForm(false);
-  };
 
   return (
     <div className="space-y-6">
@@ -365,35 +352,6 @@ function ClassPageDashboard() {
           )}
         </div>
       </section>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">{/* ... existing code ... */}</div>
-
-        <div className="space-y-6">
-          <div className="bg-white rounded-xl border shadow-sm p-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-bold">Recordatorios</h2>
-              <button
-                onClick={() => setShowRecordatorioForm(true)}
-                className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-700"
-              >
-                Nuevo Recordatorio
-              </button>
-            </div>
-
-            {showRecordatorioForm && (
-              <div className="mb-4">
-                <CrearRecordatorio
-                  claseId={selectedClase?.clas_id}
-                  onRecordatorioCreado={handleCreateRecordatorio}
-                />
-              </div>
-            )}
-
-            {/* Aquí puedes mostrar la lista de recordatorios si lo deseas */}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

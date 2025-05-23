@@ -14,8 +14,37 @@ import {
   TableRow,
   TableCaption
 } from '../../components/ui/table.tsx';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '../../components/ui/dialog.tsx';
+import { Label } from '../../components/ui/label.tsx';
+import { Input } from '@heroui/react';
+import { Button } from '@heroui/react';
+import { format } from 'date-fns';
+import { cn } from '../../lib/utils.ts';
+import { Calendar } from '../../components/ui/calendar.tsx';
+import { Button as ButtonS } from '../../components/ui/button.tsx';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '../../components/ui/popover.tsx';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '../../components/ui/select.tsx';
+import { Calendar01Icon } from 'hugeicons-react';
 // actions
 import { showClass, showClassSignature } from '../../actions/classActions';
+import { createReminder } from '../../actions/reminderActions';
 
 // component
 import CodeQR from '../../components/GenerateCodeQR';
@@ -24,6 +53,14 @@ import Cancel from '../../components/CancelClass';
 function Classes() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [formData, setFormData] = useState(false);
+  const [recordatorioData, setRecordatorioData] = useState({
+    titulo: '',
+    descripcion: '',
+    fechaInicio: new Date(),
+    fechaFin: new Date(),
+    prioridad: ''
+  });
 
   const classShow = useSelector((state) => state.classShow);
   const { show, loading: showLoading, error: showError } = classShow;
@@ -38,6 +75,25 @@ function Classes() {
   const { name, id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Función para deshabilitar días específicos
+  const disabledDays = (day) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Deshabilitar días anteriores a hoy
+    if (day < today) {
+      return true;
+    }
+
+    // Deshabilitar sábados (6) y domingos (0)
+    const dayOfWeek = day.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      return true;
+    }
+
+    return false;
+  };
 
   function formatearHoraMilitar(fecha) {
     const date = new Date(fecha);
@@ -108,6 +164,62 @@ function Classes() {
 
     fetchData();
   }, [dispatch, navigate, name, id, signature.clas_estado]);
+
+  const handleCreateRecordatorio = async () => {
+    try {
+      setFormData(true);
+
+      // Validar que todos los campos estén llenos
+      if (
+        !recordatorioData.titulo ||
+        !recordatorioData.descripcion ||
+        !recordatorioData.prioridad
+      ) {
+        throw new Error('Por favor complete todos los campos requeridos');
+      }
+
+      // Validar que la fecha de fin no sea anterior a la fecha de inicio
+      if (recordatorioData.fechaFin < recordatorioData.fechaInicio) {
+        throw new Error(
+          'La fecha de fin no puede ser anterior a la fecha de inicio'
+        );
+      }
+
+      const reminderData = {
+        remi_titulo: recordatorioData.titulo,
+        remi_descripcion: recordatorioData.descripcion,
+        remi_fecha_inicio: format(recordatorioData.fechaInicio, 'yyyy-MM-dd'),
+        remi_fecha_fin: format(recordatorioData.fechaFin, 'yyyy-MM-dd'),
+        remi_prioridad: recordatorioData.prioridad,
+        clas_id: id // ID de la clase actual
+      };
+
+      await dispatch(createReminder(reminderData));
+
+      // Limpiar el formulario
+      setRecordatorioData({
+        titulo: '',
+        descripcion: '',
+        fechaInicio: new Date(),
+        fechaFin: new Date(),
+        prioridad: ''
+      });
+
+      // Cerrar el diálogo
+      // document.querySelector('[data-dialog-close]')?.click();
+
+      // Mostrar mensaje de éxito
+
+      // Removido: Recargar la página después de un breve delay
+      // setTimeout(() => {
+      setFormData(false);
+      // }, 2000);
+    } catch (error) {
+      console.error('Error al crear el recordatorio:', error);
+      alert(error.message || 'Error al crear el recordatorio');
+      setFormData(false);
+    }
+  };
 
   if (isLoading || showLoading || signatureLoading) {
     return (
@@ -198,6 +310,202 @@ function Classes() {
             <Cancel value={signature.asig_nombre} name={name} id={id} />
           </div>
         )}
+
+        <div className="flex justify-end">
+          <Dialog>
+            <DialogTrigger className="bg-zinc-800 py-2 px-4 gap-1 rounded-lg flex flex-row items-center hover:shadow-md">
+              <h1 className="font-bold text-xs text-white">
+                Crear Recordatorio
+              </h1>
+            </DialogTrigger>
+            <DialogContent className="space-y-4 w-[90vw] sm:w-full max-w-md">
+              <DialogHeader>
+                <DialogTitle>Nuevo Recordatorio</DialogTitle>
+                <DialogDescription className="text-xs text-zinc-500">
+                  Complete el siguiente formulario para crear un nuevo
+                  recordatorio. Asegúrese de llenar todos los campos requeridos
+                  antes de enviar.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="titulo">Título</Label>
+                  <Input
+                    id="titulo"
+                    placeholder="Ingrese el título del recordatorio"
+                    className="bg-white hover:bg-gray-50/90 rounded-2xl text-sm"
+                    value={recordatorioData.titulo}
+                    onChange={(e) =>
+                      setRecordatorioData({
+                        ...recordatorioData,
+                        titulo: e.target.value
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="descripcion">Descripción</Label>
+                  <textarea
+                    id="descripcion"
+                    placeholder="Ingrese la descripción del recordatorio"
+                    className="w-full min-h-[100px] p-3 rounded-2xl border border-gray-200 bg-white hover:bg-gray-50/90 text-sm resize-none"
+                    value={recordatorioData.descripcion}
+                    onChange={(e) =>
+                      setRecordatorioData({
+                        ...recordatorioData,
+                        descripcion: e.target.value
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="fechaInicio">Fecha de Inicio</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <ButtonS
+                        variant="outline"
+                        className={cn(
+                          'w-full border justify-start gap-4 text-left text-sm font-normal bg-white hover:bg-gray-50/90 rounded-2xl',
+                          !recordatorioData.fechaInicio && 'text-black'
+                        )}
+                      >
+                        <Calendar01Icon
+                          size={18}
+                          color="#7a7a70"
+                          variant="stroke"
+                        />
+                        {recordatorioData.fechaInicio ? (
+                          format(recordatorioData.fechaInicio, 'PPP')
+                        ) : (
+                          <span>Seleccionar fecha inicio</span>
+                        )}
+                      </ButtonS>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={recordatorioData.fechaInicio}
+                        onSelect={(date) =>
+                          setRecordatorioData({
+                            ...recordatorioData,
+                            fechaInicio: date
+                          })
+                        }
+                        disabled={disabledDays}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="fechaFin">Fecha de Fin</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <ButtonS
+                        variant="outline"
+                        className={cn(
+                          'w-full border justify-start gap-4 text-left text-sm font-normal bg-white hover:bg-gray-50/90 rounded-2xl',
+                          !recordatorioData.fechaFin && 'text-black'
+                        )}
+                      >
+                        <Calendar01Icon
+                          size={18}
+                          color="#7a7a70"
+                          variant="stroke"
+                        />
+                        {recordatorioData.fechaFin ? (
+                          format(recordatorioData.fechaFin, 'PPP')
+                        ) : (
+                          <span>Seleccionar fecha fin</span>
+                        )}
+                      </ButtonS>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={recordatorioData.fechaFin}
+                        onSelect={(date) =>
+                          setRecordatorioData({
+                            ...recordatorioData,
+                            fechaFin: date
+                          })
+                        }
+                        disabled={disabledDays}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="prioridad">Prioridad</Label>
+                  <Select
+                    value={recordatorioData.prioridad}
+                    onValueChange={(value) =>
+                      setRecordatorioData({
+                        ...recordatorioData,
+                        prioridad: value
+                      })
+                    }
+                  >
+                    <SelectTrigger
+                      id="prioridad"
+                      className="bg-white hover:bg-gray-50/90 rounded-2xl text-sm"
+                    >
+                      <SelectValue placeholder="Seleccionar prioridad" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="alta">Alta</SelectItem>
+                      <SelectItem value="media">Media</SelectItem>
+                      <SelectItem value="baja">Baja</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {!formData ? (
+                  <Button
+                    onPress={handleCreateRecordatorio}
+                    className="w-full bg-amber-400 text-white shadow-lg text-sm hover:bg-amber-500"
+                  >
+                    Crear Recordatorio
+                  </Button>
+                ) : (
+                  <Button
+                    isLoading
+                    className="w-full bg-amber-400 text-white shadow-lg"
+                    spinner={
+                      <svg
+                        className="animate-spin h-5 w-5 text-current"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    }
+                  >
+                    Creando...
+                  </Button>
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+
         <div className="pt-2">
           <span className="flex flex-row items-center justify-between">
             <h1 className="font-bold text-sm">Lista de Estudiantes</h1>

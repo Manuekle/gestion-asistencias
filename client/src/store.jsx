@@ -30,9 +30,10 @@ import { assigmentDetailsReducer } from './reducers/assigmentReducers';
 
 import { dashboardResumenReducer } from './reducers/dashboardReducer';
 
+import { reminderCreateReducer } from './reducers/reminderReducers';
+
 const reducer = combineReducers({
   userLogin: userLoginReducer,
-
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userRecover: userRecoverReducer,
@@ -54,7 +55,9 @@ const reducer = combineReducers({
 
   assigmentDetails: assigmentDetailsReducer,
 
-  dashboardResumen: dashboardResumenReducer
+  dashboardResumen: dashboardResumenReducer,
+
+  reminderCreate: reminderCreateReducer
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
