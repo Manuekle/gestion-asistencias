@@ -80,3 +80,26 @@ CREATE TABLE codigo_qr (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (codi_clas_id) REFERENCES clase(clas_id)
 );
+
+-- Tabla: recordatorio
+CREATE TABLE recordatorio (
+    reco_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    reco_titulo TEXT NOT NULL,
+    reco_descripcion TEXT NOT NULL,
+    reco_fecha_inicio DATETIME NOT NULL,
+    reco_fecha_fin DATETIME NOT NULL,
+    reco_clas_id INTEGER NOT NULL,
+    reco_estado TEXT CHECK (reco_estado IN ('activo', 'finalizado')) DEFAULT 'activo',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (reco_clas_id) REFERENCES clase(clas_id)
+);
+
+-- Tabla: estudiante_asignatura
+CREATE TABLE estudiante_asignatura (
+    estu_asig_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    estu_id INTEGER NOT NULL,
+    asig_id INTEGER NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (estu_id) REFERENCES estudiante(estu_id),
+    FOREIGN KEY (asig_id) REFERENCES asignatura(asig_id)
+);

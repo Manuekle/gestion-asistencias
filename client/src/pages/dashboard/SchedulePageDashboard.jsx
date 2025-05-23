@@ -1,47 +1,26 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-import React, { useState } from 'react';
-
-import CardsDate from '../../components/CardsDate';
-import { Calendar } from '../../components/ui/calendar';
-import NextClass from '../../components/NextClass';
+import React from 'react';
+import StudentCalendar from '../../components/StudentCalendar';
+import Recordatorios from '../../components/Recordatorios';
 
 function SchedulePageDashboard() {
-  const [date, setDate] = useState(new Date());
-  // fecha de hoy espa:ol
-  const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  };
-  const today = new Date();
-  const dateToday = today.toLocaleDateString('es-ES', options);
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-      <section className="col-span-1 lg:col-span-3 rounded-xl bg-white border shadow-sm px-4 sm:px-6 py-4">
-        <h1 className="font-bold text-zinc-800 text-lg sm:text-xl">
-          {dateToday}
-        </h1>
-        <article className="py-4 sm:py-8 flex flex-col gap-4 sm:gap-8">
-          {/* {Clases.map((clase) => (
-            <CardsDate {...clase} />
-          ))} */}
-        </article>
+      <section className="col-span-1 lg:col-span-3">
+        <StudentCalendar />
       </section>
-      <section className="col-span-1 rounded-xl bg-white border shadow-sm flex flex-col items-center">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          className="rounded-md p-4 sm:pt-8"
-        />
-        {/* <hr className="border border-zinc-100" /> */}
-        <div className="flex flex-col gap-4 w-full px-4 sm:px-6 py-4 sm:py-8">
-          <NextClass />
-          <NextClass />
-          <NextClass />
+      <section className="col-span-1 space-y-6">
+        <div className="rounded-xl bg-white border shadow-sm p-4">
+          <h2 className="text-lg font-bold mb-4">Próximas Clases</h2>
+          <div className="space-y-4">
+            {/* Aquí se pueden agregar las próximas clases */}
+          </div>
+        </div>
+
+        <div className="rounded-xl bg-white border shadow-sm p-4">
+          <h2 className="text-lg font-bold mb-4">Recordatorios</h2>
+          <Recordatorios />
         </div>
       </section>
     </div>

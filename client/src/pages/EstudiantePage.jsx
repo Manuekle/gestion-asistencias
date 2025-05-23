@@ -3,29 +3,60 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogout } from '../actions/userActions';
 import { Button } from '@heroui/react';
+import { Calendar03Icon } from 'hugeicons-react';
 
 function EstudiantePage() {
   const [formData, setFormData] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { error, userInfo } = userLogin;
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
-  const logoutHandler = async () => {
-    navigate('/');
-    await setTimeout(() => {
-      dispatch(userLogout());
-    }, 2000);
+  useEffect(() => {
+    const checkAuth = () => {
+      const storedUserInfo = localStorage.getItem('userInfo');
+      if (!storedUserInfo) {
+        navigate('/auth/estudiante/login', { replace: true });
+        return;
+      }
+
+      const parsedUserInfo = JSON.parse(storedUserInfo);
+      if (
+        !parsedUserInfo.user ||
+        parsedUserInfo.user.user_rol !== 'estudiante'
+      ) {
+        navigate('/auth/estudiante/login', { replace: true });
+        return;
+      }
+
+      setIsLoading(false);
+    };
+
+    checkAuth();
+  }, [navigate]);
+
+  const logoutHandler = () => {
+    setFormData(true);
+    dispatch(userLogout());
+    localStorage.removeItem('userInfo');
+    navigate('/auth/estudiante/login', { replace: true });
   };
 
-  useEffect(() => {
-    if (!userInfo) {
-      navigate('/');
-    }
-  }, [userInfo, navigate]);
+  const goToCalendar = () => {
+    navigate('/dashboard/schedule', { replace: true });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center w-full h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-screen bg-[#FAFBFD] auth flex gap-8 flex-col justify-center items-center">
       <div className="bg-[#FAFBFD] p-4">
@@ -33,7 +64,16 @@ function EstudiantePage() {
           Bienvenido <strong>{userInfo.user.user_nombre}!</strong>
         </h1>
       </div>
-      <div>
+      <div className="flex gap-4">
+        <Button
+          type="button"
+          size="sm"
+          className="bg-blue-600 text-white rounded-lg px-6 py-2 text-xs font-bold shadow-sm hover:shadow-md flex items-center gap-2"
+          onPress={goToCalendar}
+        >
+          <Calendar03Icon size={18} color="#ffffff" variant="stroke" />
+          Ver Calendario
+        </Button>
         {!formData ? (
           <Button
             type="button"

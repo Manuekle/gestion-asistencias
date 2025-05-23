@@ -1,12 +1,12 @@
 import React from 'react';
 // Supports weights 100-900
 import '@fontsource-variable/manrope';
-import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // pages
 import HomePage from './pages/HomePage';
 import Dashboard from './layout/Dashboard';
+import StudentLayout from './layout/StudentLayout';
 import Attendance from './layout/Attendance';
 // admin
 import LoginPageAdmin from './pages/auth/administrador/LoginPageAdmin';
@@ -21,44 +21,24 @@ import RegisterPageDocente from './pages/auth/docente/RegisterPageDocente.jsx';
 import RestorePasswordPageAuth from './pages/auth/RestorePasswordPageAuth';
 import NotFoundPage from './pages/NotFoundPage';
 
-// proteger rutas
-import ProtectedRoute from './components/ProtectedRoute';
-
 import { Toaster } from './components/ui/toaster.tsx';
 
 function App() {
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
   return (
     <div className="">
       <Toaster />
       <Router>
         <Routes>
+          {/* Ruta pública */}
           <Route path="/" element={<HomePage />} />
-          <Route
-            path="/student"
-            element={
-              <ProtectedRoute
-                role={userInfo && userInfo.user.rol}
-                allowedRoles={['estudiante']}
-              >
-                <EstudiantePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/attendance" element={<Attendance />} />
-          <Route
-            path="/dashboard/*"
-            element={
-              <ProtectedRoute
-                role={userInfo && userInfo.user.rol}
-                allowedRoles={['administrador', 'docente']}
-              >
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+
+          {/* Rutas de dashboard */}
+          <Route path="/dashboard/*" element={<Dashboard />} />
+
+          {/* Rutas de estudiante */}
+          <Route path="/student/*" element={<StudentLayout />} />
+
+          {/* Rutas de autenticación */}
           {/* admin */}
           <Route
             path="/auth/administrador/login"
@@ -72,6 +52,7 @@ function App() {
             path="/auth/administrador/forgot-password"
             element={<RestorePasswordPageAuth />}
           />
+
           {/* estudiante */}
           <Route
             path="/auth/estudiante/login"
@@ -85,17 +66,22 @@ function App() {
             path="/auth/estudiante/forgot-password"
             element={<RestorePasswordPageAuth />}
           />
+
           {/* docente */}
           <Route path="/auth/docente/login" element={<LoginPageDocente />} />
           <Route
             path="/auth/docente/register"
             element={<RegisterPageDocente />}
           />
-          {/* recover */}
           <Route
             path="/auth/docente/forgot-password"
             element={<RestorePasswordPageAuth />}
           />
+
+          {/* Ruta para asistencia */}
+          <Route path="/attendance" element={<Attendance />} />
+
+          {/* Ruta 404 */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>

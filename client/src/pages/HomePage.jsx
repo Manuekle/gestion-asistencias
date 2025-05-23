@@ -1,9 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
+import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   GlassesIcon,
   Mortarboard02Icon,
@@ -27,12 +25,38 @@ import SvgTailwind from '../components/svg/SvgTailwind';
 import SvgTurso from '../components/svg/SvgTurso';
 
 function HomePage() {
+  // Comentamos temporalmente la lógica de redirección
+  /*
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
   const navigate = useNavigate();
 
-  useEffect(() => {}, [navigate, userInfo]);
+  useEffect(() => {
+    const checkUserAndRedirect = () => {
+      const storedUserInfo = localStorage.getItem('userInfo');
+      if (storedUserInfo) {
+        const parsedUserInfo = JSON.parse(storedUserInfo);
+
+        if (parsedUserInfo.user) {
+          switch (parsedUserInfo.user.user_rol) {
+            case 'estudiante':
+              navigate('/student', { replace: true });
+              break;
+            case 'docente':
+            case 'administrador':
+              navigate('/dashboard/home', { replace: true });
+              break;
+            default:
+              // Si el rol no es reconocido, no hacemos nada
+              break;
+          }
+        }
+      }
+    };
+
+    checkUserAndRedirect();
+  }, [navigate]);
+  */
 
   return (
     <div className="w-full bg-[#FAFBFD] auth">

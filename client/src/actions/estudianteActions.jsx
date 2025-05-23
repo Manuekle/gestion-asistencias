@@ -50,11 +50,13 @@ export const estudianteLogin =
       });
 
       localStorage.setItem('userInfo', JSON.stringify(data));
+      return data;
     } catch (error) {
       dispatch({
         type: USER_LOGIN_FAIL,
         payload: error.response.data
       });
+      throw error;
     }
   };
 

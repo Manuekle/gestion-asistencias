@@ -52,23 +52,44 @@ function LoginPageEstudiante() {
     }
   };
 
-  const handleSubmit = () => {
-    setFormData(true);
-    dispatch(estudianteLogin(user, password));
-    setTimeout(() => {
+  const handleSubmit = async () => {
+    try {
+      setFormData(true);
+      const result = await dispatch(estudianteLogin(user, password));
+
+      if (result && result.user && result.user.user_rol === 'estudiante') {
+        localStorage.setItem('userInfo', JSON.stringify(result));
+        navigate('/student', { replace: true });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'No tienes permisos para acceder como estudiante'
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error.response?.data?.message || 'Error al iniciar sesión'
+      });
+    } finally {
       setFormData(false);
-      alert(error);
-    }, 2000);
+    }
   };
 
   useEffect(() => {
-    if (userInfo) {
-      console.log(userInfo);
-      navigate('/student');
-    } else {
-      null;
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+      const parsedUserInfo = JSON.parse(storedUserInfo);
+      if (
+        parsedUserInfo.user &&
+        parsedUserInfo.user.user_rol === 'estudiante'
+      ) {
+        navigate('/student', { replace: true });
+      }
     }
-  }, [dispatch, userInfo]);
+  }, [navigate]);
 
   return (
     <div className="flex justify-center items-center h-svh auth">

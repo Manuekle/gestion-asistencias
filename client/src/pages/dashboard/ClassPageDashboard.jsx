@@ -42,6 +42,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '../../components/ui/select.tsx';
+import CrearRecordatorio from '../../components/CrearRecordatorio';
 
 function ClassPageDashboard() {
   const dispatch = useDispatch();
@@ -136,8 +137,16 @@ function ClassPageDashboard() {
     }
   }, [dispatch, userInfo]);
 
+  const [showRecordatorioForm, setShowRecordatorioForm] = useState(false);
+  const [selectedClase, setSelectedClase] = useState(null);
+
+  const handleCreateRecordatorio = (recordatorio) => {
+    // Aquí puedes actualizar la lista de recordatorios si es necesario
+    setShowRecordatorioForm(false);
+  };
+
   return (
-    <div className="grid gap-6">
+    <div className="space-y-6">
       <section className="col-span-3 flex flex-col gap-6 rounded-xl bg-white border shadow-sm px-4 sm:px-6 py-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto">
@@ -356,6 +365,35 @@ function ClassPageDashboard() {
           )}
         </div>
       </section>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">{/* ... existing code ... */}</div>
+
+        <div className="space-y-6">
+          <div className="bg-white rounded-xl border shadow-sm p-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-bold">Recordatorios</h2>
+              <button
+                onClick={() => setShowRecordatorioForm(true)}
+                className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-700"
+              >
+                Nuevo Recordatorio
+              </button>
+            </div>
+
+            {showRecordatorioForm && (
+              <div className="mb-4">
+                <CrearRecordatorio
+                  claseId={selectedClase?.clas_id}
+                  onRecordatorioCreado={handleCreateRecordatorio}
+                />
+              </div>
+            )}
+
+            {/* Aquí puedes mostrar la lista de recordatorios si lo deseas */}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
