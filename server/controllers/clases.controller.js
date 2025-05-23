@@ -202,8 +202,14 @@ export const getClasesPorDocente = async (req, res) => {
   const { docenteId } = req.params;
 
   try {
+    if (!docenteId) {
+      return res.status(400).json({
+        success: false,
+        message: "ID de docente requerido",
+      });
+    }
+
     const result = await turso.execute(
-      // No necesitas la desestructuración con [rows]
       `SELECT 
           c.clas_fecha AS fecha,
           a.asig_nombre AS asignatura,
@@ -217,16 +223,8 @@ export const getClasesPorDocente = async (req, res) => {
       [docenteId]
     );
 
-    if (result.rows.length === 0) {
-      // Verifica con result.rows.length
-      return res.status(404).json({
-        message: "No se encontraron clases para este docente.",
-        result: result.rows,
-      });
-    }
-
+    // Transformar los datos para agruparlos por fecha
     const clasesPorFecha = result.rows.reduce((acc, clase) => {
-      // Usa result.rows
       const fecha = clase.fecha;
 
       if (!acc[fecha]) {
@@ -245,10 +243,20 @@ export const getClasesPorDocente = async (req, res) => {
     }, {});
 
     const resultado = Object.values(clasesPorFecha);
-    return res.status(200).json(resultado); // Código 200 explícito
+
+    return res.status(200).json({
+      success: true,
+      data: resultado,
+      count: resultado.length,
+    });
   } catch (error) {
-    console.error("Error en getClasesPorDocente:", error); // Log para depuración
-    return res.status(500).json({ message: "Error interno del servidor" }); // Mensaje genérico
+    console.error("Error en getClasesPorDocente:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Error interno del servidor",
+      error: error.message,
+    });
   }
 };
 
@@ -315,5 +323,42 @@ export const cancelClase = async (req, res) => {
   } catch (error) {
     console.error("Error en cancelClase:", error); // Log para depuración
     return res.status(500).json({ message: "Error al cancelar clase" }); // Mensaje genérico
+  }
+};
+
+export const getClasesEstudiante = async (req, res) => {
+  try {
+    const { estudianteId } = req.params;
+    const { mes, anio } = req.query;
+
+    const query = `
+      SELECT 
+        c.clas_id,
+        c.clas_fecha,
+        c.clas_hora_inicio,
+        c.clas_hora_fin,
+        c.clas_estado,
+        a.asig_nombre,
+        a.asig_slug,
+        d.doc_nombre as docente_nombre
+      FROM clase c
+      INNER JOIN asignatura a ON c.clas_asig_id = a.asig_id
+      INNER JOIN docente d ON a.asig_doc_id = d.doc_id
+      INNER JOIN estudiante_asignatura ea ON a.asig_id = ea.asig_id
+      WHERE ea.estu_id = $1
+      AND EXTRACT(MONTH FROM c.clas_fecha) = $2
+      AND EXTRACT(YEAR FROM c.clas_fecha) = $3
+      ORDER BY c.clas_fecha ASC, c.clas_hora_inicio ASC
+    `;
+
+    const result = await pool.query(query, [estudianteId, mes, anio]);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error al obtener clases del estudiante:", error);
+    res.status(500).json({
+      message: "Error al obtener las clases del estudiante",
+      error: error.message,
+    });
   }
 };

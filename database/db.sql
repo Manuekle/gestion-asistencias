@@ -53,6 +53,7 @@ CREATE TABLE clase (
     clas_fecha DATE NOT NULL,
     clas_hora_inicio TEXT NOT NULL,
     clas_hora_fin TEXT NOT NULL,
+    clas_tema TEXT,
     clas_estado TEXT CHECK (clas_estado IN ('activa', 'finalizada')) DEFAULT 'activa',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (clas_asig_id) REFERENCES asignatura(asig_id)

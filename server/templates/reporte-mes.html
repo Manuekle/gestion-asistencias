@@ -4,17 +4,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte Mensual de Asistencias</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Registro de Clases y Asistencia Docente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            font-size: 12px;
+        }
+
+        .header {
+            display: flex;
+            border: 1px solid #000;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            width: 20%;
+            border-right: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .header-center {
+            width: 60%;
+            border-right: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .header-right {
+            width: 20%;
+            padding: 10px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .info-item span {
+            font-weight: normal;
+            margin-left: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .fecha-col {
+            width: 10%;
+        }
+
+        .hora-col {
+            width: 15%;
+        }
+
+        .tema-col {
+            width: 45%;
+            text-align: left;
+        }
+
+        .total-col {
+            width: 10%;
+        }
+
+        .firma-col {
+            width: 20%;
+        }
+
+        .page-number {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .tema-content {
+            text-align: left;
+        }
+
+        .blue-text {
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body class="p-8">
-    <div class="max-w-4xl mx-auto">
-        <h1 class="text-2xl font-bold mb-6 text-center">Reporte Mensual de Asistencias</h1>
-        <div class="contenido">
-            {{contenido}}
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="data:image/png;base64,{{logoBase64}}" alt="Logo" style="max-width: 100%; max-height: 80px;">
+        </div>
+        <div class="header-center">
+            <div>DOCENCIA</div>
+            <div>REGISTRO DE CLASES Y ASISTENCIA DOCENTE</div>
+        </div>
+        <div class="header-right">
+            <div>Código: {{codigo}}</div>
+            <div>Versión: {{version}}</div>
+            <div>Fecha: {{fechaFormato}}</div>
         </div>
     </div>
+
+    <div class="info-section">
+        <div class="info-item">NOMBRE DEL DOCENTE: <span>{{nombreDocente}}</span></div>
+        <div class="info-item">PROGRAMA: <span>{{programa}}</span></div>
+        <div class="info-item">ASIGNATURA: <span>{{asignatura}}</span> AÑO: <span>{{anio}}</span> PERIODO:
+            <span>{{periodo}}</span>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2">No.</th>
+                <th colspan="2">FECHA</th>
+                <th colspan="2">HORA</th>
+                <th rowspan="2">TEMA</th>
+                <th rowspan="2">TOTAL HORAS</th>
+                <th rowspan="2">FIRMA DOCENTE</th>
+            </tr>
+            <tr>
+                <th>DD</th>
+                <th>MM</th>
+                <th>INICIO</th>
+                <th>FINAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{contenidoTabla}}
+        </tbody>
+    </table>
+
+    <div class="page-number">Página 1 de 1</div>
 </body>
 
 </html>

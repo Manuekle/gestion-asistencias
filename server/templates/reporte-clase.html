@@ -4,30 +4,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Asistencia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Registro de Clases y Asistencia Docente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            font-size: 12px;
+        }
+
+        .header {
+            display: flex;
+            border: 1px solid #000;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            width: 20%;
+            border-right: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .header-center {
+            width: 60%;
+            border-right: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .header-right {
+            width: 20%;
+            padding: 10px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .info-item span {
+            font-weight: normal;
+            margin-left: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .tema-col {
+            text-align: left;
+        }
+
+        .page-number {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
-<body class="p-8">
-    <h1 class="text-2xl font-bold text-center">Reporte de Asistencia</h1>
-    <p class="mt-4"><strong>Fecha:</strong> {{fecha}}</p>
-    <p><strong>Hora Inicio:</strong> {{horaInicio}}</p>
-    <p><strong>Hora Fin:</strong> {{horaFin}}</p>
-    <p><strong>Asignatura:</strong> {{asignatura}}</p>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="data:image/png;base64,{{logoBase64}}" alt="Logo" style="max-width: 100%; max-height: 80px;">
+        </div>
+        <div class="header-center">
+            <div>DOCENCIA</div>
+            <div>REGISTRO DE CLASES Y ASISTENCIA DOCENTE</div>
+        </div>
+        <div class="header-right">
+            <div>Código: {{codigo}}</div>
+            <div>Versión: {{version}}</div>
+            <div>Fecha: {{fechaFormato}}</div>
+        </div>
+    </div>
 
-    <h2 class="text-lg font-semibold mt-6">Lista de Estudiantes</h2>
-    <table class="w-full border-collapse border border-gray-300 mt-2">
+    <div class="info-section">
+        <div class="info-item">NOMBRE DEL DOCENTE: <span>{{nombreDocente}}</span></div>
+        <div class="info-item">PROGRAMA: <span>{{programa}}</span></div>
+        <div class="info-item">ASIGNATURA: <span>{{asignatura}}</span> AÑO: <span>{{anio}}</span> PERIODO:
+            <span>{{periodo}}</span>
+        </div>
+    </div>
+
+    <table>
         <thead>
-            <tr class="bg-gray-200">
-                <th class="border border-gray-300 px-4 py-2">#</th>
-                <th class="border border-gray-300 px-4 py-2">Nombre</th>
-                <th class="border border-gray-300 px-4 py-2">Estado</th>
+            <tr>
+                <th rowspan="2">No.</th>
+                <th colspan="2">FECHA</th>
+                <th colspan="2">HORA</th>
+                <th rowspan="2">TEMA</th>
+                <th rowspan="2">TOTAL HORAS</th>
+                <th rowspan="2">FIRMA DOCENTE</th>
+            </tr>
+            <tr>
+                <th>Día</th>
+                <th>Mes</th>
+                <th>INICIO</th>
+                <th>FINAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>{{dia}}</td>
+                <td>{{mes}}</td>
+                <td>{{horaInicio}}</td>
+                <td>{{horaFin}}</td>
+                <td class="tema-col">{{tema}}</td>
+                <td>{{totalHoras}}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Lista de Asistencia</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Estudiante</th>
+                <th>Estado</th>
             </tr>
         </thead>
         <tbody>
             {{tablaEstudiantes}}
         </tbody>
     </table>
+
+    <div class="page-number">Página 1 de 1</div>
 </body>
 
 </html>
